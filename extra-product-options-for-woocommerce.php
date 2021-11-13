@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Extra Product Options for WooCommerce
  * Description:         Extra product options for WooCommerce Plugin allows you to add extra options (17+ field types) price fields to your WooCommerce products. Easy way to add custom fields as per your business requirement.
- * Version:             1.9.6.1
+ * Version:             1.9.6.2
  * Author:              actpro
  * Author URI:          https://profiles.wordpress.org/actpro/
  * License:             GPL-2.0+
