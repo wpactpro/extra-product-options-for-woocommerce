@@ -1,0 +1,7 @@
+.epofw_fields_table tr td label{margin-right: 5px;}
+.epofw_fields_table tr td input{width: auto !important;margin-right: 5px;}
+tr#epofw_hidden {display: none;}
+.epofw_fields_table #addon_details strong{text-align: center; margin: 0 auto; display: block;}
+.epofw_above label:first-child {display: block;}
+span.select2.select2-container.select2-container--default.select2-container--focus {width: 360px !important;}
+#addon_details td:first-child strong{text-align: center; display: block;}

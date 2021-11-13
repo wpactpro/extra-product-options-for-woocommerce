@@ -1,0 +1,508 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-08-10 20:02+0530\n"
+"PO-Revision-Date: 2020-08-10 20:02+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;_n;_x\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class-epofw-init.php:36 class-epofw-init.php:37
+msgid "Advance Product Option"
+msgstr ""
+
+#: includes/class-epofw-admin.php:168
+msgid "Field List"
+msgstr ""
+
+#: includes/class-epofw-admin.php:394
+msgid "Product Field successfully created."
+msgstr ""
+
+#: includes/class-epofw-admin.php:396
+msgid "Product Field successfully updated."
+msgstr ""
+
+#: includes/class-epofw-admin.php:398
+msgid "Product Field deleted."
+msgstr ""
+
+#: includes/class-epofw-admin.php:400
+msgid "Product Field duplicated."
+msgstr ""
+
+#: includes/class-epofw-admin.php:402
+msgid "Product Field disabled."
+msgstr ""
+
+#: includes/class-epofw-admin.php:404
+msgid "Product Field enabled."
+msgstr ""
+
+#: includes/class-epofw-admin.php:407
+msgid "There was an error with saving data."
+msgstr ""
+
+#: includes/class-epofw-admin.php:409 includes/class-epofw-admin.php:419
+msgid "There was an error with security check."
+msgstr ""
+
+#: includes/class-epofw-admin.php:416
+msgid "Settings save successfully"
+msgstr ""
+
+#: includes/class-epofw-front.php:97
+msgid "Clear"
+msgstr ""
+
+#: includes/class-epofw-front.php:98
+msgid "Default"
+msgstr ""
+
+#: includes/class-epofw-front.php:99 settings/epofw-common-function - Copy.php:953
+#: Copy.php:955
+msgid "Select Color"
+msgstr ""
+
+#: includes/class-epofw-front.php:100
+msgid "Current Color"
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:360
+msgid "Error saving Product Option."
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:435
+msgid "Field Listing"
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:447
+msgid "Search results for "
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:460
+msgid "Search Product Option"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:78
+msgid "Field Title"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:79 settings/epofw-common-function
+#: - Copy.php:592 settings/epofw-common-function.php:545
+msgid "Field Type"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:80
+#: settings/epofw-common-function.php:576
+msgid "Status"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:81
+msgid "Date"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:173
+msgid "No Field Option found."
+msgstr ""
+
+#: includes/class-epofw-field-table.php:231
+msgid "Edit"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:232
+#: includes/class-epofw-field-table.php:319
+msgid "Delete"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:233
+msgid "Duplicate"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:246
+#: includes/class-epofw-field-table.php:265
+#: includes/class-epofw-field-table.php:286
+#: includes/class-epofw-field-table.php:305
+msgid "Everywhere"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:317
+msgid "Disable"
+msgstr ""
+
+#: includes/class-epofw-field-table.php:318
+msgid "Enable"
+msgstr ""
+
+#: settings/epofw-admin-settings.php:47
+msgid "Additional Rule"
+msgstr ""
+
+#: settings/epofw-admin-settings.php:57 settings/epofw-common-setting.php:184
+msgid "Save Changes"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:412
+msgid "Options"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:459
+msgid "Your checkbox box look like this."
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:490
+msgid "Note: Option value must be unique."
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:508
+msgid "Field Content"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:509 Copy.php:668 Copy.php:690
+#: Copy.php:712 Copy.php:750 Copy.php:775 Copy.php:800 Copy.php:822
+#: Copy.php:844 Copy.php:866 Copy.php:888 Copy.php:910 Copy.php:932
+#: Copy.php:954
+msgid "This name will be display as field at front side."
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:510
+msgid "Enter Field Content"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:539
+msgid "Field Status"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:540 Copy.php:563 Copy.php:593
+#: Copy.php:615 Copy.php:637 settings/epofw-common-function.php:546
+#: settings/epofw-common-function.php:577 settings/epofw-common-function.php:608
+msgid ""
+"You can enable or disable field option. If field option will disable then it "
+"will not apply."
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:562
+msgid "Required Field"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:614
+msgid "Field Heading Type"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:636
+msgid "Field Content Type"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:667
+msgid "Min Value"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:669
+msgid "Enter Min Value"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:689
+msgid "Max Number"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:691
+msgid "Enter Max Value"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:711
+msgid "Number Step"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:713
+msgid "Enter Step Value"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:749
+msgid "Field title"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:751
+msgid "Enter Field Title"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:774
+msgid "Field Name"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:776
+msgid "Enter Field Name"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:799
+msgid "Default Value"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:801
+msgid "Enter Default Value"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:821
+msgid "Custom Class"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:823
+msgid "Field Custom Class"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:843
+msgid "Placeholder"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:845
+msgid "Enter Placeholder"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:865
+msgid "Label Class"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:867
+msgid "Enter Label Class"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:887
+msgid "Field Cols"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:909
+msgid "Field Rows"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:931 Copy.php:933
+msgid "Select Date"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:994
+#: settings/epofw-common-function.php:904
+msgid "H1"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:995
+#: settings/epofw-common-function.php:905
+msgid "H2"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:996
+#: settings/epofw-common-function.php:906
+msgid "H3"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:997
+#: settings/epofw-common-function.php:907
+msgid "H4"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:998
+#: settings/epofw-common-function.php:908
+msgid "H5"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:999
+#: settings/epofw-common-function.php:909
+msgid "H6"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1000
+#: settings/epofw-common-function.php:910
+msgid "Strong"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1001
+#: settings/epofw-common-function.php:911
+msgid "Span"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1007
+#: settings/epofw-common-function.php:917
+msgid "P"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1008
+#: settings/epofw-common-function.php:918
+msgid "Address"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1009
+#: settings/epofw-common-function.php:919
+msgid "Blockquote"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1010
+#: settings/epofw-common-function.php:920
+msgid "Canvas"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1011
+#: settings/epofw-common-function.php:921
+msgid "Output"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1020
+#: settings/epofw-common-function.php:930
+msgid "Text"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1021
+#: settings/epofw-common-function.php:931
+msgid "Hidden"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1022
+#: settings/epofw-common-function.php:932
+msgid "Number"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1023
+#: settings/epofw-common-function.php:933
+msgid "Password"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1024
+#: settings/epofw-common-function.php:934
+msgid "Textarea"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1025
+#: settings/epofw-common-function.php:935
+msgid "Select"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1026
+#: settings/epofw-common-function.php:936
+msgid "Checkbox"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1027
+#: settings/epofw-common-function.php:937
+msgid "Radio"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1028
+#: settings/epofw-common-function.php:938
+msgid "Date Picker"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1029
+#: settings/epofw-common-function.php:939
+msgid "Color Picker"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1030
+#: settings/epofw-common-function.php:940
+msgid "Heading"
+msgstr ""
+
+#: settings/epofw-common-function - Copy.php:1031
+#: settings/epofw-common-function.php:941
+msgid "Paragraph"
+msgstr ""
+
+#: settings/epofw-common-function.php:607
+msgid "Additional Rules"
+msgstr ""
+
+#: settings/epofw-common-function.php:627
+msgid "Rule Type"
+msgstr ""
+
+#: settings/epofw-common-function.php:650 settings/epofw-common-function.php:884
+msgid "OR"
+msgstr ""
+
+#: settings/epofw-common-function.php:724
+msgid "Add"
+msgstr ""
+
+#: settings/epofw-common-function.php:730 settings/epofw-common-function.php:1154
+#: settings/epofw-common-function.php:1166
+msgid "Remove"
+msgstr ""
+
+#: settings/epofw-common-function.php:883
+msgid "AND"
+msgstr ""
+
+#: settings/epofw-common-function.php:890
+msgid "Product"
+msgstr ""
+
+#: settings/epofw-common-function.php:891
+msgid "Category"
+msgstr ""
+
+#: settings/epofw-common-function.php:897
+msgid "Is Equal To"
+msgstr ""
+
+#: settings/epofw-common-function.php:898
+msgid "Not Equal To"
+msgstr ""
+
+#: settings/epofw-common-function.php:1150 settings/epofw-common-function.php:1165
+msgid "Add New"
+msgstr ""
+
+#: settings/epofw-common-function.php:1173
+msgid "Note: Options must be unique."
+msgstr ""
+
+#: settings/epofw-common-setting.php:49
+msgid "General Setting"
+msgstr ""
+
+#: settings/epofw-common-setting.php:63
+msgid "Shipping Cost Type"
+msgstr ""
+
+#: settings/epofw-common-setting.php:74
+msgid "Based on user selection"
+msgstr ""
+
+#: settings/epofw-common-setting.php:82
+msgid "Maximum Shipping Cost"
+msgstr ""
+
+#: settings/epofw-common-setting.php:90
+msgid "Minimum Shipping Cost"
+msgstr ""
+
+#: settings/epofw-common-setting.php:98
+msgid "Combine All Shipping Cost"
+msgstr ""
+
+#: settings/epofw-common-setting.php:107
+msgid "Custom Shipping Label"
+msgstr ""
+
+#: settings/epofw-common-setting.php:117
+msgid "Display combine shipping labels list in tooltip"
+msgstr ""
+
+#: settings/epofw-common-setting.php:129
+msgid "Yes"
+msgstr ""
+
+#: settings/epofw-common-setting.php:137
+msgid "No"
+msgstr ""
+
+#: settings/epofw-common-setting.php:146
+msgid "Hide Field Option when free shipping available"
+msgstr ""
+
+#: settings/epofw-common-setting.php:156
+msgid "Select Field Option which you want to hide"
+msgstr ""
