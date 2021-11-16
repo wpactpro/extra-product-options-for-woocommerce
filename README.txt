@@ -5,7 +5,7 @@ Requires at least: 3.8
 Tested up to: 5.8.1
 Requires PHP: 5.6
 WC tested up to: 5.8.0
-Stable tag: 1.9.6.2
+Stable tag: 1.9.6.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -207,6 +207,9 @@ Free plugin: Need Technical Help? - <a href ="mailto:wpactpro@gmail.com" target=
 Automatic updates should work great for you.  As always, though, we recommend backing up your site prior to making any updates just to be sure nothing goes wrong.
 
 == Changelog ==
+= 1.9.6.3 =
+* Fix - Greek character display issue
+
 = 1.9.6.2 =
 * Fix - PHP Warning
 
