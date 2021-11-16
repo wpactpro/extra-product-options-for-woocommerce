@@ -211,7 +211,12 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			if ( $prd_wp_query->have_posts() ) {
 				foreach ( $prd_wp_query->posts as $f_id ) {
 					$get_data_json = get_post_meta( $f_id, 'epofw_prd_opt_data', true );
-					$get_data      = json_decode( $get_data_json, true );
+					if ( is_json_string( $get_data_json ) ) {
+						$get_data = json_decode( $get_data_json, true );
+					} else {
+						$get_data = $get_data_json;
+					}
+
 					if ( ! empty( $get_data ) ) {
 						$get_data_arr['addon_position'] = epofw_check_array_key_exists( 'epofw_addon_position', $get_data );
 						if ( array_key_exists( 'general', $get_data ) ) {
@@ -248,7 +253,11 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			if ( $prd_wp_query->have_posts() ) {
 				foreach ( $prd_wp_query->posts as $f_id ) {
 					$get_data_json = get_post_meta( $f_id, 'epofw_prd_opt_data', true );
-					$get_data      = json_decode( $get_data_json, true );
+					if ( is_json_string( $get_data_json ) ) {
+						$get_data = json_decode( $get_data_json, true );
+					} else {
+						$get_data = $get_data_json;
+					}
 					if ( ! empty( $get_data ) ) {
 						$aadditional_rule_data          = epofw_check_array_key_exists( 'additional_rule_data', $get_data );
 						$aadditional_rule_data['value'] = ( isset( $aadditional_rule_data['value'] ) && is_array( $aadditional_rule_data['value'] ) ) ? array_map( 'intval', $aadditional_rule_data['value'] ) : array();

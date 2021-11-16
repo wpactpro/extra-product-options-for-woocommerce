@@ -35,6 +35,7 @@ function epofw_field_start_tr_fn( $id, $class ) {
 	<div id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>">
 	<?php
 }
+
 /*
  * Html for main end tr.
  *
@@ -45,6 +46,7 @@ function epofw_field_end_tr_fn() {
 	</div>
 	<?php
 }
+
 /*
  * Html for main start th.
  *
@@ -56,6 +58,7 @@ function epofw_field_start_th_fn() {
 	<div scope="row" class="col-25">
 	<?php
 }
+
 /*
  * Html for main end th.
  *
@@ -67,6 +70,7 @@ function epofw_field_end_th_fn() {
 	</div>
 	<?php
 }
+
 /*
  * Html for main start label.
  *
@@ -79,6 +83,7 @@ function epofw_field_start_label_fn( $for_attr ) {
 	<label for="<?php echo esc_attr( $for_attr ); ?>">
 	<?php
 }
+
 /*
  * Html for main end label.
  *
@@ -89,6 +94,7 @@ function epofw_field_end_label_fn() {
 	</label>
 	<?php
 }
+
 /*
  * Html for main start td.
  *
@@ -104,6 +110,7 @@ function epofw_field_start_td_fn( $id, $class ) {
 	<div class="forminp1">
 	<?php
 }
+
 /*
  * Html for main end td.
  *
@@ -115,6 +122,7 @@ function epofw_field_end_td_fn() {
 	</div>
 	<?php
 }
+
 /*
  * Field data.
  *
@@ -131,8 +139,10 @@ function epofw_field_property_settings( $field_property_array ) {
 			}
 		}
 	}
+
 	return apply_filters( 'epofw_field_text_arr', $filter_arr );
 }
+
 /*
  * Label data.
  *
@@ -227,8 +237,10 @@ function epofw_label_field_arr() {
 			),
 		),
 	);
+
 	return apply_filters( 'epofw_label_field_arr', $label_field_arr );
 }
+
 /*
  * Label data.
  *
@@ -262,8 +274,10 @@ function epofw_price_field_arr() {
 			),
 		),
 	);
+
 	return apply_filters( 'epofw_price_field_arr', $price_array );
 }
+
 /*
  * Text field data.
  *
@@ -385,8 +399,10 @@ function epofw_text_field_arr_fn() {
 	$text_field_array    = apply_filters( 'epofw_text_field_array', $field_group_array );
 	$field_array         = array();
 	$field_array['text'] = $text_field_array;
+
 	return $field_array;
 }
+
 /*
  * Password field data.
  *
@@ -475,8 +491,10 @@ function epofw_password_field_arr_fn() {
 	$password_field_array    = apply_filters( 'epofw_password_field_array', $field_group_array );
 	$field_array             = array();
 	$field_array['password'] = $password_field_array;
+
 	return $field_array;
 }
+
 /*
  * Hidden field data.
  *
@@ -530,8 +548,10 @@ function epofw_hidden_field_arr_fn() {
 	$hidden_fields_arr     = apply_filters( 'epofw_hidden_field_array', $field_group_array );
 	$field_array           = array();
 	$field_array['hidden'] = $hidden_fields_arr;
+
 	return $field_array;
 }
+
 /*
  * Textarea field data.
  *
@@ -658,8 +678,10 @@ function epofw_textarea_field_arr_fn() {
 	$textarea_fields_arr     = apply_filters( 'epofw_textarea_field_array', $field_group_array );
 	$field_array             = array();
 	$field_array['textarea'] = $textarea_fields_arr;
+
 	return $field_array;
 }
+
 /*
  * Select field data.
  *
@@ -734,8 +756,10 @@ function epofw_select_field_arr_fn() {
 	$select_field_array    = apply_filters( 'epofw_select_field_array', $field_group_array );
 	$field_array           = array();
 	$field_array['select'] = $select_field_array;
+
 	return $field_array;
 }
+
 /*
  * MultiSelect field data.
  *
@@ -810,8 +834,10 @@ function epofw_multiselect_field_arr_fn() {
 	$select_field_array         = apply_filters( 'epofw_multiselect_field_array', $field_group_array );
 	$field_array                = array();
 	$field_array['multiselect'] = $select_field_array;
+
 	return $field_array;
 }
+
 /*
  * Checkbox field data.
  *
@@ -886,8 +912,10 @@ function epofw_checkbox_field_arr_fn() {
 	$checkboxgroup_field_array = apply_filters( 'epofw_checkbox_field_array', $field_group_array );
 	$field_array               = array();
 	$field_array['checkbox']   = $checkboxgroup_field_array;
+
 	return $field_array;
 }
+
 /*
  * Checkbox group field data.
  *
@@ -962,8 +990,10 @@ function epofw_checkboxgroup_field_arr_fn() {
 	$checkboxgroup_field_array    = apply_filters( 'epofw_checkboxgroup_field_array', $field_group_array );
 	$field_array                  = array();
 	$field_array['checkboxgroup'] = $checkboxgroup_field_array;
+
 	return $field_array;
 }
+
 /*
  * Radio group field data.
  *
@@ -1038,8 +1068,10 @@ function epofw_radiogroup_field_arr_fn() {
 	$radiogroup_field_array    = apply_filters( 'epofw_radiogroup_field_array', $field_group_array );
 	$field_array               = array();
 	$field_array['radiogroup'] = $radiogroup_field_array;
+
 	return $field_array;
 }
+
 /*
  * Number field data.
  *
@@ -1158,8 +1190,10 @@ function epofw_number_field_arr_fn() {
 	$number_field_array    = apply_filters( 'epofw_number_field_array', $field_group_array );
 	$field_array           = array();
 	$field_array['number'] = $number_field_array;
+
 	return $field_array;
 }
+
 /*
  * Heading field data.
  *
@@ -1237,8 +1271,10 @@ function epofw_heading_field_arr_fn() {
 	$heading_field_array    = apply_filters( 'epofw_heading_field_array', $field_group_array );
 	$field_array            = array();
 	$field_array['heading'] = $heading_field_array;
+
 	return $field_array;
 }
+
 /*
  * Paragraph field data.
  *
@@ -1324,8 +1360,10 @@ function epofw_paragraph_field_arr_fn() {
 	$paragraph_field_array    = apply_filters( 'epofw_paragraph_field_array', $field_group_array );
 	$field_array              = array();
 	$field_array['paragraph'] = $paragraph_field_array;
+
 	return $field_array;
 }
+
 /*
  * Datepicker field data.
  *
@@ -1438,8 +1476,10 @@ function epofw_datepicker_field_arr_fn() {
 	$datepicker_field_array    = apply_filters( 'epofw_datepicker_field_array', $field_group_array );
 	$field_array               = array();
 	$field_array['datepicker'] = $datepicker_field_array;
+
 	return $field_array;
 }
+
 /*
  * Timepicker field data.
  *
@@ -1551,8 +1591,10 @@ function epofw_timepicker_field_arr_fn() {
 	$datepicker_field_array    = apply_filters( 'epofw_timepicker_field_arr_fn', $field_group_array );
 	$field_array               = array();
 	$field_array['timepicker'] = $datepicker_field_array;
+
 	return $field_array;
 }
+
 /*
  * Colorpicker field data.
  *
@@ -1651,8 +1693,10 @@ function epofw_colorpicker_field_arr_fn() {
 	$colorpicker_field_array    = apply_filters( 'epofw_colorpicker_field_array', $field_group_array );
 	$field_array                = array();
 	$field_array['colorpicker'] = $colorpicker_field_array;
+
 	return $field_array;
 }
+
 /*
  * Field act arr data.
  *
@@ -1696,8 +1740,10 @@ function epofw_field_act_arr_fn() {
 		$colorpicker_field_array,
 		$getting_array
 	);
+
 	return $merge_field_array;
 }
+
 add_action( 'epofw_field_type', 'epofw_field_type_fn', 10, 5 );
 /*
  * Field type html.
@@ -1742,6 +1788,7 @@ function epofw_field_type_fn( $get_data, $get_post_id, $field_slug, $field_type,
 	do_action( 'epofw_field_end_td' );
 	do_action( 'epofw_field_end_tr' );
 }
+
 add_action( 'epofw_field_status', 'epofw_field_status_fn', 10, 5 );
 /*
  * Field type html.
@@ -1785,6 +1832,7 @@ function epofw_field_status_fn( $get_data, $get_post_id, $field_slug, $field_typ
 	do_action( 'epofw_field_end_td' );
 	do_action( 'epofw_field_end_tr' );
 }
+
 add_action( 'epofw_additional_rules', 'epofw_additional_rules_fn', 10, 1 );
 /*
  * Additional rule html.
@@ -1826,7 +1874,8 @@ function epofw_additional_rules_fn( $get_data ) {
 								$rule_value_check = epofw_check_array_key_exists( 'condition', $aadditional_rule_data );
 								if ( $rule_value_check ) {
 									?>
-									<select name="epofw_data[additional_rule_data][condition]" id="epofw_data_condition" class="epofw_data_condition epofw_data_condition">
+									<select name="epofw_data[additional_rule_data][condition]" id="epofw_data_condition"
+											class="epofw_data_condition epofw_data_condition">
 										<?php
 										$field_add_cnd_name = epofw_field_additional_conditional_name();
 										if ( ! empty( $field_add_cnd_name ) ) {
@@ -1847,7 +1896,8 @@ function epofw_additional_rules_fn( $get_data ) {
 								$rule_op_check = epofw_check_array_key_exists( 'operator', $aadditional_rule_data );
 								if ( $rule_op_check ) {
 									?>
-									<select name="epofw_data[additional_rule_data][operator]" id="epofw_data_operator" class="epofw_data_operator">
+									<select name="epofw_data[additional_rule_data][operator]" id="epofw_data_operator"
+											class="epofw_data_operator">
 										<?php
 										$field_add_op_name = epofw_field_additional_conditional_operator();
 										if ( ! empty( $field_add_op_name ) ) {
@@ -1864,7 +1914,9 @@ function epofw_additional_rules_fn( $get_data ) {
 								?>
 							</li>
 							<li>
-								<select id="epofw_condition_data_id" class="epofw_condition_data_class_<?php echo esc_attr( $aadditional_rule_data['condition'] ); ?> epofw_condition_data_class multiselect2" name="epofw_data[additional_rule_data][value][]" multiple="multiple">
+								<select id="epofw_condition_data_id"
+										class="epofw_condition_data_class_<?php echo esc_attr( $aadditional_rule_data['condition'] ); ?> epofw_condition_data_class multiselect2"
+										name="epofw_data[additional_rule_data][value][]" multiple="multiple">
 									<?php
 									if ( ! empty( $aadditional_rule_data['value'] ) ) {
 										foreach ( $aadditional_rule_data['value'] as $condition_value_id ) {
@@ -1893,7 +1945,8 @@ function epofw_additional_rules_fn( $get_data ) {
 				?>
 				<ul id="additional_rule_ul" class="additional_rule_ul">
 					<li>
-						<select id="epofw_and_data_condition_1" class="epofw_data_condition epofw_and_data_condition" name="epofw_data[additional_rule_data][condition]">
+						<select id="epofw_and_data_condition_1" class="epofw_data_condition epofw_and_data_condition"
+								name="epofw_data[additional_rule_data][condition]">
 							<?php
 							$field_add_cnd_name = epofw_field_additional_conditional_name();
 							if ( ! empty( $field_add_cnd_name ) ) {
@@ -1907,7 +1960,8 @@ function epofw_additional_rules_fn( $get_data ) {
 						</select>
 					</li>
 					<li>
-						<select id="epofw_and_data_operator_1" class="epofw_and_data_operator" name="epofw_data[additional_rule_data][operator]">
+						<select id="epofw_and_data_operator_1" class="epofw_and_data_operator"
+								name="epofw_data[additional_rule_data][operator]">
 							<?php
 							$field_add_op_name = epofw_field_additional_conditional_operator();
 							if ( ! empty( $field_add_op_name ) ) {
@@ -1921,7 +1975,9 @@ function epofw_additional_rules_fn( $get_data ) {
 						</select>
 					</li>
 					<li>
-						<select id="epofw_and_condition_data_id_1" class="epofw_condition_data_class_product epofw_and_condition_data_class_1 multiselect2" name="epofw_data[additional_rule_data][value][]" multiple="">
+						<select id="epofw_and_condition_data_id_1"
+								class="epofw_condition_data_class_product epofw_and_condition_data_class_1 multiselect2"
+								name="epofw_data[additional_rule_data][value][]" multiple="">
 						</select>
 					</li>
 				</ul>
@@ -1934,6 +1990,7 @@ function epofw_additional_rules_fn( $get_data ) {
 	do_action( 'epofw_field_end_td' );
 	do_action( 'epofw_field_end_tr' );
 }
+
 /*
  * Create array for data property.
  *
@@ -2014,8 +2071,10 @@ function epofw_get_data_property( $get_data, $field_main_key, $field_slug, $fiel
 	if ( ! empty( $field_options ) ) {
 		$data_property['options'] = $field_options;
 	}
+
 	return $data_property;
 }
+
 /*
  * All fields html.
  *
@@ -2082,6 +2141,7 @@ function epofw_loop_fields_data( $field_data, $get_data, $get_post_id, $inc_key 
 		}
 	}
 }
+
 /*
  * Additional conditional rule name.
  *
@@ -2094,8 +2154,10 @@ function epofw_field_additional_conditional_name() {
 		'product'  => esc_html__( 'Product', 'extra-product-options-for-woocommerce' ),
 		'category' => esc_html__( 'Category', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_field_additional_conditional_name', $conditional_name_arr );
 }
+
 /*
  * Additional conditional operator name.
  *
@@ -2108,8 +2170,10 @@ function epofw_field_additional_conditional_operator() {
 		'is_equal_to'  => esc_html__( 'Is Equal To', 'extra-product-options-for-woocommerce' ),
 		'not_equal_to' => esc_html__( 'Not Equal To', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_field_additional_conditional_operator', $conditional_op_arr );
 }
+
 /*
  * Price type..
  *
@@ -2121,8 +2185,10 @@ function epofw_price_type_data() {
 	$title_position_arr = array(
 		'fixed' => esc_html__( 'Fixed', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_price_type_data', $title_position_arr );
 }
+
 /*
  * List of tag name.
  *
@@ -2143,8 +2209,10 @@ function epofw_field_heading_type_options_data() {
 		'span'   => esc_html__( 'Span', 'extra-product-options-for-woocommerce' ),
 		'div'    => esc_html__( 'Div', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_field_heading_type_options_data', $field_type_arr );
 }
+
 /*
  * List of field restriction type.
  *
@@ -2161,8 +2229,10 @@ function epofw_field_restriction_options_data() {
 		'text_number' => esc_html__( 'Text and Number', 'extra-product-options-for-woocommerce' ),
 		'email'       => esc_html__( 'Email', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_field_restriction_options_data', $field_type_arr );
 }
+
 /*
  * List of content related tag name.
  *
@@ -2178,8 +2248,10 @@ function epofw_field_content_type_options_data() {
 		'canvas'     => esc_html__( 'Canvas', 'extra-product-options-for-woocommerce' ),
 		'output'     => esc_html__( 'Output', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_field_content_type_options_data', $field_type_arr );
 }
+
 /*
  * Filter for field type options data: Like: Text, Number, Textarea etc.
  *
@@ -2205,8 +2277,10 @@ function epofw_field_type_options_data() {
 		'heading'       => esc_html__( 'Heading', 'extra-product-options-for-woocommerce' ),
 		'paragraph'     => esc_html__( 'Paragraph', 'extra-product-options-for-woocommerce' ),
 	);
+
 	return apply_filters( 'epofw_field_type_options_data', $field_type_arr );
 }
+
 /*
  * Render field based on type and attr data.
  *
@@ -2303,8 +2377,10 @@ function cp_render_fields( $attr_data, $field_type, $inc_key ) {
 			$html .= epofw_render_repeater( $attr_data, $inc_key );
 			break;
 	}
+
 	return $html;
 }
+
 /*
  * Render field on fornt side based on type and attr data.
  *
@@ -2465,7 +2541,7 @@ function cp_render_fields_front( $attr_data, $field_type ) {
 					}
 					$option_title    = epofw_title_with_price( $attr_key, $opt_price );
 					$addon_price_cal = epofw_calculate_price_based_on_condition( $opt_price_type, $opt_price );
-					$html            .= '<option value="' . $attr_key . '" addon_price="' . $addon_price_cal . '">' . $option_title . '</option>';
+					$html           .= '<option value="' . $attr_key . '" addon_price="' . $addon_price_cal . '">' . $option_title . '</option>';
 				}
 			}
 			$html .= '</select>';
@@ -2477,7 +2553,7 @@ function cp_render_fields_front( $attr_data, $field_type ) {
 					if ( ! empty( $attr_value ) ) {
 						if ( 'class' === $attr_name ) {
 							$html .= $attr_name . '=' . '"epofw_dft_' . $field_type . ' multiselect2 ' . $attr_value . '"';
-						} else if ( 'name' === $attr_name ) {
+						} elseif ( 'name' === $attr_name ) {
 							$html .= $attr_name . '=' . '"' . $attr_value . '[]"';
 						} else {
 							$html .= $attr_name . '=' . '"' . $attr_value . '"';
@@ -2499,7 +2575,7 @@ function cp_render_fields_front( $attr_data, $field_type ) {
 					}
 					$option_title    = epofw_title_with_price( $attr_key, $opt_price );
 					$addon_price_cal = epofw_calculate_price_based_on_condition( $opt_price_type, $opt_price );
-					$html            .= '<option value="' . $attr_key . '" addon_price="' . $addon_price_cal . '">' . $option_title . '</option>';
+					$html           .= '<option value="' . $attr_key . '" addon_price="' . $addon_price_cal . '">' . $option_title . '</option>';
 				}
 			}
 			$html .= '</select>';
@@ -2508,6 +2584,7 @@ function cp_render_fields_front( $attr_data, $field_type ) {
 			$html .= epofw_render_repeater( $attr_data );
 			break;
 	}
+
 	return apply_filters( 'epofw_print_fields_html', $html, $attr_data, $field_type );
 }
 
@@ -2520,7 +2597,7 @@ function cp_render_fields_front( $attr_data, $field_type ) {
  * @return string
  */
 function epofw_title_with_price( $title, $price ) {
-	$price_sign                       = '+';
+	$price_sign = '+';
 	if ( strpos( $price, '-' ) !== false ) {
 		$price_sign = '';
 	}
@@ -2529,8 +2606,9 @@ function epofw_title_with_price( $title, $price ) {
 	} else {
 		return ' (' . $price_sign . wc_price( $price ) . ')';
 	}
-	
+
 }
+
 /*
  * Render repeater field.
  *
@@ -2558,8 +2636,14 @@ function epofw_render_repeater( $field_value, $inc_key ) {
 						$key ++;
 						?>
 						<li id="opt-li-<?php echo esc_attr( $inc_key ); ?>" class="opt-li">
-							<input type="text" name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][label][]" id="select-opt-label-<?php echo esc_attr( $inc_key ); ?>" value="<?php echo esc_attr( $v_key ); ?>" placeholder="<?php esc_html_e( 'Option Label', 'extra-product-options-for-woocommerce' ); ?>" required="required" class="option-field"/>
-							<select name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price_type][]" id="opt_price_type_id" class="option-field">
+							<input type="text"
+								   name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][label][]"
+								   id="select-opt-label-<?php echo esc_attr( $inc_key ); ?>"
+								   value="<?php echo esc_attr( $v_key ); ?>"
+								   placeholder="<?php esc_html_e( 'Option Label', 'extra-product-options-for-woocommerce' ); ?>"
+								   required="required" class="option-field"/>
+							<select name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price_type][]"
+									id="opt_price_type_id" class="option-field">
 								<?php
 								$price_type_data = epofw_price_type_data();
 								foreach ( $price_type_data as $price_t_key => $price_type_value ) {
@@ -2569,7 +2653,12 @@ function epofw_render_repeater( $field_value, $inc_key ) {
 								}
 								?>
 							</select>
-							<input type="text" name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price][]" id="select-opt-price-<?php echo esc_attr( $inc_key ); ?>" value="<?php echo esc_attr( $opt_price ); ?>" placeholder="<?php esc_html_e( 'Option Price', 'extra-product-options-for-woocommerce' ); ?>" class="option-field"/>
+							<input type="text"
+								   name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price][]"
+								   id="select-opt-price-<?php echo esc_attr( $inc_key ); ?>"
+								   value="<?php echo esc_attr( $opt_price ); ?>"
+								   placeholder="<?php esc_html_e( 'Option Price', 'extra-product-options-for-woocommerce' ); ?>"
+								   class="option-field"/>
 							<?php
 							if ( 1 !== $key ) {
 								?>
@@ -2585,8 +2674,14 @@ function epofw_render_repeater( $field_value, $inc_key ) {
 				} else {
 					?>
 					<li id="opt-li-<?php echo esc_attr( $inc_key ); ?>" class="opt-li">
-						<input type="text" name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][label][]" id="select-opt-label-<?php echo esc_attr( $inc_key ); ?>" value="<?php esc_html_e( 'Option 1', 'extra-product-options-for-woocommerce' ); ?>" placeholder="<?php esc_html_e( 'Option Label', 'extra-product-options-for-woocommerce' ); ?>" required="required" class="option-field"/>
-						<select name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price_type][]" id="opt_price_type_id" class="option-field">
+						<input type="text"
+							   name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][label][]"
+							   id="select-opt-label-<?php echo esc_attr( $inc_key ); ?>"
+							   value="<?php esc_html_e( 'Option 1', 'extra-product-options-for-woocommerce' ); ?>"
+							   placeholder="<?php esc_html_e( 'Option Label', 'extra-product-options-for-woocommerce' ); ?>"
+							   required="required" class="option-field"/>
+						<select name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price_type][]"
+								id="opt_price_type_id" class="option-field">
 							<?php
 							$price_type_data = epofw_price_type_data();
 							foreach ( $price_type_data as $price_t_key => $price_type_value ) {
@@ -2596,7 +2691,11 @@ function epofw_render_repeater( $field_value, $inc_key ) {
 							}
 							?>
 						</select>
-						<input type="text" name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price][]" id="select-opt-price-<?php echo esc_attr( $inc_key ); ?>" value="0.00" placeholder="<?php esc_html_e( 'Option Price', 'extra-product-options-for-woocommerce' ); ?>" class="option-field"/>
+						<input type="text"
+							   name="epofw_data[general][<?php echo esc_attr( $inc_key ); ?>][field][options][opt_price][]"
+							   id="select-opt-price-<?php echo esc_attr( $inc_key ); ?>" value="0.00"
+							   placeholder="<?php esc_html_e( 'Option Price', 'extra-product-options-for-woocommerce' ); ?>"
+							   class="option-field"/>
 						<a href="javascript:void(0);" id="remove-opt" class="remove-opt-btn">
 							<span class="dashicons dashicons-trash"></span>
 						</a>
@@ -2615,6 +2714,7 @@ function epofw_render_repeater( $field_value, $inc_key ) {
 	</div>
 	<?php
 }
+
 /*
  * Get data for fields.
  *
@@ -2626,9 +2726,15 @@ function epofw_render_repeater( $field_value, $inc_key ) {
  */
 function epofw_get_data_from_db( $get_post_id ) {
 	$get_data_json = get_post_meta( $get_post_id, 'epofw_prd_opt_data', true );
-	$get_data      = json_decode( $get_data_json, true );
+	if ( is_json_string( $get_data_json ) ) {
+		$get_data = json_decode( $get_data_json, true );
+	} else {
+		$get_data = $get_data_json;
+	}
+
 	return $get_data;
 }
+
 /*
  * Check fields key if exists then return data.
  *
@@ -2658,8 +2764,10 @@ function epofw_check_general_field_data( $get_data, $field_main_key, $key, $gn_k
 			}
 		}
 	}
+
 	return $field_value;
 }
+
 /*
  * Check array key exists or not.
  *
@@ -2678,8 +2786,10 @@ function epofw_check_array_key_exists( $key, $array ) {
 			$var_name = $array[ $key ];
 		}
 	}
+
 	return $var_name;
 }
+
 /*
  * Calculate addon price based on condition.
  *
@@ -2695,6 +2805,7 @@ function epofw_calculate_price_based_on_condition( $price_type, $price ) {
 	if ( 'fixed' === $price_type ) {
 		$addon_price = $price;
 	}
+
 	return $addon_price;
 }
 
@@ -2708,7 +2819,7 @@ function epofw_calculate_price_based_on_condition( $price_type, $price ) {
  * @since 1.8.8
  */
 function epofw_get_cyric_string_to_latin( $string ) {
-	if ( preg_match( "/[А-Яа-яЁё]/u", $string ) ) {
+	if ( preg_match( '/[А-Яа-яЁё]/u', $string ) ) {
 		$cyr     = array(
 			'а',
 			'б',
@@ -2849,11 +2960,12 @@ function epofw_get_cyric_string_to_latin( $string ) {
 	} else {
 		$textcyr = $string;
 	}
+
 	return $textcyr;
 }
 
 /**
- * Get per characher price.
+ * Get per character price.
  *
  * @param int|float $check_addon_price     Get Addon Price.
  *
@@ -2888,6 +3000,18 @@ function epofw_get_price_per_char( $check_addon_price, $post_check_field_name, $
 	} else {
 		$gpcp = 0;
 	}
-	
+
 	return $gpcp;
+}
+
+/**
+ * Check whether a string is json or not.
+ *
+ * @param string $string Given string.
+ *
+ * @return bool
+ */
+function is_json_string( $string ) {
+	$json = json_decode($str);
+	return $json && $str != $json;
 }

@@ -360,7 +360,7 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 					}
 					if ( '' !== $method_id && 0 !== $method_id ) {
 						if ( $method_id > 0 ) {
-							update_post_meta( $method_id, 'epofw_prd_opt_data', wp_json_encode( $new_epofw_data ) );
+							update_post_meta( $method_id, 'epofw_prd_opt_data', $new_epofw_data );
 						}
 					} else {
 						echo '<div class="updated error"><p>' . esc_html__( 'Error saving Product Option.', 'extra-product-options-for-woocommerce' ) . '</p></div>';
