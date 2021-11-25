@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 if ( ! defined( 'EPOFW_PLUGIN_VERSION' ) ) {
-	define( 'EPOFW_PLUGIN_VERSION', '1.9.6.3' );
+	define( 'EPOFW_PLUGIN_VERSION', '1.9.6.4' );
 }
 if ( ! defined( 'EPOFW_SLUG' ) ) {
 	define( 'EPOFW_SLUG', 'extra-product-options-for-woocommerce' );
