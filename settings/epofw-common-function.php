@@ -2781,7 +2781,7 @@ function epofw_check_general_field_data( $get_data, $field_main_key, $key, $gn_k
  */
 function epofw_check_array_key_exists( $key, $array ) {
 	$var_name = '';
-	if ( ! empty( $array ) ) {
+	if ( is_array( $array ) && ! empty( $array ) ) {
 		if ( array_key_exists( $key, $array ) ) {
 			$var_name = $array[ $key ];
 		}
