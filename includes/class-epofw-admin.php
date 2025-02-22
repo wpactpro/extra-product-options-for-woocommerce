@@ -577,6 +577,8 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 					$updated_message = esc_html__( 'Product Field disabled.', 'extra-product-options-for-woocommerce' );
 				} elseif ( 'enabled' === $message ) {
 					$updated_message = esc_html__( 'Product Field enabled.', 'extra-product-options-for-woocommerce' );
+				} elseif ( 'imported' === $message ) {
+					$updated_message = esc_html__( 'Fields imported successfully.', 'extra-product-options-for-woocommerce' );
 				}
 				if ( 'failed' === $message ) {
 					$failed_messsage = esc_html__( 'There was an error with saving data.', 'extra-product-options-for-woocommerce' );

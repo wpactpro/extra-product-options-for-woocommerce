@@ -475,7 +475,9 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 */
 		public function add_new_btn_prd_list_fn( $link_method_url, $text ) {
 			?>
-			<a href="<?php echo esc_url( $link_method_url ); ?>" class="page-title-action"><?php echo esc_html( $text ); ?>
+			<a href="<?php echo esc_url( $link_method_url ); ?>" class="page-title-action"><?php echo esc_html( $text ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=epofw_import_all_fields' ), 'epofw_import_fields_nonce' ) ); ?>" class="page-title-action">
+				<?php esc_html_e( 'Import All Fields', 'extra-product-options-for-woocommerce' ); ?>
 			</a>
 			<?php
 		}

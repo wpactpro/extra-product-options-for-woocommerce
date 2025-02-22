@@ -45,6 +45,7 @@ if ( ! class_exists( 'EPOFW_Init' ) ) {
 			require_once EPOFW_PLUGIN_DIR_PATH . 'settings/epofw-actions.php';
 			require_once EPOFW_PLUGIN_DIR_PATH . 'includes/class-epofw-admin.php';
 			require_once EPOFW_PLUGIN_DIR_PATH . 'includes/class-epofw-front.php';
+			require_once EPOFW_PLUGIN_DIR_PATH . 'includes/class-epofw-import.php';
 			EPOFW_Front::instance();
 			if ( class_exists( 'WOOCS' ) ) {
 				require_once EPOFW_PLUGIN_DIR_PATH . 'includes/class-epofw-woocs-compatiblity.php';
