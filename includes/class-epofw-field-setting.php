@@ -173,8 +173,16 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			$getnonce    = wp_verify_nonce( sanitize_text_field( wp_unslash( $epofw_nonce ) ), 'del_' . $id );
 			if ( isset( $getnonce ) && 1 === $getnonce ) {
 				wp_delete_post( $id );
-				$delet_action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, '', '', '', 'deleted' );
-				wp_safe_redirect( $delet_action_redirect_url );
+				$redirect_url = add_query_arg(
+					array(
+						'post_type' => 'product',
+						'page'      => self::$current_page,
+						'tab'       => self::$current_tab,
+						'message'   => 'deleted',
+					),
+					admin_url( 'edit.php' )
+				);
+				wp_safe_redirect( $redirect_url );
 				exit;
 			} else {
 				self::$epofw_admin_obj->epofw_updated_message( 'nonce_check', $get_tab, '' );
