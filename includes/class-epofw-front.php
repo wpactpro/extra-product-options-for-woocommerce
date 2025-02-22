@@ -678,8 +678,15 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				return false;
 			}
 
-			$epofw_nonce = filter_input( INPUT_POST, 'epofw_add_to_cart_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-			if ( empty( $epofw_nonce ) || ! wp_verify_nonce( $epofw_nonce, 'epofw_add_to_cart_' . $product_id ) ) {
+			// Get the nonce name based on product ID.
+			$nonce_name = 'epofw_add_to_cart_nonce_' . $product_id;
+			$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+			// Generate the same nonce action as used when creating.
+			$nonce_action = 'epofw_add_to_cart_' . $product_id . '_' . get_current_user_id();
+
+			// Verify nonce with the specific action.
+			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, $nonce_action ) ) {
 				throw new Exception( esc_html__( 'Invalid request - security check failed', 'extra-product-options-for-woocommerce' ) );
 			}
 
