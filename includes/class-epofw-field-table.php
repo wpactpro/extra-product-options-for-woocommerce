@@ -292,7 +292,7 @@ if ( ! class_exists( 'EPOFW_Field_Table' ) ) {
 		public function process_bulk_action() {
 			$delete_nonce = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$delete_nonce = isset( $delete_nonce ) ? sanitize_text_field( wp_unslash( $delete_nonce ) ) : '';
-			if ( empty( $delete_nonce ) || ! wp_verify_nonce( $delete_nonce, 'bulk-shippingmethods' ) ) {
+			if ( empty( $delete_nonce ) || ! wp_verify_nonce( $delete_nonce, 'bulk-posts' ) ) {
 				return;
 			}
 			$get_method_id_cb = filter_input( INPUT_POST, 'method_id_cb', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
