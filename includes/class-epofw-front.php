@@ -55,6 +55,13 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @since    1.0.0
 		 */
 		public function epofw_front_init() {
+			// Add nonce field to the form.
+			add_action(
+				'woocommerce_before_add_to_cart_form',
+				array( $this, 'epofw_add_nonce_field' ),
+				10
+			);
+
 			add_action(
 				'woocommerce_before_add_to_cart_button',
 				array(
@@ -131,6 +138,46 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				4
 			);
 			add_filter( 'woocommerce_cart_item_price', array( $this, 'epofw_woocommerce_cart_item_price' ), 10, 2 );
+		}
+
+		/**
+		 * Add nonce field to the form.
+		 *
+		 * @since 3.0.9
+		 */
+		public function epofw_add_nonce_field() {
+			global $post;
+			if ( ! $post ) {
+				return;
+			}
+
+			// Generate unique nonce for this product and user.
+			$nonce_action = 'epofw_add_to_cart_' . $post->ID . '_' . get_current_user_id();
+			$nonce_name   = 'epofw_add_to_cart_nonce_' . $post->ID;
+
+			wp_nonce_field( $nonce_action, $nonce_name );
+		}
+
+		/**
+		 * Verify the nonce for add to cart actions.
+		 *
+		 * @since    1.0.0
+		 * @param    int $product_id Product ID.
+		 * @return   bool True if nonce is valid, false otherwise.
+		 */
+		private function verify_add_to_cart_nonce( $product_id ) {
+			if ( empty( $product_id ) ) {
+				return false;
+			}
+
+			// Get the nonce name based on product ID.
+			$nonce_name = 'epofw_add_to_cart_nonce_' . $product_id;
+			$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+			// Generate the same nonce action as used when creating.
+			$nonce_action = 'epofw_add_to_cart_' . $product_id . '_' . get_current_user_id();
+
+			return ! empty( $nonce ) && wp_verify_nonce( $nonce, $nonce_action );
 		}
 
 		/**
@@ -229,14 +276,14 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 						'epofw-front-js',
 						'epofw_front_var',
 						array(
-							'ajaxurl'                       => admin_url( 'admin-ajax.php' ),
-							'current_post_id'               => isset( $product_data ) && ! empty( $product_data ) ? $product_data->get_id() : '',
-							'product_price'                 => isset( $product_data ) && ! empty( $product_data ) ? epofw_display_product_price( $product_data, 'shop' ) : '',
-							'currency'                      => get_woocommerce_currency_symbol(),
-							'position'                      => get_option( 'woocommerce_currency_pos' ),
-							'decimal_separator'             => wc_get_price_decimal_separator(),
-							'thousand_separator'            => wc_get_price_thousand_separator(),
-							'decimals'                      => wc_get_price_decimals(),
+							'ajaxurl'                      => admin_url( 'admin-ajax.php' ),
+							'current_post_id'              => isset( $product_data ) && ! empty( $product_data ) ? $product_data->get_id() : '',
+							'product_price'                => isset( $product_data ) && ! empty( $product_data ) ? epofw_display_product_price( $product_data, 'shop' ) : '',
+							'currency'                     => get_woocommerce_currency_symbol(),
+							'position'                     => get_option( 'woocommerce_currency_pos' ),
+							'decimal_separator'            => wc_get_price_decimal_separator(),
+							'thousand_separator'           => wc_get_price_thousand_separator(),
+							'decimals'                     => wc_get_price_decimals(),
 							'timepicker_select_validation'  => __( 'Please select a valid time.', 'extra-product-options-for-woocommerce' ),
 							'timepicker_change_validation'  => __( 'Please enter a valid time.', 'extra-product-options-for-woocommerce' ),
 							'datepicker_select_validation'  => __( 'Please select a valid date.', 'extra-product-options-for-woocommerce' ),
@@ -434,12 +481,8 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			$main_fields_data_arr = $this->epofw_get_fields_data( $post->ID );
 			if ( ! empty( $main_fields_data_arr ) ) {
 
-				// Generate a unique nonce per user session and product.
-				$nonce_action = 'epofw_add_to_cart_' . $post->ID . '_' . get_current_user_id();
-				$nonce_name   = 'epofw_add_to_cart_nonce_' . $post->ID;
-
-				// Add both nonce and nonce action as hidden fields.
-				wp_nonce_field( $nonce_action, $nonce_name );
+				// Add nonce field using the centralized function.
+				$this->epofw_add_nonce_field();
 
 				foreach ( $main_fields_data_arr as $fields_data_arr ) {
 					$addon_position = epofw_check_array_key_exists( 'epofw_addon_position', $fields_data_arr );
@@ -531,21 +574,23 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @return string|boolean
 		 */
 		public function epofw_add_to_cart_validation( $passed, $product_id ) {
+			// Check if this is an "Order Again" request.
+			if ( isset( $_GET['order_again'] ) ) {
+				// Verify WooCommerce's order again nonce.
+				if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'woocommerce-order_again' ) ) {
+					return false;
+				}
+				return $passed;
+			}
+
 			if ( ! isset( $_POST ) && empty( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				return false;
 			}
 
-			// Get the nonce name based on product ID.
-			$nonce_name = 'epofw_add_to_cart_nonce_' . $product_id;
-			$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-			// Generate the same nonce action as used when creating.
-			$nonce_action = 'epofw_add_to_cart_' . $product_id . '_' . get_current_user_id();
-
-			// Verify nonce with the specific action.
-			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, $nonce_action ) ) {
+			// Verify nonce.
+			if ( ! $this->verify_add_to_cart_nonce( $product_id ) ) {
 				wc_add_notice(
-					esc_html__( 'Security check failed. Please refresh the page and try again.', 'extra-product-options-for-woocommerce' ), 
+					esc_html__( 'Security check failed. Please refresh the page and try again.', 'extra-product-options-for-woocommerce' ),
 					'error'
 				);
 				return false;
@@ -585,69 +630,66 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 						}
 					}
 				}
+
 				if ( ! empty( $epofw_post_data ) ) {
 					foreach ( $epofw_post_data as $post_data_key => $value ) {
-						if ( ! empty( $value ) ) {
-							if ( ! empty( $get_field_name_arr ) ) {
-								if ( array_key_exists( $post_data_key, $get_field_name_arr ) ) {
-									$check_field_label     = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_data_key ] );
-									$check_field_input     = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_data_key ] );
-									$check_field_lbl_title = '';
-									if ( $check_field_label ) {
-										$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
+						if ( ! empty( $value ) && array_key_exists( $post_data_key, $get_field_name_arr ) ) {
+							$check_field_label     = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_data_key ] );
+							$check_field_input     = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_data_key ] );
+							$check_field_lbl_title = '';
+							if ( $check_field_label ) {
+								$check_field_lbl_title = esc_html( epofw_check_array_key_exists( 'title', $check_field_label ) );
+							}
+							if ( $check_field_input ) {
+								$check_field_name = epofw_check_array_key_exists( 'name', $check_field_input );
+								$check_field_type = epofw_check_array_key_exists( 'type', $check_field_input );
+								if ( isset( $get_post_data[ $check_field_name ] ) || isset( $get_post_data[ $check_field_name ]['value'] ) ) {
+									if ( isset( $get_post_data[ $check_field_name ]['value'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+										$post_check_field_name = trim( sanitize_text_field( wp_unslash( $get_post_data[ $check_field_name ]['value'] ) ) );
+									} else {
+										$post_check_field_name = trim( sanitize_text_field( wp_unslash( $get_post_data[ $check_field_name ] ) ) );
 									}
-									if ( $check_field_input ) {
-										$check_field_name = epofw_check_array_key_exists( 'name', $check_field_input );
-										$check_field_type = epofw_check_array_key_exists( 'type', $check_field_input );
-										if ( isset( $get_post_data[ $check_field_name ] ) || isset( $get_post_data[ $check_field_name ]['value'] ) ) {
-											if ( isset( $get_post_data[ $check_field_name ]['value'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-												$post_check_field_name = trim( sanitize_text_field( wp_unslash( $get_post_data[ $check_field_name ]['value'] ) ) );
-											} else {
-												$post_check_field_name = trim( sanitize_text_field( wp_unslash( $get_post_data[ $check_field_name ] ) ) );
+									if ( 'text' === $check_field_type ) {
+										$check_field_restriction = isset( $get_field_name_arr[ $post_data_key ]['epofw_field_settings']['field_restriction'] ) ?
+											sanitize_text_field( $get_field_name_arr[ $post_data_key ]['epofw_field_settings']['field_restriction'] ) : '';
+
+										if ( $check_field_restriction ) {
+											// Sanitize the field title once for all error messages.
+											$safe_field_title = esc_html( $check_field_lbl_title );
+
+											if ( 'only_number' === $check_field_restriction ) {
+												if ( 1 !== preg_match( '/^[0-9]*$/', $post_check_field_name ) ) {
+													/* translators: %1$s: Field label that only accepts numbers */
+													$error_message = sprintf(
+														esc_html__( 'Only numbers are allowed for "%1$s".', 'extra-product-options-for-woocommerce' ),
+														$safe_field_title
+													);
+													$this->epofw_add_to_cart_error_msg( 'only_number', $error_message );
+													$field_err_status[] = false;
+												}
 											}
-											if ( 'text' === $check_field_type ) {
-												$check_field_restriction = isset( $get_field_name_arr[ $post_data_key ]['epofw_field_settings']['field_restriction'] ) ? $get_field_name_arr[ $post_data_key ]['epofw_field_settings']['field_restriction'] : '';
-												if ( $check_field_restriction ) {
-													if ( 'only_number' === $check_field_restriction ) {
-														if ( 1 !== preg_match( '/^[0-9]*$/', $post_check_field_name ) ) {
-															/* translators: 1: Field label */
-															$error_message = sprintf( __( 'Only numbers are allowed for "%1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
-															$this->epofw_add_to_cart_error_msg( 'only_number', $error_message );
-															$field_err_status[] = false;
-														}
-													}
-													if ( 'all_number' === $check_field_restriction ) {
-														if ( 1 !== preg_match( '/^[0-9]+(\\.[0-9]+)]*$/', $post_check_field_name ) ) {
-															/* translators: 1: Field label */
-															$error_message = sprintf( __( 'Decimal numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
-															$this->epofw_add_to_cart_error_msg( 'all_number', $error_message );
-															$field_err_status[] = false;
-														}
-													}
-													if ( 'only_text' === $check_field_restriction ) {
-														if ( 1 !== preg_match( '/^[a-zA-Z]*$/i', $post_check_field_name ) ) {
-															/* translators: 1: Field label */
-															$error_message = sprintf( __( 'Only texts are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
-															$this->epofw_add_to_cart_error_msg( 'only_text', $error_message );
-															$field_err_status[] = false;
-														}
-													}
-													if ( 'text_number' === $check_field_restriction ) {
-														if ( 1 !== preg_match( '/^[a-zA-Z0-9]*$/i', $post_check_field_name ) ) {
-															/* translators: 1: Field label */
-															$error_message = sprintf( __( 'Only text and numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
-															$this->epofw_add_to_cart_error_msg( 'text_number', $error_message );
-															$field_err_status[] = false;
-														}
-													}
-													if ( 'email' === $check_field_restriction ) {
-														if ( ! filter_var( $post_check_field_name, FILTER_VALIDATE_EMAIL ) ) {
-															/* translators: 1: Field label */
-															$error_message = sprintf( __( 'Invalid email format for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
-															$this->epofw_add_to_cart_error_msg( 'email', $error_message );
-															$field_err_status[] = false;
-														}
-													}
+											if ( 'all_number' === $check_field_restriction ) {
+												if ( 1 !== preg_match( '/^[0-9]+(\\.[0-9]+)]*$/', $post_check_field_name ) ) {
+													/* translators: %1$s: Field label that accepts decimal numbers */
+													$error_message = sprintf( esc_html__( 'Decimal numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+												}
+											}
+											if ( 'only_text' === $check_field_restriction ) {
+												if ( 1 !== preg_match( '/^[a-zA-Z]*$/i', $post_check_field_name ) ) {
+													/* translators: %1$s: Field label that only accepts text */
+													$error_message = sprintf( esc_html__( 'Only texts are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+												}
+											}
+											if ( 'text_number' === $check_field_restriction ) {
+												if ( 1 !== preg_match( '/^[a-zA-Z0-9]*$/i', $post_check_field_name ) ) {
+													/* translators: %1$s: Field label that accepts both text and numbers */
+													$error_message = sprintf( esc_html__( 'Only text and numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+												}
+											}
+											if ( 'email' === $check_field_restriction ) {
+												if ( ! filter_var( $post_check_field_name, FILTER_VALIDATE_EMAIL ) ) {
+													/* translators: %1$s: Field label that requires email format */
+													$error_message = sprintf( esc_html__( 'Invalid email format for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
 												}
 											}
 										}
@@ -666,33 +708,28 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * Add cart item data.
 		 *
 		 * @since 1.0.0
-		 *
 		 * @param array $cart_item  Array of cart item.
 		 * @param int   $product_id Product ID.
-		 *
-		 * @throws Exception Get Error.
-		 * @return array|false $cart_item Array of cart item.
+		 * @return array|false $cart_item Array of cart item on success, false on failure.
+		 * @throws Exception When validation fails.
 		 */
 		public function epofw_add_cart_item_data( $cart_item, $product_id ) {
-			if ( empty( $_POST ) ) {
+			error_log( 'epofw_add_cart_item_data' );
+			// Verify nonce and product ID.
+			$product_id = absint( $product_id );
+			if ( ! $product_id || ! $this->verify_add_to_cart_nonce( $product_id ) ) {
+				error_log( 'Product ID or nonce verification failed' );
 				return false;
 			}
 
-			// Get the nonce name based on product ID.
-			$nonce_name = 'epofw_add_to_cart_nonce_' . $product_id;
-			$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-			// Generate the same nonce action as used when creating.
-			$nonce_action = 'epofw_add_to_cart_' . $product_id . '_' . get_current_user_id();
-
-			// Verify nonce with the specific action.
-			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, $nonce_action ) ) {
-				throw new Exception( esc_html__( 'Invalid request - security check failed', 'extra-product-options-for-woocommerce' ) );
+			// Verify we have POST data and nonce.
+			if ( ! isset( $_POST ) || empty( $_POST ) ) {
+				return false;
 			}
 
-			$get_post_data = $_POST;
+			$get_post_data = map_deep( wp_unslash( $_POST ), 'sanitize_text_field' );
 
-			$post_data     = array();
+			$post_data = array();
 			if ( isset( $get_post_data ) && ! empty( $product_id ) ) {
 				foreach ( $get_post_data as $post_key => $post_value_data ) {
 					if ( strpos( $post_key, 'epofw_field_' ) !== false ) {
@@ -978,6 +1015,16 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @return  array $meta_items Array of cart item.
 		 */
 		public function epofw_get_item_data( $cart_data, $cart_item = null ) {
+			// Verify request method and nonce for any POST request.
+			if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+				$product_id = isset( $cart_item['product_id'] ) ? absint( $cart_item['product_id'] ) : 0;
+
+				// Verify nonce and return early if invalid.
+				if ( ! $product_id || ! $this->verify_add_to_cart_nonce( $product_id ) ) {
+					return $cart_data;
+				}
+			}
+
 			$meta_items = array();
 			if ( ! empty( $cart_data ) ) {
 				$meta_items = $cart_data;
@@ -1014,14 +1061,18 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @param array $epofw_data_value   Array of field data.
 		 * @param bool  $check_epofw_haoic  Hide addon order in cart page.
 		 * @param bool  $check_epofw_haopic Hide addon order price in cart page.
-		 *
 		 * @return string $epofw_name Return string.
 		 */
 		public function epofw_display_name_in_cart( $epofw_data_value, $check_epofw_haoic, $check_epofw_haopic ) {
 			$epofw_price = epofw_check_array_key_exists( 'epofw_price', $epofw_data_value );
 			$epofw_label = epofw_check_array_key_exists( 'epofw_label', $epofw_data_value );
-			if ( $epofw_price && 0 != $epofw_price ) {
-				$epofw_name  = $epofw_label;
+
+			// Sanitize and escape the label.
+			$epofw_label = esc_html( wp_strip_all_tags( $epofw_label ) );
+
+			if ( $epofw_price && 0 !== $epofw_price ) {
+				$epofw_name = $epofw_label;
+				// Price is already sanitized by wc_price().
 				$epofw_name .= ' (' . wc_price( epofw_price_filter( $epofw_price ) ) . ')';
 			} else {
 				$epofw_name = $epofw_label;
@@ -1065,30 +1116,29 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * Function will render color html.
 		 *
 		 * @since 2.4.4
-		 *
 		 * @param string $get_epofw_value Value of car data.
-		 *
-		 * @return html $epofw_value Return html for color data.
+		 * @return string $epofw_value Return html for color data.
 		 */
 		public function epofw_render_color( $get_epofw_value ) {
 			$epofw_value = '';
 			if ( ! empty( $get_epofw_value ) ) {
-				$epofw_value .= '<span style="color:' . esc_attr( $get_epofw_value ) . ';font-size: 20px;padding: 0;line-height: 0">■</span>&nbsp;';
+				// Sanitize and escape the color value.
+				$safe_color = sanitize_hex_color( $get_epofw_value );
+				if ( ! $safe_color ) {
+					$safe_color = sanitize_text_field( $get_epofw_value );
+				}
+
+				$epofw_value .= sprintf(
+					'<span style="color:%1$s;font-size: 20px;padding: 0;line-height: 0">■</span>&nbsp;',
+					esc_attr( $safe_color )
+				);
 				$epofw_value .= '</span>';
-				/**
-				 * Apply filter for render color code.
-				 *
-				 * @since 1.0.0
-				 */
-				$epofw_value .= apply_filters( 'epofw_render_color_code', $get_epofw_value );
+
+				// Escape the value before adding to filter.
+				$epofw_value .= apply_filters( 'epofw_render_color_code', esc_html( $get_epofw_value ) );
 			}
 
-			/**
-			 * Apply filter for render color html.
-			 *
-			 * @since 1.0.0
-			 */
-			return apply_filters( 'epofw_render_color_html', $epofw_value, $get_epofw_value );
+			return apply_filters( 'epofw_render_color_html', $epofw_value, esc_html( $get_epofw_value ) );
 		}
 
 		/**
@@ -1174,8 +1224,8 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param array $cart_item_data Array of cart items.
-		 * @param array $item           Array of item.
+		 * @param array  $cart_item_data Array of cart items.
+		 * @param object $item           Object of item.
 		 *
 		 * @throws Exception Get error.
 		 * @return array $cart_item_data
