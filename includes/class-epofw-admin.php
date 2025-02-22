@@ -454,50 +454,49 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		/**
 		 * Getting dynamic url.
 		 *
-		 * @param string $page_name Getting page name.
+		 * @param string $page Getting page name.
 		 *
-		 * @param string $tab_name  Getting tab name.
+		 * @param string $tab Getting tab name.
 		 *
-		 * @param string $action    Getting action.
+		 * @param string $action Getting action.
 		 *
-		 * @param string $post_id   Getting current post id.
+		 * @param string $post_id Getting current post id.
 		 *
-		 * @param string $nonce     Checking nonce if available in url.
+		 * @param string $nonce Checking nonce if available in url.
 		 *
-		 * @param string $message   Checking if any dynamic messages pass in url.
+		 * @param string $message Checking if any dynamic messages pass in url.
 		 *
 		 * @return string $url return url.
 		 *
 		 * @since 1.0.0
 		 */
-		public function dynamic_url( $page_name, $tab_name, $action = '', $post_id = '', $nonce = '', $message = '' ) {
-			$url_param = array();
-			if ( ! empty( $page_name ) ) {
-				$url_param['page'] = $page_name;
-			}
-			if ( ! empty( $tab_name ) ) {
-				$url_param['tab'] = $tab_name;
-			}
-			if ( ! empty( $action ) ) {
-				$url_param['action'] = $action;
-			}
-			if ( ! empty( $post_id ) ) {
-				$url_param['post'] = intval( $post_id );
-			}
-			if ( ! empty( $nonce ) ) {
-				$url_param['_wpnonce'] = $nonce;
-			}
-			if ( ! empty( $message ) ) {
-				$url_param['message'] = $message;
-			}
-			$url = esc_html(
-				add_query_arg(
-					$url_param,
-					admin_url( 'edit.php?post_type=product' )
-				)
+		public function dynamic_url( $page = '', $tab = '', $action = '', $post_id = '', $nonce = '', $message = '' ) {
+			$url_args = array(
+				'post_type' => 'product',
+				'page'      => $page,
 			);
 
-			return esc_url_raw( $url );
+			if ( ! empty( $tab ) ) {
+				$url_args['tab'] = $tab;
+			}
+
+			if ( ! empty( $action ) ) {
+				$url_args['action'] = $action;
+			}
+
+			if ( ! empty( $post_id ) ) {
+				$url_args['post'] = $post_id;
+			}
+
+			if ( ! empty( $nonce ) ) {
+				$url_args['_wpnonce'] = $nonce;
+			}
+
+			if ( ! empty( $message ) ) {
+				$url_args['message'] = $message;
+			}
+
+			return add_query_arg( $url_args, admin_url( 'edit.php' ) );
 		}
 
 		/**
