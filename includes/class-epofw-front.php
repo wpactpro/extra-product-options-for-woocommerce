@@ -1,10 +1,11 @@
 <?php
 /**
- * Admin section.
+ * Front section.
  *
  * @package    Extra_Product_Options_For_WooCommerce
  * @subpackage Extra_Product_Options_For_WooCommerce/includes
  */
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,14 +18,19 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 	 * EPOFW_Admin class.
 	 */
 	class EPOFW_Front {
-		protected static $_instance = null;
+		/**
+		 * The object of class.
+		 *
+		 * @since    1.0.0
+		 * @var      string $instance instance object.
+		 */
+		protected static $instance = null;
 
 		/**
 		 * The name of this plugin.
 		 *
-		 * @var      string $plugin_name The ID of this plugin.
-		 *
 		 * @since    1.0.0
+		 * @var      string $plugin_name The ID of this plugin.
 		 */
 		public function __construct() {
 			$this->epofw_front_init();
@@ -36,11 +42,11 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @since    1.0.0
 		 */
 		public static function instance() {
-			if ( is_null( self::$_instance ) ) {
-				self::$_instance = new self();
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
 			}
 
-			return self::$_instance;
+			return self::$instance;
 		}
 
 		/**
@@ -67,12 +73,11 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			);
 			add_filter( 'woocommerce_add_cart_item_data', array( $this, 'epofw_add_cart_item_data' ), 10, 3 );
 			add_filter( 'woocommerce_get_item_data', array( $this, 'epofw_get_item_data' ), 99, 2 );
-			add_action( 'woocommerce_add_order_item_meta', array( $this, 'epofw_add_order_item_meta' ), 99, 2 );
 			add_filter(
 				'woocommerce_order_again_cart_item_data',
 				array(
 					$this,
-					'epofw_order_again_cart_item_data',
+					'epofw_order_again_cart_item_data_pro',
 				),
 				10,
 				2
@@ -81,14 +86,51 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				'woocommerce_order_item_get_formatted_meta_data',
 				array(
 					$this,
-					'epofw_item_get_formatted_meta_data',
+					'epofw_item_get_formatted_meta_data_pro',
 				),
 				10,
 				2
 			);
 			add_action( 'wp_enqueue_scripts', array( $this, 'cop_front_enqueue_scripts_fn' ) );
-			add_action( 'woocommerce_before_calculate_totals', array( $this, 'epofw_before_calculate_totals' ), 10, 1 );
 			add_filter( 'woocommerce_add_to_cart_validation', array( $this, 'epofw_add_to_cart_validation' ), 10, 2 );
+			add_filter(
+				'woocommerce_order_item_display_meta_value',
+				array(
+					$this,
+					'epofw_display_meta_value',
+				),
+				10,
+				3
+			);
+			add_action(
+				'woocommerce_checkout_create_order_line_item',
+				array(
+					$this,
+					'checkout_create_order_line_item',
+				),
+				10,
+				3
+			);
+			add_filter( 'woocommerce_add_cart_item', array( $this, 'epofw_add_cart_item' ), 10 );
+			add_filter(
+				'woocommerce_get_cart_item_from_session',
+				array(
+					$this,
+					'epofw_get_cart_item_from_session',
+				),
+				99,
+				2
+			);
+			add_action(
+				'woocommerce_after_cart_item_quantity_update',
+				array(
+					$this,
+					'epofw_update_price_on_quantity_update',
+				),
+				20,
+				4
+			);
+			add_filter( 'woocommerce_cart_item_price', array( $this, 'epofw_woocommerce_cart_item_price' ), 10, 2 );
 		}
 
 		/**
@@ -97,109 +139,130 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @since    1.0.0
 		 */
 		public function cop_front_enqueue_scripts_fn() {
-			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'jquery-ui-datepicker', array( 'jquery' ) );
-			wp_enqueue_script(
-				'jquery-ui-timepicker-js',
-				EPOFW_PLUGIN_URL . 'assets/js/jquery-ui-timepicker.js',
-				array(
-					'jquery',
-				),
-				'1.0',
-				true
-			);
-			wp_enqueue_style(
-				'jquery-ui-timepicker-css',
-				EPOFW_PLUGIN_URL . 'assets/css/jquery-ui-timepicker.css',
-				array(),
-				'all'
-			);
-			wp_enqueue_style(
-				'select2-css',
-				EPOFW_PLUGIN_URL . 'assets/css/select2.min.css',
-				array(),
-				'all'
-			);
-			wp_enqueue_script(
-				'select2-js',
-				EPOFW_PLUGIN_URL . 'assets/js/select2.full.min.js',
-				array(),
-				'all'
-			);
-			wp_enqueue_script(
-				'epofw-front-js',
-				EPOFW_PLUGIN_URL . 'assets/js/epofw-front.js',
-				'',
-				EPOFW_PLUGIN_VERSION,
-				false
-			);
-			wp_enqueue_style(
-				'epofw-public-css',
-				EPOFW_PLUGIN_URL . 'assets/css/epofw-public.css',
-				'',
-				EPOFW_PLUGIN_VERSION,
-				false
-			);
-			wp_register_style( 'jquery-ui-css', EPOFW_PLUGIN_URL . 'assets/css/jquery-ui.min.css' );
-			wp_enqueue_style( 'jquery-ui-css' );
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script(
-				'iris',
-				admin_url( 'js/iris.min.js' ),
-				array(
-					'jquery-ui-draggable',
-					'jquery-ui-slider',
-					'jquery-touch-punch',
-					'wp-i18n',
-				),
-				false,
-				1
-			);
-			wp_enqueue_script(
-				'wp-color-picker',
-				admin_url( 'js/color-picker.min.js' ),
-				array( 'iris' ),
-				false,
-				1
-			);
-			$colorpicker_l10n = array(
-				'clear'         => __( 'Clear' ),
-				'defaultString' => __( 'Default' ),
-				'pick'          => __( 'Select Color' ),
-				'current'       => __( 'Current Color' ),
-			);
-			wp_localize_script(
-				'wp-color-picker',
-				'wpColorPickerL10n',
-				$colorpicker_l10n
-			);
-			wp_localize_script(
-				'epofw-front-js',
-				'epofw_front_var',
-				array(
-					'currency'           => get_woocommerce_currency_symbol(),
-					'position'           => get_option( 'woocommerce_currency_pos' ),
-					'decimal_separator'  => wc_get_price_decimal_separator(),
-					'thousand_separator' => wc_get_price_thousand_separator(),
-					'decimals'           => wc_get_price_decimals(),
-				)
-			);
+			if ( is_product() || is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy() ) {
+				$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+				wp_enqueue_script( 'jquery' );
+				wp_enqueue_script( 'jquery-ui-datepicker' );
+				wp_enqueue_script(
+					'jquery-ui-timepicker-js',
+					EPOFW_PLUGIN_URL . 'assets/js/jquery-ui-timepicker' . $suffix . '.js',
+					array(
+						'jquery',
+					),
+					EPOFW_PLUGIN_VERSION,
+					true
+				);
+				wp_enqueue_style(
+					'jquery-ui-timepicker-css',
+					EPOFW_PLUGIN_URL . 'assets/css/jquery-ui-timepicker' . $suffix . '.css',
+					array(),
+					EPOFW_PLUGIN_VERSION
+				);
+				wp_enqueue_style(
+					'select2-css',
+					EPOFW_PLUGIN_URL . 'assets/css/select2.min.css',
+					array(),
+					EPOFW_PLUGIN_VERSION
+				);
+				wp_enqueue_script(
+					'select2-js',
+					EPOFW_PLUGIN_URL . 'assets/js/select2.full.min.js',
+					array(),
+					EPOFW_PLUGIN_VERSION,
+					true
+				);
+				wp_enqueue_style(
+					'epofw-public-css',
+					EPOFW_PLUGIN_URL . 'assets/css/epofw-public' . $suffix . '.css',
+					'',
+					EPOFW_PLUGIN_VERSION,
+					false
+				);
+				$epofw_custom_css = epofw_general_settings( 'epofw_custom_css' );
+				if ( ! empty( $epofw_custom_css ) ) {
+					wp_add_inline_style( 'epofw-public-css', $epofw_custom_css );
+				}
+				wp_register_style( 'jquery-ui-css', EPOFW_PLUGIN_URL . 'assets/css/jquery-ui.min.css', '', EPOFW_PLUGIN_VERSION );
+				wp_enqueue_style( 'jquery-ui-css' );
+				wp_enqueue_style( 'wp-color-picker' );
+				wp_enqueue_script(
+					'iris',
+					admin_url( 'js/iris.min.js' ),
+					array(
+						'jquery-ui-draggable',
+						'jquery-ui-slider',
+						'jquery-touch-punch',
+						'wp-i18n',
+					),
+					EPOFW_PLUGIN_VERSION,
+					false
+				);
+				wp_enqueue_script(
+					'wp-color-picker',
+					admin_url( 'js/color-picker.min.js' ),
+					array( 'iris' ),
+					EPOFW_PLUGIN_VERSION,
+					false
+				);
+				$colorpicker_l10n = array(
+					'clear'         => __( 'Clear', 'extra-product-options-for-woocommerce' ),
+					'defaultString' => __( 'Default', 'extra-product-options-for-woocommerce' ),
+					'pick'          => __( 'Select Color', 'extra-product-options-for-woocommerce' ),
+					'current'       => __( 'Current Color', 'extra-product-options-for-woocommerce' ),
+				);
+				wp_localize_script(
+					'wp-color-picker',
+					'wpColorPickerL10n',
+					$colorpicker_l10n
+				);
+				if ( is_product() ) {
+					wp_enqueue_script(
+						'epofw-front-js',
+						EPOFW_PLUGIN_URL . 'assets/js/epofw-front' . $suffix . '.js',
+						'',
+						EPOFW_PLUGIN_VERSION,
+						true
+					);
+					global $post;
+					$product_data = wc_get_product( $post->ID );
+					wp_localize_script(
+						'epofw-front-js',
+						'epofw_front_var',
+						array(
+							'ajaxurl'                       => admin_url( 'admin-ajax.php' ),
+							'current_post_id'               => isset( $product_data ) && ! empty( $product_data ) ? $product_data->get_id() : '',
+							'product_price'                 => isset( $product_data ) && ! empty( $product_data ) ? epofw_display_product_price( $product_data, 'shop' ) : '',
+							'currency'                      => get_woocommerce_currency_symbol(),
+							'position'                      => get_option( 'woocommerce_currency_pos' ),
+							'decimal_separator'             => wc_get_price_decimal_separator(),
+							'thousand_separator'            => wc_get_price_thousand_separator(),
+							'decimals'                      => wc_get_price_decimals(),
+							'timepicker_select_validation'  => __( 'Please select a valid time.', 'extra-product-options-for-woocommerce' ),
+							'timepicker_change_validation'  => __( 'Please enter a valid time.', 'extra-product-options-for-woocommerce' ),
+							'datepicker_select_validation'  => __( 'Please select a valid date.', 'extra-product-options-for-woocommerce' ),
+							'datepicker_change_validation'  => __( 'Please enter a valid date.', 'extra-product-options-for-woocommerce' ),
+							'colorpicker_select_validation' => __( 'Please select a valid color code.', 'extra-product-options-for-woocommerce' ),
+							'colorpicker_change_validation' => __( 'Please enter a valid color code.', 'extra-product-options-for-woocommerce' ),
+						)
+					);
+				}
+			}
 		}
 
 		/**
 		 * Get match data from DB.
 		 *
-		 * @param int $match_field_id Matching field id.
+		 * @since    1.0.0
+		 *
+		 * @param array $match_field_id Matching field id.
 		 *
 		 * @return array $get_data_arr. Return array with general data.
-		 *
-		 * @since    1.0.0
 		 */
 		public function epofw_get_match_data_from_db( $match_field_id ) {
 			$product_option_args = array(
 				'post_type'      => EPOFW_DFT_POST_TYPE,
 				'post_status'    => 'publish',
-				'posts_per_page' => - 1,
+				'posts_per_page' => -1,
 				'post__in'       => $match_field_id,
 				'orderby'        => 'ID',
 				'order'          => 'DESC',
@@ -210,40 +273,63 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			$get_data_arr        = array();
 			if ( $prd_wp_query->have_posts() ) {
 				foreach ( $prd_wp_query->posts as $f_id ) {
-					$get_data_json = get_post_meta( $f_id, 'epofw_prd_opt_data', true );
-					if ( is_json_string( $get_data_json ) ) {
-						$get_data = json_decode( $get_data_json, true );
-					} else {
-						$get_data = $get_data_json;
-					}
-
+					$get_data = epofw_get_data_from_db( $f_id );
 					if ( ! empty( $get_data ) ) {
-						$get_data_arr['addon_position'] = epofw_check_array_key_exists( 'epofw_addon_position', $get_data );
-						if ( array_key_exists( 'general', $get_data ) ) {
-							$get_data_arr['general'] = $get_data['general'];
+						foreach ( $get_data as $gkey => $gdata ) {
+							if ( 'general' !== $gkey ) {
+								$get_data_arr[ $gkey ] = $gdata;
+							} else {
+								$new_get_data = array();
+								if ( ! empty( $gdata ) ) {
+									foreach ( $gdata as $vkey => $vdata ) {
+										$get_field_status = epofw_check_array_key_exists( 'field_status', $vdata );
+										if ( empty( $get_field_status ) ) {
+											unset( $get_data['general'][ $vkey ] );
+										} else {
+											$new_get_data[ $vkey ] = $vdata;
+										}
+										$get_logical_operation = epofw_check_array_key_exists( 'logical_operation', $vdata );
+										if ( $get_logical_operation ) {
+											foreach ( (array) $get_logical_operation as $lodata ) {
+												$get_epofw_conditional_logic_fields = epofw_check_array_key_exists( 'epofw_conditional_logic_fields', $lodata );
+												if ( empty( $get_epofw_conditional_logic_fields ) ) {
+													unset( $new_get_data[ $vkey ]['logical_operation'] );
+												}
+											}
+										}
+									}
+								}
+								$get_data_arr['general'] = $new_get_data;
+							}
 						}
-						$main_get_data_arr[] = $get_data_arr;
 					}
+					$main_get_data_arr[] = $get_data_arr;
 				}
 			}
 
+			/**
+			 * Apply filter for get match data from DB.
+			 *
+			 * @since 1.0.0
+			 */
 			return apply_filters( 'epofw_get_match_data_from_db', $main_get_data_arr );
 		}
 
 		/**
 		 * Find match id based on product id..
 		 *
+		 * @since 1.0.0
+		 *
 		 * @param int $current_prd_id Current product id.
 		 *
 		 * @return array $matched_id_arr. Return array with matched id.
-		 *
-		 * @since    1.0.0
 		 */
 		public function epofw_find_match_id( $current_prd_id ) {
+			$current_prd_id      = strval( $current_prd_id );
 			$product_option_args = array(
 				'post_type'      => EPOFW_DFT_POST_TYPE,
 				'post_status'    => 'publish',
-				'posts_per_page' => - 1,
+				'posts_per_page' => -1,
 				'orderby'        => 'ID',
 				'order'          => 'DESC',
 				'fields'         => 'ids',
@@ -252,41 +338,47 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			$matched_id_arr      = array();
 			if ( $prd_wp_query->have_posts() ) {
 				foreach ( $prd_wp_query->posts as $f_id ) {
-					$get_data_json = get_post_meta( $f_id, 'epofw_prd_opt_data', true );
-					if ( is_json_string( $get_data_json ) ) {
-						$get_data = json_decode( $get_data_json, true );
-					} else {
-						$get_data = $get_data_json;
-					}
+					$get_data         = epofw_get_data_from_db( $f_id );
+					$matched_data_arr = array();
 					if ( ! empty( $get_data ) ) {
-						$aadditional_rule_data          = epofw_check_array_key_exists( 'additional_rule_data', $get_data );
-						$aadditional_rule_data['value'] = ( isset( $aadditional_rule_data['value'] ) && is_array( $aadditional_rule_data['value'] ) ) ? array_map( 'intval', $aadditional_rule_data['value'] ) : array();
-						if ( $aadditional_rule_data ) {
-							if ( 'product' === $aadditional_rule_data['condition'] ) {
-								if ( 'is_equal_to' === $aadditional_rule_data['operator'] ) {
-									if ( isset( $aadditional_rule_data['value'] ) && is_array( $aadditional_rule_data['value'] ) && in_array( $current_prd_id, $aadditional_rule_data['value'], true ) ) {
-										$matched_id_arr[] = $f_id;
+						$aadditional_rule_detail = epofw_check_array_key_exists( 'additional_rule_data', $get_data );
+						if ( ! empty( $aadditional_rule_detail ) ) {
+							foreach ( (array) $aadditional_rule_detail as $aadditional_rule_data ) {
+								$condition = epofw_check_array_key_exists( 'condition', $aadditional_rule_data );
+								if ( $condition ) {
+									$operator = epofw_check_array_key_exists( 'operator', $aadditional_rule_data );
+									$value    = epofw_check_array_key_exists( 'value', $aadditional_rule_data );
+									if ( ! empty( $value ) ) {
+										$value = array_map( 'strval', $value );
 									}
-								} else {
-									if ( isset( $aadditional_rule_data['value'] ) && is_array( $aadditional_rule_data['value'] ) && ! in_array( $current_prd_id, $aadditional_rule_data['value'], true ) ) {
-										$matched_id_arr[] = $f_id;
-									}
-								}
-							} else {
-								$cart_product_category = wp_get_post_terms( $current_prd_id, 'product_cat', array( 'fields' => 'ids' ) );
-								if ( 'is_equal_to' === $aadditional_rule_data['operator'] ) {
-									if ( ! empty( $cart_product_category ) ) {
-										foreach ( $cart_product_category as $cat_id ) {
-											if ( isset( $aadditional_rule_data['value'] ) && is_array( $aadditional_rule_data['value'] ) && in_array( $cat_id, $aadditional_rule_data['value'], true ) ) {
-												$matched_id_arr[] = $f_id;
+									if ( $value ) {
+										if ( 'product' === $condition ) {
+											$matched_data_arr['mpc'] = 'false';
+											if ( 'is_equal_to' === $operator ) {
+												if ( in_array( $current_prd_id, $value, true ) ) {
+													$matched_data_arr['mpc'] = 'true';
+												}
+											} elseif ( ! in_array( $current_prd_id, $value, true ) ) {
+												$matched_data_arr['mpc'] = 'true';
 											}
 										}
-									}
-								} else {
-									if ( ! empty( $cart_product_category ) ) {
-										foreach ( $cart_product_category as $cat_id ) {
-											if ( isset( $aadditional_rule_data['value'] ) && is_array( $aadditional_rule_data['value'] ) && ! in_array( $cat_id, $aadditional_rule_data['value'], true ) ) {
-												$matched_id_arr[] = $f_id;
+										if ( 'category' === $condition ) {
+											$matched_data_arr['mcc'] = 'false';
+											$cart_product_category   = wp_get_post_terms( $current_prd_id, 'product_cat', array( 'fields' => 'ids' ) );
+											if ( 'is_equal_to' === $operator ) {
+												if ( ! empty( $cart_product_category ) ) {
+													foreach ( $cart_product_category as $cat_id ) {
+														if ( in_array( strval( $cat_id ), $value, true ) ) {
+															$matched_data_arr['mcc'] = 'true';
+														}
+													}
+												}
+											} elseif ( ! empty( $cart_product_category ) ) {
+												foreach ( $cart_product_category as $cat_id ) {
+													if ( ! in_array( strval( $cat_id ), $value, true ) ) {
+														$matched_data_arr['mcc'] = 'true';
+													}
+												}
 											}
 										}
 									}
@@ -294,206 +386,120 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 							}
 						}
 					}
+					if ( ! empty( $matched_data_arr ) && ! in_array( 'false', $matched_data_arr, true ) ) {
+						$matched_id_arr[] = $f_id;
+					}
 				}
 			}
 
-			return apply_filters( 'epofw_find_match_id', $matched_id_arr );
+			/**
+			 * Apply filter for find match id.
+			 *
+			 * @since 1.0.0
+			 */
+			return apply_filters( 'epofw_find_match_id', array_unique( $matched_id_arr ) );
 		}
 
 		/**
 		 * Get fields data which matched.
 		 *
+		 * @since    1.0.0
+		 *
 		 * @param int $current_prd_id Current product id.
 		 *
-		 * @return array $get_data. Return array with matched data.
-		 *
-		 * @since    1.0.0
+		 * @return array $get_data Return array with matched data.
 		 */
-		function epofw_get_fields_data( $current_prd_id ) {
+		public function epofw_get_fields_data( $current_prd_id ) {
 			$get_match_field_id = $this->epofw_find_match_id( $current_prd_id );
 			$get_data           = '';
 			if ( ! empty( $get_match_field_id ) ) {
 				$get_data = $this->epofw_get_match_data_from_db( $get_match_field_id );
 			}
 
+			/**
+			 * Apply filter for get field data.
+			 *
+			 * @since 1.0.0
+			 */
 			return apply_filters( 'epofw_get_fields_data', $get_data );
-		}
-
-		/**
-		 * Get html for single product page
-		 */
-		public function epofw_get_html_field( $fields_data_arr, $product_name, $product_price ) {
-			$prd_html = '';
-			$prd_html .= '<table class="epofw_fields_table">';
-			$prd_html .= '<tbody>';
-			foreach ( $fields_data_arr as $fields_data ) {
-				$get_exftpoc        = $this->exclude_field_type_on_cart_page();
-				$check_field_label  = epofw_check_array_key_exists( 'label', $fields_data );
-				$check_field_input  = epofw_check_array_key_exists( 'field', $fields_data );
-				$check_field_status = '';
-				if ( $check_field_input ) {
-					$check_field_status = epofw_check_array_key_exists( 'status', $check_field_input );
-				}
-				if ( 'on' === $check_field_status ) {
-					$check_field_lbl_class          = '';
-					$check_field_lbl_subtitle_class = '';
-					$check_field_lbl_title          = '';
-					$check_field_lbl_title_type     = 'label';
-					$check_field_lbl_subtitle       = '';
-					$check_field_lbl_subtitle_type  = 'label';
-					$check_field_title_position     = 'left';
-					if ( $check_field_label ) {
-						$check_field_lbl_class                 = epofw_check_array_key_exists( 'class', $check_field_label );
-						$check_field_lbl_title                 = epofw_check_array_key_exists( 'title', $check_field_label );
-						$check_field_input['data-label-name']  = $check_field_lbl_title;
-						$check_field_lbl_enable_subtitle_extra = epofw_check_array_key_exists( 'enable_subtitle_extra', $check_field_label );
-						if ( $check_field_lbl_enable_subtitle_extra ) {
-							$check_field_lbl_subtitle_class = epofw_check_array_key_exists( 'subtitle_class', $check_field_label );
-							$check_field_lbl_subtitle       = epofw_check_array_key_exists( 'subtitle', $check_field_label );
-						}
-					}
-					$check_field_inp_type     = '';
-					$check_field_heading_type = '';
-					$check_field_content_type = '';
-					$check_field_content      = '';
-					$price_label_for_text     = '';
-					if ( $check_field_input ) {
-						$check_field_inp_type     = epofw_check_array_key_exists( 'type', $check_field_input );
-						$check_field_heading_type = epofw_check_array_key_exists( 'heading_type', $check_field_input );
-						$check_field_content_type = epofw_check_array_key_exists( 'content_type', $check_field_input );
-						$check_field_content      = epofw_check_array_key_exists( 'content', $check_field_input );
-						$check_field_restriction  = epofw_check_array_key_exists( 'field_restriction', $check_field_input );
-						if ( $check_field_restriction ) {
-							unset( $check_field_input['field_restriction'] );
-						}
-						$check_field_input['data-inp-type'] = $check_field_inp_type;
-						$check_field_enable_price           = epofw_check_array_key_exists( 'enable_price_extra', $check_field_input );
-						$check_field_addon_price_type       = epofw_check_array_key_exists( 'addon_price_type', $check_field_input );
-						$check_field_addon_price            = epofw_check_array_key_exists( 'addon_price', $check_field_input );
-						if ( 'on' === $check_field_enable_price ) {
-							$addon_price_cal                  = epofw_calculate_price_based_on_condition( $check_field_addon_price_type, $check_field_addon_price );
-							$check_field_input['addon_price'] = $addon_price_cal;
-							if ( 'fixed' === $check_field_addon_price_type ) {
-								$price_label_for_text = epofw_title_with_price( '', $check_field_addon_price );
-							}
-						} else {
-							$check_field_input['addon_price_type'] = 'fixed';
-							$check_field_input['addon_price']      = 0.00;
-						}
-					}
-					$prd_html .= '<tr class="epofw_tr_se" id="epofw_' . esc_attr( $check_field_inp_type ) . '_' . wp_rand() . '">';
-					if ( 'left' === $check_field_title_position ) {
-						if ( 'heading' === $check_field_inp_type || 'paragraph' === $check_field_inp_type ) {
-							$prd_html .= '<td class="label epofw_td_label" colspan="2">';
-						} else {
-							$prd_html .= '<td class="label epofw_td_label">';
-						}
-						if ( 'heading' === $check_field_inp_type ) {
-							$prd_html .= '<' . $check_field_heading_type . ' class="' . $check_field_lbl_class . '">' . $check_field_lbl_title . '</' . $check_field_heading_type . '>';
-						} elseif ( 'paragraph' === $check_field_inp_type ) {
-							$prd_html .= '<' . $check_field_content_type . ' class="' . $check_field_lbl_class . '">' . $check_field_content . '</' . $check_field_content_type . '>';
-						} else {
-							$prd_html .= '<' . $check_field_lbl_title_type . ' class="' . $check_field_lbl_class . '" data-label-name="' . $check_field_lbl_title . '">' . $check_field_lbl_title . $price_label_for_text . '</' . $check_field_lbl_title_type . '>';
-							if ( $check_field_lbl_subtitle ) {
-								$prd_html .= '<' . $check_field_lbl_subtitle_type . ' class="' . $check_field_lbl_subtitle_class . '">' . $check_field_lbl_subtitle . '</' . $check_field_lbl_subtitle_type . '>';
-							}
-						}
-						$prd_html .= '</td>';
-					}
-					if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-						$prd_html .= '<td class="value epofw_td_value epofw_' . $check_field_title_position . '">';
-						$prd_html .= cp_render_fields_front( $check_field_input, $check_field_inp_type );
-						$prd_html .= '</td>';
-					}
-					$prd_html .= '</tr>';
-				}
-			}
-			$prd_html .= '</tbody>';
-			$prd_html .= '</table>';
-			return $prd_html;
-		}
-
-		/**
-		 *
-		 */
-		public function epofw_get_addon_detail_html( $product_name, $product_price ) {
-			$prd_html = '';
-			$prd_html .= '<table id="addon_total" style="display: none;">';
-			$prd_html .= '<tbody>';
-			$prd_html .= '<tr id="addon_details">';
-			$prd_html .= '<td colspan="2">';
-			$prd_html .= '<strong>' . esc_html__( 'Addon Details', 'extra-product-options-for-woocommerce' ) . '</strong>';
-			$prd_html .= '</td>';
-			$prd_html .= '</tr>';
-			$prd_html .= '<tr id="addon_prd_details">';
-			$prd_html .= '<td>';
-			$prd_html .= '<strong>' . $product_name . '</strong>';
-			$prd_html .= '</td>';
-			$prd_html .= '<td class="addon_price" data-addon-price="' . $product_price . '">';
-			$prd_html .= '<strong>' . wc_price( $product_price ) . '</strong>';
-			$prd_html .= '</td>';
-			$prd_html .= '</tr>';
-			$prd_html .= '<tr id="addon_subtotal">';
-			$prd_html .= '<td>';
-			$prd_html .= '<strong>';
-			$prd_html .= esc_html__( 'Subtotal', 'extra-product-options-for-woocommerce' );
-			$prd_html .= '</strong>';
-			$prd_html .= '</td>';
-			$prd_html .= '<td>';
-			$prd_html .= '<strong>';
-			$prd_html .= '</strong>';
-			$prd_html .= '</td>';
-			$prd_html .= '</tr>';
-			$prd_html .= '</tbody>';
-			$prd_html .= '</table>';
-			return $prd_html;
 		}
 
 		/**
 		 * Add fields before add to cart button.
 		 *
-		 * @since    1.0.0
+		 * @since 1.0.0
 		 */
 		public function epofw_before_add_to_cart_button() {
 			global $post;
 			$main_fields_data_arr = $this->epofw_get_fields_data( $post->ID );
-			$product_data         = wc_get_product( $post->ID );
-			$product_name         = $product_data->get_name();
-			$product_price        = $product_data->get_price();
 			if ( ! empty( $main_fields_data_arr ) ) {
+
+				wp_nonce_field( 'epofw_add_to_cart_' . $post->ID, 'epofw_add_to_cart_nonce' );
+
 				foreach ( $main_fields_data_arr as $fields_data_arr ) {
-					$addon_position  = epofw_check_array_key_exists( 'addon_position', $fields_data_arr );
-					$fields_data_arr = epofw_check_array_key_exists( 'general', $fields_data_arr );
+					$addon_position = epofw_check_array_key_exists( 'epofw_addon_position', $fields_data_arr );
 					if ( 'before_add_to_cart' === $addon_position ) {
 						if ( ! empty( $fields_data_arr ) ) {
-							echo $this->epofw_get_html_field( $fields_data_arr, $product_name, $product_price ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+							$this->epofw_front_html( $fields_data_arr, 'epofw_single' );
 						}
 					}
 				}
-				//echo $this->epofw_get_addon_detail_html( $product_name, $product_price );
 			}
 		}
 
 		/**
+		 * FUnction will return front html.
+		 *
+		 * @param array  $fields_data_arr Array of field data.
+		 * @param string $epofw_action    Epofw action.
+		 */
+		public function epofw_front_html( $fields_data_arr, $epofw_action ) {
+			$file_name = 'epofw-addon-table-html.php';
+			wc_get_template(
+				$file_name,
+				array(
+					'fields_data_arr' => $fields_data_arr,
+					'epofw_action'    => $epofw_action,
+				),
+				epofw_get_template_path(),
+				epofw_get_default_path()
+			);
+		}
+
+		/**
+		 * Function will return front html.
+		 *
+		 * @param string $epofw_action Action of current page.
+		 */
+		public function epofw_addon_html( $epofw_action ) {
+			wc_get_template(
+				'epofw-addon-details.php',
+				array(
+					'epofw_action' => $epofw_action,
+				),
+				epofw_get_template_path(),
+				epofw_get_default_path()
+			);
+		}
+
+		/**
 		 * Add field after add to cart button.
+		 *
+		 * @since 1.0.0
 		 */
 		public function epofw_after_add_to_cart_button() {
 			global $post;
 			$main_fields_data_arr = $this->epofw_get_fields_data( $post->ID );
-			$product_data         = wc_get_product( $post->ID );
-			$product_name         = $product_data->get_name();
-			$product_price        = $product_data->get_price();
 			if ( ! empty( $main_fields_data_arr ) ) {
 				foreach ( $main_fields_data_arr as $fields_data_arr ) {
-					$addon_position  = epofw_check_array_key_exists( 'addon_position', $fields_data_arr );
-					$fields_data_arr = epofw_check_array_key_exists( 'general', $fields_data_arr );
+					$addon_position = epofw_check_array_key_exists( 'epofw_addon_position', $fields_data_arr );
 					if ( 'after_add_to_cart' === $addon_position ) {
 						if ( ! empty( $fields_data_arr ) ) {
-							echo $this->epofw_get_html_field( $fields_data_arr, $product_name, $product_price ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+							$this->epofw_front_html( $fields_data_arr, 'epofw_single' );
 						}
 					}
+					$this->epofw_addon_html( 'epofw_single' );
 				}
-				echo $this->epofw_get_addon_detail_html( $product_name, $product_price );
 			}
 		}
 
@@ -509,64 +515,120 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		}
 
 		/**
-		 * Add to cart validation for field data
-		 *
-		 * @return boolean TRUE|False if $fields_data_arr will empty otherwise return array $passed.
+		 * Add to cart validation for field data.
 		 *
 		 * @since    1.0.0
+		 *
+		 * @param string $passed     Passed array.
+		 * @param int    $product_id Product id.
+		 *
+		 * @throws Exception Get Error.
+		 * @return string|boolean
 		 */
 		public function epofw_add_to_cart_validation( $passed, $product_id ) {
-			if ( ! isset( $_POST ) && empty( $product_id ) ) {
+			if ( ! isset( $_POST ) && empty( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				return false;
 			}
-			$fields_data_arr = $this->epofw_get_fields_data( $product_id );
-			$fields_data_arr = epofw_check_array_key_exists( 'general', $fields_data_arr );
-			if ( ! empty( $fields_data_arr ) ) {
-				foreach ( $fields_data_arr as $fields_data ) {
-					$check_field_label     = epofw_check_array_key_exists( 'label', $fields_data );
-					$check_field_input     = epofw_check_array_key_exists( 'field', $fields_data );
-					$check_field_lbl_title = '';
-					if ( $check_field_label ) {
-						$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
+			$get_post_data      = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$fields_data_arr    = $this->epofw_get_fields_data( $product_id );
+			$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, $get_post_data );
+			$field_err_status   = $this->epofw_check_validation( $get_post_data, $get_field_name_arr );
+			if ( in_array( false, $field_err_status, true ) ) {
+				$passed = false;
+			}
+
+			return $passed;
+		}
+
+		/**
+		 * Check validation.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $get_post_data      Get posted data.
+		 * @param array $get_field_name_arr Get field name array.
+		 *
+		 * @return array $field_err_status Status of uploaded file.
+		 */
+		public function epofw_check_validation( $get_post_data, $get_field_name_arr ) {
+			$field_err_status = array();
+			if ( isset( $get_post_data ) ) {
+				$epofw_post_data = array();
+				if ( ! empty( $get_post_data ) ) {
+					foreach ( $get_post_data as $post_key => $post_value_data ) {
+						if ( strpos( $post_key, 'epofw_field_' ) !== false ) {
+							if ( ! empty( $post_value_data ) ) {
+								$epofw_post_data[ $post_key ] = $post_value_data;
+							}
+						}
 					}
-					if ( $check_field_input ) {
-						$check_field_name        = epofw_check_array_key_exists( 'name', $check_field_input );
-						$check_field_restriction = epofw_check_array_key_exists( 'field_restriction', $check_field_input );
-						if ( isset( $_POST[ $check_field_name ] ) ) {
-							if ( $check_field_restriction ) {
-								if ( 'only_number' === $check_field_restriction ) {
-									if ( 1 !== preg_match( '/^[0-9]*$/', trim( sanitize_text_field( $_POST[ $check_field_name ] ) ) ) ) {
-										wc_add_notice( sprintf( __( 'Only numbers are allowed for " % s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title ), 'error' );
-
-										return false;
+				}
+				if ( ! empty( $epofw_post_data ) ) {
+					foreach ( $epofw_post_data as $post_data_key => $value ) {
+						if ( ! empty( $value ) ) {
+							if ( ! empty( $get_field_name_arr ) ) {
+								if ( array_key_exists( $post_data_key, $get_field_name_arr ) ) {
+									$check_field_label     = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_data_key ] );
+									$check_field_input     = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_data_key ] );
+									$check_field_lbl_title = '';
+									if ( $check_field_label ) {
+										$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
 									}
-								}
-								if ( 'all_number' === $check_field_restriction ) {
-									if ( 1 !== preg_match( '/^[0-9]+(\\.[0-9]+)]*$/', trim( sanitize_text_field( $_POST[ $check_field_name ] ) ) ) ) {
-										wc_add_notice( sprintf( __( 'Decimal numbers are allowed for " % s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title ), 'error' );
-
-										return false;
-									}
-								}
-								if ( 'only_text' === $check_field_restriction ) {
-									if ( 1 !== preg_match( '/^[a-zA-Z ]*$/i', trim( sanitize_text_field( $_POST[ $check_field_name ] ) ) ) ) {
-										wc_add_notice( sprintf( __( 'Only texts are allowed for " % s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title ), 'error' );
-
-										return false;
-									}
-								}
-								if ( 'text_number' === $check_field_restriction ) {
-									if ( 1 !== preg_match( '/^[a-zA-Z0-9 ]*$/i', trim( sanitize_text_field( $_POST[ $check_field_name ] ) ) ) ) {
-										wc_add_notice( sprintf( __( 'Only text and numbers are allowed for " % s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title ), 'error' );
-
-										return false;
-									}
-								}
-								if ( 'email' === $check_field_restriction ) {
-									if ( ! filter_var( trim( sanitize_text_field( $_POST[ $check_field_name ] ) ), FILTER_VALIDATE_EMAIL ) ) {
-										wc_add_notice( sprintf( __( 'Invalid email format for " % s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title ), 'error' );
-
-										return false;
+									if ( $check_field_input ) {
+										$check_field_name = epofw_check_array_key_exists( 'name', $check_field_input );
+										$check_field_type = epofw_check_array_key_exists( 'type', $check_field_input );
+										if ( isset( $get_post_data[ $check_field_name ] ) || isset( $get_post_data[ $check_field_name ]['value'] ) ) {
+											if ( isset( $get_post_data[ $check_field_name ]['value'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+												$post_check_field_name = trim( sanitize_text_field( wp_unslash( $get_post_data[ $check_field_name ]['value'] ) ) );
+											} else {
+												$post_check_field_name = trim( sanitize_text_field( wp_unslash( $get_post_data[ $check_field_name ] ) ) );
+											}
+											if ( 'text' === $check_field_type ) {
+												$check_field_restriction = isset( $get_field_name_arr[ $post_data_key ]['epofw_field_settings']['field_restriction'] ) ? $get_field_name_arr[ $post_data_key ]['epofw_field_settings']['field_restriction'] : '';
+												if ( $check_field_restriction ) {
+													if ( 'only_number' === $check_field_restriction ) {
+														if ( 1 !== preg_match( '/^[0-9]*$/', $post_check_field_name ) ) {
+															/* translators: 1: Field label */
+															$error_message = sprintf( __( 'Only numbers are allowed for "%1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+															$this->epofw_add_to_cart_error_msg( 'only_number', $error_message );
+															$field_err_status[] = false;
+														}
+													}
+													if ( 'all_number' === $check_field_restriction ) {
+														if ( 1 !== preg_match( '/^[0-9]+(\\.[0-9]+)]*$/', $post_check_field_name ) ) {
+															/* translators: 1: Field label */
+															$error_message = sprintf( __( 'Decimal numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+															$this->epofw_add_to_cart_error_msg( 'all_number', $error_message );
+															$field_err_status[] = false;
+														}
+													}
+													if ( 'only_text' === $check_field_restriction ) {
+														if ( 1 !== preg_match( '/^[a-zA-Z]*$/i', $post_check_field_name ) ) {
+															/* translators: 1: Field label */
+															$error_message = sprintf( __( 'Only texts are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+															$this->epofw_add_to_cart_error_msg( 'only_text', $error_message );
+															$field_err_status[] = false;
+														}
+													}
+													if ( 'text_number' === $check_field_restriction ) {
+														if ( 1 !== preg_match( '/^[a-zA-Z0-9]*$/i', $post_check_field_name ) ) {
+															/* translators: 1: Field label */
+															$error_message = sprintf( __( 'Only text and numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+															$this->epofw_add_to_cart_error_msg( 'text_number', $error_message );
+															$field_err_status[] = false;
+														}
+													}
+													if ( 'email' === $check_field_restriction ) {
+														if ( ! filter_var( $post_check_field_name, FILTER_VALIDATE_EMAIL ) ) {
+															/* translators: 1: Field label */
+															$error_message = sprintf( __( 'Invalid email format for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+															$this->epofw_add_to_cart_error_msg( 'email', $error_message );
+															$field_err_status[] = false;
+														}
+													}
+												}
+											}
+										}
 									}
 								}
 							}
@@ -575,82 +637,135 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				}
 			}
 
-			return $passed;
+			return $field_err_status;
 		}
 
 		/**
 		 * Add cart item data.
 		 *
-		 * @param int   $product_id Product ID.
+		 * @since 1.0.0
 		 *
 		 * @param array $cart_item  Array of cart item.
+		 * @param int   $product_id Product ID.
 		 *
-		 * @return  array $cart_item Array of cart item.
-		 *
-		 * @throws Exception
-		 * @since    1.0.0
+		 * @throws Exception Get Error.
+		 * @return array|false $cart_item Array of cart item.
 		 */
 		public function epofw_add_cart_item_data( $cart_item, $product_id ) {
-			if ( isset( $_POST ) && ! empty( $product_id ) ) {
-				$post_data = $_POST;
-			} else {
+			if ( empty( $_POST ) ) {
 				return false;
 			}
-			$fields_data_arr    = $this->epofw_get_fields_data( $product_id );
-			$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr );
-			$get_exftpoc        = $this->exclude_field_type_on_cart_page();
-			if ( ! empty( $fields_data_arr ) ) {
-				$passed_cart_data = array();
-				if ( isset( $post_data ) ) {
+
+			$epofw_nonce = filter_input( INPUT_POST, 'epofw_add_to_cart_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			if ( empty( $epofw_nonce ) || ! wp_verify_nonce( $epofw_nonce, 'epofw_add_to_cart_' . $product_id ) ) {
+				throw new Exception( esc_html__( 'Invalid request - security check failed', 'extra-product-options-for-woocommerce' ) );
+			}
+
+			$get_post_data = $_POST;
+
+			$post_data     = array();
+			if ( isset( $get_post_data ) && ! empty( $product_id ) ) {
+				foreach ( $get_post_data as $post_key => $post_value_data ) {
+					if ( strpos( $post_key, 'epofw_field_' ) !== false ) {
+						if ( strpos( $post_key, 'hidden_epofw_field_' ) !== false ) {
+							$post_key = str_replace( 'hidden_', '', $post_key );
+						}
+						$get_product_id = filter_input( INPUT_POST, 'product_id', FILTER_VALIDATE_INT );
+						$get_product_id = isset( $get_product_id ) ? sanitize_text_field( wp_unslash( $get_product_id ) ) : '';
+						if ( ! empty( $get_product_id ) ) {
+							$search_key = 'epofw_shop_' . esc_attr( $get_product_id ) . '_';
+							$post_key   = str_replace( $search_key, '', $post_key );
+						}
+						$post_data[ $post_key ] = $post_value_data;
+					} else {
+						$post_data[ $post_key ] = $post_value_data;
+					}
+				}
+			}
+
+			// Here pass main product id.
+			$fields_data_arr = $this->epofw_get_fields_data( $product_id );
+			if ( isset( $post_data['variation_id'] ) ) {
+				$product_id = $post_data['variation_id'];
+			}
+			$get_exftpoc      = $this->exclude_field_type_on_cart_page();
+			$passed_cart_data = array();
+			if ( isset( $post_data ) ) {
+				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, $post_data );
+				if ( ! empty( $get_field_name_arr ) ) {
 					$epofw_post_data = array();
 					foreach ( $post_data as $post_key => $post_value_data ) {
 						if ( strpos( $post_key, 'epofw_field_' ) !== false ) {
+							if ( strpos( $post_key, 'hidden_epofw_field_' ) !== false ) {
+								$post_key = str_replace( 'hidden_', '', $post_key );
+							}
 							$epofw_post_data[ $post_key ] = $post_value_data;
 						}
+						$quantity = $post_data['quantity'];
 					}
-					foreach ( $epofw_post_data as $post_key => $post_value_data ) {
-						if ( ! empty( $post_value_data ) ) {
-							$check_field_label = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_key ] );
-							$check_field_input = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_key ] );
-							if ( $check_field_label ) {
-								$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
-							}
-							$check_field_name = '';
-							if ( $check_field_input ) {
-								$check_field_inp_type = epofw_check_array_key_exists( 'type', $check_field_input );
-								$check_field_name     = epofw_check_array_key_exists( 'name', $check_field_input );
-							}
-							if ( in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-								unset( $get_field_name_arr[ $post_key ] );
-							} else {
-								if ( isset( $_POST[ $check_field_name ] ) ) {
-									if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-										$passed_cart_data['epofw_label'] = $check_field_lbl_title;
+					if ( ! empty( $epofw_post_data ) ) {
+						foreach ( $epofw_post_data as $post_key => $post_value_data ) {
+							if ( ! empty( $post_value_data ) ) {
+								if ( array_key_exists( $post_key, $get_field_name_arr ) ) {
+									$check_field_label = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_key ] );
+									$check_field_input = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_key ] );
+									if ( $check_field_label ) {
+										$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
 									}
-									if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-										$passed_cart_data['epofw_type'] = $check_field_inp_type;
-										$passed_cart_data['epofw_name'] = $check_field_name;
-										if ( is_array( $_POST[ $check_field_name ] ) ) {
-											$post_check_field_name           = array_map( 'sanitize_text_field', wp_unslash( $_POST[ $check_field_name ] ) );
-											$passed_cart_data['epofw_value'] = implode( ',', $post_check_field_name );
-										} else {
-											$post_check_field_name           = trim( sanitize_text_field( $_POST[ $check_field_name ] ) );
-											$passed_cart_data['epofw_value'] = $post_check_field_name;
+									$check_field_name     = '';
+									$check_field_inp_type = '';
+									if ( $check_field_input ) {
+										$check_field_inp_type = epofw_check_array_key_exists( 'type', $check_field_input );
+										$check_field_name     = epofw_check_array_key_exists( 'name', $check_field_input );
+										if ( strpos( $check_field_name, 'epofw_field_' ) === false ) {
+											$check_field_name = 'epofw_field_' . $check_field_name;
 										}
-										$find_price_based_on_name = $this->epofw_find_price_based_on_name( $check_field_input, $post_check_field_name );
-										if ( $find_price_based_on_name ) {
-											$check_addon_price                    = epofw_check_array_key_exists( 'addon_price', $find_price_based_on_name );
-											$check_addon_price_type               = epofw_check_array_key_exists( 'addon_price_type', $find_price_based_on_name );
-											$passed_cart_data['epofw_price']      = $check_addon_price;
-											$passed_cart_data['epofw_price_type'] = $check_addon_price_type;
-										} else {
-											$passed_cart_data['epofw_price']      = 0;
-											$passed_cart_data['epofw_price_type'] = 'fixed';
-										}
-										$passed_cart_data['epofw_form_data'] = $get_field_name_arr[ $post_key ];
 									}
-									if ( ! empty( $passed_cart_data ) ) {
-										$cart_item['epofw_data'][ $check_field_name ] = $passed_cart_data;
+									if ( in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
+										unset( $get_field_name_arr[ $post_key ] );
+									} elseif ( isset( $post_data[ $check_field_name ] ) ) {
+										if ( is_array( $post_value_data ) ) {
+											$epofw_field_value = isset( $post_value_data['value'] ) ? $post_value_data['value'] : '';
+										} else {
+											$epofw_field_value = $post_data[ $check_field_name ];
+										}
+										if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
+											$passed_cart_data['epofw_label'] = $check_field_lbl_title;
+										}
+										if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
+											$passed_cart_data['product_id'] = $product_id;
+											$passed_cart_data['epofw_type'] = $check_field_inp_type;
+											$passed_cart_data['epofw_name'] = $check_field_name;
+											if ( is_array( $epofw_field_value ) ) {   // phpcs:ignore WordPress.Security.NonceVerification.Missing
+												$post_check_field_name           = array_map( 'sanitize_text_field', wp_unslash( wp_strip_all_tags( $epofw_field_value ) ) );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 // phpcs:ignore WordPress.Security.NonceVerification.Missing
+												$passed_cart_data['epofw_value'] = implode( ',', $post_check_field_name );
+											} else {
+												$post_check_field_name           = trim( sanitize_text_field( wp_unslash( esc_html( wp_strip_all_tags( $epofw_field_value ) ) ) ) );
+												$passed_cart_data['epofw_value'] = $post_check_field_name;
+											}
+											$epofw_validate_option = $this->epofw_validate_options_exists( $post_check_field_name, $get_field_name_arr[ $post_key ] );
+											if ( ! $epofw_validate_option ) {
+												$message = apply_filters( 'epfow_addon_invalid_option', __( 'Option is invalid', 'extra-product-options-for-woocommerce' ), $product_id );
+												throw new Exception( esc_html( $message ) );
+											}
+											$find_price_based_on_name = $this->epofw_find_price_based_on_name( $product_id, $post_check_field_name, $quantity, $get_field_name_arr[ $post_key ] );
+											if ( $find_price_based_on_name ) {
+												$check_addon_price                        = epofw_check_array_key_exists( 'addon_price', $find_price_based_on_name );
+												$check_addon_price_type                   = epofw_check_array_key_exists( 'addon_price_type', $find_price_based_on_name );
+												$passed_cart_data['epofw_price']          = $check_addon_price;
+												$check_addon_original_price               = epofw_check_array_key_exists( 'addon_original_price', $find_price_based_on_name );
+												$passed_cart_data['epofw_original_price'] = $check_addon_original_price;
+												$passed_cart_data['epofw_price_type']     = $check_addon_price_type;
+											} else {
+												$passed_cart_data['epofw_price']          = 0;
+												$passed_cart_data['epofw_original_price'] = 0;
+												$passed_cart_data['epofw_price_type']     = 'fixed';
+											}
+											$passed_cart_data['epofw_form_data'] = $get_field_name_arr[ $post_key ];
+										}
+										if ( ! empty( $passed_cart_data ) ) {
+											$cart_item['epofw_data'][ $check_field_name ] = $passed_cart_data;
+										}
 									}
 								}
 							}
@@ -663,67 +778,160 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		}
 
 		/**
+		 * Get per character price.
+		 *
+		 * @param array $egppc_args  Array of data.
+		 * @param array $fields_data Array of fields data.
+		 *
+		 * @return int|float $check_addon_price
+		 */
+		public function epofw_get_dynamic_price( $egppc_args, $fields_data ) {
+			$post_check_field_name = isset( $egppc_args['post_check_field_name'] ) ? $egppc_args['post_check_field_name'] : '';
+			$check_addon_price     = isset( $egppc_args['opt_price'] ) ? $egppc_args['opt_price'] : '';
+			$gpcp                  = 0;
+			if ( ! empty( $post_check_field_name ) ) {
+				$gpcp = $check_addon_price;
+			}
+			$egppc_args['opt_price'] = $gpcp;
+			$gpcp                    = epofw_format_price_with_decimals( $gpcp, $egppc_args, $fields_data );
+
+			return $gpcp;
+		}
+
+		/**
+		 * Function to validate option exists.
+		 *
+		 * @since    3.0.5
+		 *
+		 * @param mixed $post_check_field_name Post check field name.
+		 * @param array $fields_data           Get fields data.
+		 *
+		 * @return bool $is_valid Is valid.
+		 */
+		public function epofw_validate_options_exists( $post_check_field_name, $fields_data ) {
+			$check_field_options  = isset( $fields_data['epofw_field_settings']['options'] ) ? $fields_data['epofw_field_settings']['options'] : array();
+			$check_field_inp_type = isset( $fields_data['field']['type'] ) ? $fields_data['field']['type'] : '';
+			$is_valid             = true;
+			if (
+				'select' === $check_field_inp_type ||
+				'radiogroup' === $check_field_inp_type ||
+				'checkbox' === $check_field_inp_type ||
+				'checkboxgroup' === $check_field_inp_type
+			) {
+				if ( $check_field_options ) {
+					if ( ! empty( $post_check_field_name ) && is_array( $post_check_field_name ) ) {
+						foreach ( $post_check_field_name as $post_check_field_val ) {
+							$check_field_options_val_arr = epofw_check_array_key_exists( $post_check_field_val, $check_field_options );
+							if ( ! $check_field_options_val_arr ) {
+								$is_valid = false;
+							}
+						}
+					} else {
+						$check_field_options_val = epofw_check_array_key_exists( $post_check_field_name, $check_field_options );
+						if ( ! $check_field_options_val ) {
+							$is_valid = false;
+						}
+					}
+				}
+			}
+
+			return $is_valid;
+		}
+
+		/**
 		 * Find price based on field name.
 		 *
-		 * @param array  $check_field_input     Array of field array data.
-		 *
-		 * @param string $check_field_name      Check field name.
-		 *
-		 * @param mixed  $post_check_field_name Post check field name.
-		 *
-		 * @return int|float $total_addon_price Addon price.
-		 *
 		 * @since    1.0.0
+		 *
+		 * @param int   $product_id            Product Id.
+		 * @param mixed $post_check_field_name Post check field name.
+		 * @param int   $quantity              Product quantity.
+		 * @param array $fields_data           Get fields data.
+		 *
+		 * @return array $chk_price_and_type Addon price and type.
 		 */
-		public function epofw_find_price_based_on_name( $check_field_input, $post_check_field_name ) {
-			$check_field_options = epofw_check_array_key_exists( 'options', $check_field_input );
-			$chk_price_and_type  = array();
+		public function epofw_find_price_based_on_name( $product_id, $post_check_field_name, $quantity, $fields_data ) {
+			$product_data               = wc_get_product( $product_id );
+			$product_price              = epofw_display_product_price( $product_data, 'shop' );
+			$check_epofw_field_settings = isset( $fields_data['epofw_field_settings'] ) ? $fields_data['epofw_field_settings'] : array();
+			$check_field_options        = isset( $fields_data['epofw_field_settings']['options'] ) ? $fields_data['epofw_field_settings']['options'] : array();
+			$check_field_inp_type       = isset( $fields_data['field']['type'] ) ? $fields_data['field']['type'] : '';
+			$check_apodp_lop            = 'datepicker' === $check_field_inp_type && isset( $fields_data['apodp_logical_operation'] ) ? $fields_data['apodp_logical_operation'] : array();
+			$egppc_args                 = array(
+				'product_data'          => $product_data,
+				'post_check_field_name' => $post_check_field_name,
+				'product_price'         => $product_price,
+				'qty'                   => $quantity,
+			);
+			$chk_price_and_type         = array();
 			if ( $check_field_options ) {
-				$total_addon_price = 0;
-				if ( is_array( $post_check_field_name ) ) {
+				$total_addon_price          = 0;
+				$total_addon_original_price = 0;
+				if ( ! empty( $post_check_field_name ) && is_array( $post_check_field_name ) ) {
 					foreach ( $post_check_field_name as $post_check_field_val ) {
 						$check_field_options_val_arr = epofw_check_array_key_exists( $post_check_field_val, $check_field_options );
 						if ( $check_field_options_val_arr ) {
-							if ( strpos( $check_field_options_val_arr, '||' ) !== false ) {
-								$v_value_ex     = explode( '||', $check_field_options_val_arr );
-								$opt_price_type = $v_value_ex[0];
-								$opt_price      = $v_value_ex[1];
-							} else {
-								$opt_price_type = 'fixed';
-								$opt_price      = '';
-							}
-							$total_addon_price                      += (float) $opt_price;
-							$chk_price_and_type['addon_price']      = $total_addon_price;
-							$chk_price_and_type['addon_price_type'] = $opt_price_type;
+							$opt_grp_data                      = epofw_explore_label_from_opt_group( $check_field_options_val_arr );
+							$opt_price_type                    = $opt_grp_data['opt_price_type'];
+							$get_opt_price                     = $opt_grp_data['opt_price'];
+							$egppc_args['opt_price']           = $get_opt_price;
+							$egppc_args['opt_price_type']      = $opt_price_type;
+							$opt_price                         = $this->epofw_get_dynamic_price( $egppc_args, $fields_data );
+							$total_addon_price                += (float) $opt_price;
+							$chk_price_and_type['addon_price'] = $total_addon_price;
+							// Change $get_opt_price to $opt_price because its creating issue once we add price with custom formula - {ppv}*4.
+							$total_addon_original_price                += (float) $opt_price;
+							$chk_price_and_type['addon_original_price'] = $total_addon_original_price;
+							$chk_price_and_type['addon_price_type']     = $opt_price_type;
 						}
 					}
 				} else {
 					$check_field_options_val = epofw_check_array_key_exists( $post_check_field_name, $check_field_options );
 					if ( $check_field_options_val ) {
-						if ( strpos( $check_field_options_val, '||' ) !== false ) {
-							$v_value_ex     = explode( '||', $check_field_options_val );
-							$opt_price_type = $v_value_ex[0];
-							$opt_price      = $v_value_ex[1];
-						} else {
-							$opt_price_type = 'fixed';
-							$opt_price      = '';
-						}
-						$total_addon_price                      += $opt_price;
-						$chk_price_and_type['addon_price']      = $total_addon_price;
-						$chk_price_and_type['addon_price_type'] = $opt_price_type;
+						$opt_grp_data                      = epofw_explore_label_from_opt_group( $check_field_options_val );
+						$opt_price_type                    = $opt_grp_data['opt_price_type'];
+						$get_opt_price                     = $opt_grp_data['opt_price'];
+						$egppc_args['opt_price']           = $get_opt_price;
+						$egppc_args['opt_price_type']      = $opt_price_type;
+						$opt_price                         = $this->epofw_get_dynamic_price( $egppc_args, $fields_data );
+						$total_addon_price                += (float) $opt_price;
+						$chk_price_and_type['addon_price'] = $total_addon_price;
+						// Change $get_opt_price to $opt_price because its creating issue once we add price with custom formula - {ppv}*4.
+						$total_addon_original_price                += (float) $opt_price;
+						$chk_price_and_type['addon_original_price'] = $total_addon_original_price;
+						$chk_price_and_type['addon_price_type']     = $opt_price_type;
 					}
 				}
 			} else {
-				$check_field_enable_price = epofw_check_array_key_exists( 'enable_price_extra', $check_field_input );
-				$total_addon_price        = 0;
+				$check_field_enable_price   = epofw_check_array_key_exists( 'enable_price_extra', $check_epofw_field_settings );
+				$total_addon_inp_price      = 0;
+				$total_addon_original_price = 0;
 				if ( $check_field_enable_price ) {
-					$check_field_addon_price_type           = epofw_check_array_key_exists( 'addon_price_type', $check_field_input );
-					$check_field_addon_price                = epofw_check_array_key_exists( 'addon_price', $check_field_input );
-					$opt_price_type                         = $check_field_addon_price_type;
-					$opt_price                              = $check_field_addon_price;
-					$total_addon_price                      += $opt_price;
-					$chk_price_and_type['addon_price']      = $total_addon_price;
-					$chk_price_and_type['addon_price_type'] = $opt_price_type;
+					$date_addon_extra_price = 0;
+					if ( ! empty( $check_apodp_lop ) && is_array( $check_apodp_lop ) ) {
+						$post_check_field_name_date = strtotime( $post_check_field_name );
+						foreach ( $check_apodp_lop as $check_apodp_lop_data ) {
+							$epofw_cnd_start_date = strtotime( $check_apodp_lop_data['epofw_cnd_start_date'] );
+							$epofw_cnd_end_date   = strtotime( $check_apodp_lop_data['epofw_cnd_end_date'] );
+							if ( $post_check_field_name_date >= $epofw_cnd_start_date && $post_check_field_name_date <= $epofw_cnd_end_date ) {
+								$date_addon_extra_price = $check_apodp_lop_data['epofw_cnd_price'];
+							}
+						}
+					}
+					$check_field_addon_price_type = epofw_check_array_key_exists( 'addon_price_type', $check_epofw_field_settings );
+					$check_field_addon_price      = epofw_check_array_key_exists( 'addon_price', $check_epofw_field_settings );
+					$opt_price_type               = $check_field_addon_price_type;
+					$get_opt_price                = $check_field_addon_price;
+					$egppc_args['opt_price']      = $get_opt_price;
+					$egppc_args['opt_price_type'] = $opt_price_type;
+					$opt_price                    = $this->epofw_get_dynamic_price( $egppc_args, $fields_data );
+					$total_addon_inp_price       += (float) $opt_price;
+					// Change $get_opt_price to $opt_price because its creating issue once we add price with custom formula - {ppv}*4.
+					$total_addon_inp_price                     += (float) $date_addon_extra_price;
+					$total_addon_original_price                += (float) $total_addon_inp_price;
+					$chk_price_and_type['addon_original_price'] = $total_addon_original_price;
+					$chk_price_and_type['addon_price']          = $total_addon_inp_price;
+					$chk_price_and_type['addon_price_type']     = $opt_price_type;
 				}
 			}
 
@@ -731,54 +939,14 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		}
 
 		/**
-		 * Calculate price for cart section
-		 *
-		 * @param object $cart_obj Object of cart data.
-		 *
-		 * @since    1.0.0
-		 */
-		public function epofw_before_calculate_totals( $cart_obj ) {
-			if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-				return;
-			}
-			foreach ( $cart_obj->get_cart() as $value ) {
-				if ( isset( $value['epofw_data'] ) ) {
-					if ( isset( $value['product_id'] ) ) {
-						$product = wc_get_product( $value['product_id'] );
-						if ( $product ) {
-							$product_price = $product->get_price();
-							if ( 'variable' === $product->get_type() ) {
-								$variation_data = wc_get_product( $value['variation_id'] );
-								if ( $variation_data ) {
-									$product_price = $variation_data->get_price();
-								}
-							}
-						}
-					} else {
-						$product_price = 0;
-					}
-					$total_price = $product_price;
-					foreach ( $value['epofw_data'] as $epofw_data_value ) {
-						$epofw_price_type = $epofw_data_value['epofw_price_type'];
-						$addon_price      = $epofw_data_value['epofw_price'];
-						$addon_price_cal  = epofw_calculate_price_based_on_condition( $epofw_price_type, $addon_price );
-						$total_price      += $addon_price_cal;
-					}
-					$value['data']->set_price( ( $total_price ) );
-				}
-			}
-		}
-
-		/**
 		 * Get cart item data.
 		 *
-		 * @param array $cart_data Array of cart data.
+		 * @since    1.0.0
 		 *
+		 * @param array $cart_data Array of cart data.
 		 * @param array $cart_item Array of cart item.
 		 *
 		 * @return  array $meta_items Array of cart item.
-		 *
-		 * @since    1.0.0
 		 */
 		public function epofw_get_item_data( $cart_data, $cart_item = null ) {
 			$meta_items = array();
@@ -787,21 +955,21 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			}
 			if ( isset( $cart_item ) ) {
 				$check_epofw_data = epofw_check_array_key_exists( 'epofw_data', $cart_item );
-				if ( $check_epofw_data ) {
-					foreach ( $check_epofw_data as $epofw_data_value ) {
-						$epofw_price      = epofw_check_array_key_exists( 'epofw_price', $epofw_data_value );
-						$epofw_price_type = epofw_check_array_key_exists( 'epofw_price_type', $epofw_data_value );
-						$epofw_label      = epofw_check_array_key_exists( 'epofw_label', $epofw_data_value );
-						if ( $epofw_price && 0 !== $epofw_price ) {
-							$addon_price_cal = epofw_calculate_price_based_on_condition( $epofw_price_type, $epofw_price );
-							$epofw_name      = $epofw_label . ' (' . wc_price( $addon_price_cal ) . ')';
-						} else {
-							$epofw_name = $epofw_label;
+				if ( ! empty( $check_epofw_data ) && is_array( $check_epofw_data ) ) {
+					$custom_meta_data = array();
+					foreach ( $check_epofw_data as $key => $epofw_data_value ) {
+						$get_epofw_value = epofw_check_array_key_exists( 'epofw_value', $epofw_data_value );
+						if ( ! empty( $get_epofw_value ) && isset( $epofw_data_value['epofw_form_data'] ) ) {
+							$epofw_label                       = epofw_check_array_key_exists( 'epofw_label', $epofw_data_value );
+							$custom_meta_data[ $key ]['key']   = $epofw_label;
+							$custom_meta_data[ $key ]['name']  = $this->epofw_display_name_in_cart( $epofw_data_value, '', '' );
+							$custom_meta_data[ $key ]['value'] = $this->epofw_display_value_in_cart( $epofw_data_value );
 						}
-						$meta_items[] = array(
-							'name'  => $epofw_name,
-							'value' => epofw_check_array_key_exists( 'epofw_value', $epofw_data_value ),
-						);
+					}
+					if ( ! empty( $custom_meta_data ) ) {
+						foreach ( $custom_meta_data as $data ) {
+							$meta_items[] = $data;
+						}
 					}
 				}
 			}
@@ -810,92 +978,259 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		}
 
 		/**
+		 * Display field name in cart section.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $epofw_data_value   Array of field data.
+		 * @param bool  $check_epofw_haoic  Hide addon order in cart page.
+		 * @param bool  $check_epofw_haopic Hide addon order price in cart page.
+		 *
+		 * @return string $epofw_name Return string.
+		 */
+		public function epofw_display_name_in_cart( $epofw_data_value, $check_epofw_haoic, $check_epofw_haopic ) {
+			$epofw_price = epofw_check_array_key_exists( 'epofw_price', $epofw_data_value );
+			$epofw_label = epofw_check_array_key_exists( 'epofw_label', $epofw_data_value );
+			if ( $epofw_price && 0 != $epofw_price ) {
+				$epofw_name  = $epofw_label;
+				$epofw_name .= ' (' . wc_price( epofw_price_filter( $epofw_price ) ) . ')';
+			} else {
+				$epofw_name = $epofw_label;
+			}
+
+			/**
+			 * Apply filter for display name in cart.
+			 *
+			 * @since 1.0.0
+			 */
+			return apply_filters( 'epofw_display_name_in_cart', $epofw_name, $epofw_data_value, $check_epofw_haoic, $check_epofw_haopic );
+		}
+
+		/**
+		 * Display field value in cart section.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $epofw_data_value Array of field data.
+		 *
+		 * @return mixed $epofw_value Return html or string.
+		 */
+		public function epofw_display_value_in_cart( $epofw_data_value ) {
+			$epofw_type      = epofw_check_array_key_exists( 'epofw_type', $epofw_data_value );
+			$get_epofw_value = epofw_check_array_key_exists( 'epofw_value', $epofw_data_value );
+			if ( 'colorpicker' === $epofw_type ) {
+				$epofw_value = $this->epofw_render_color( $get_epofw_value );
+			} else {
+				$epofw_value = $get_epofw_value;
+			}
+
+			/**
+			 * Apply filter for display value in cart.
+			 *
+			 * @since 1.0.0
+			 */
+			return apply_filters( 'epofw_display_value_in_cart', $epofw_value, $epofw_type, $epofw_data_value );
+		}
+
+		/**
+		 * Function will render color html.
+		 *
+		 * @since 2.4.4
+		 *
+		 * @param string $get_epofw_value Value of car data.
+		 *
+		 * @return html $epofw_value Return html for color data.
+		 */
+		public function epofw_render_color( $get_epofw_value ) {
+			$epofw_value = '';
+			if ( ! empty( $get_epofw_value ) ) {
+				$epofw_value .= '<span style="color:' . esc_attr( $get_epofw_value ) . ';font-size: 20px;padding: 0;line-height: 0">■</span>&nbsp;';
+				$epofw_value .= '</span>';
+				/**
+				 * Apply filter for render color code.
+				 *
+				 * @since 1.0.0
+				 */
+				$epofw_value .= apply_filters( 'epofw_render_color_code', $get_epofw_value );
+			}
+
+			/**
+			 * Apply filter for render color html.
+			 *
+			 * @since 1.0.0
+			 */
+			return apply_filters( 'epofw_render_color_html', $epofw_value, $get_epofw_value );
+		}
+
+		/**
 		 * Add field in order meta.
 		 *
-		 * @param int   $item_id Item id of cart.
-		 *
-		 * @param array $values  Array of cart values.
-		 *
-		 * @throws Exception
-		 *
 		 * @since    1.0.0
+		 *
+		 * @param mixed  $item          Item of cart.
+		 * @param string $cart_item_key key of cart item.
+		 * @param array  $values        Array of cart values.
+		 *
+		 * @throws Exception Get error.
 		 */
-		public function epofw_add_order_item_meta( $item_id, $values ) {
+		public function checkout_create_order_line_item( $item, $cart_item_key, $values ) {
 			$check_epofw_data = epofw_check_array_key_exists( 'epofw_data', $values );
-			if ( $check_epofw_data ) {
+			if ( ! empty( $check_epofw_data ) && is_array( $check_epofw_data ) ) {
 				foreach ( $check_epofw_data as $epofw_data_value ) {
-					$epofw_data_name  = epofw_check_array_key_exists( 'epofw_name', $epofw_data_value );
-					$epofw_data_value = epofw_check_array_key_exists( 'epofw_value', $epofw_data_value );
-					wc_add_order_item_meta( $item_id, $epofw_data_name, $epofw_data_value );
+					$epofw_data_name = epofw_check_array_key_exists( 'epofw_name', $epofw_data_value );
+					$epofw_value     = epofw_check_array_key_exists( 'epofw_value', $epofw_data_value );
+					if ( ! empty( $epofw_value ) ) {
+						$new_check_epofw_data                     = array();
+						$new_check_epofw_data[ $epofw_data_name ] = $epofw_data_value;
+						$item->add_meta_data( $epofw_data_name, wp_json_encode( $new_check_epofw_data ) );
+					}
 				}
+			}
+		}
+
+		/**
+		 * Display meta value in cart section.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $display_value Display value in cart.
+		 * @param object $meta          Object of cart data.
+		 * @param array  $item          Array of cart item data.
+		 *
+		 * @throws Exception Get error.
+		 * @return string Return moxed data.
+		 */
+		public function epofw_display_meta_value( $display_value, $meta = null, $item = null ) {
+			$out_display_value = '';
+			if ( '' !== $item && '' !== $meta ) {
+				$product_id         = $item['product_id'];
+				$get_field_id_arr   = $this->epofw_find_match_id( $product_id );
+				$fields_data_arr    = $this->epofw_get_match_data_from_db( $get_field_id_arr );
+				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, array() );
+				if ( is_array( json_decode( $meta->value, true ) ) ) {
+					$meta_value_data = json_decode( $meta->value, true );
+					if ( ! empty( $meta_value_data ) ) {
+						foreach ( $meta_value_data as $meta_value_details ) {
+							if ( isset( $meta_value_details['epofw_type'] ) && 'colorpicker' === $meta_value_details['epofw_type'] ) {
+								if ( isset( $meta_value_details['epofw_value'] ) && ! empty( $meta_value_details['epofw_value'] ) ) {
+									$out_display_value .= $this->epofw_render_color( $meta_value_details['epofw_value'] );
+								}
+							} else {
+								$out_display_value = isset( $meta_value_details['epofw_value'] ) ? $meta_value_details['epofw_value'] : '';
+							}
+						}
+					}
+				} else {
+					$get_type = isset( $get_field_name_arr[ $meta->key ]['field'] ) && isset( $get_field_name_arr[ $meta->key ]['field']['type'] ) ? $get_field_name_arr[ $meta->key ]['field']['type'] : '';
+					if ( isset( $get_type ) && 'colorpicker' === $get_type ) {
+						if ( isset( $meta->value ) && ! empty( $meta->value ) ) {
+							$out_display_value .= $this->epofw_render_color( $meta->value );
+						}
+					} else {
+						$out_display_value = $display_value;
+					}
+				}
+
+				/**
+				 * Apply filter for order item display meta value.
+				 *
+				 * @since 1.0.0
+				 */
+				return apply_filters( 'epofw_order_item_display_meta_value', $out_display_value, $display_value, $item );
 			}
 		}
 
 		/**
 		 * Add field in order meta.
 		 *
-		 * @param array  $cart_item_data Array of cart items.
-		 *
-		 * @param array  $item           Array of item.
-		 *
-		 * @param object $order          Order detail.
-		 *
-		 * @return array $cart_item_data
-		 *
-		 * @throws Exception
-		 *
 		 * @since    1.0.0
+		 *
+		 * @param array $cart_item_data Array of cart items.
+		 * @param array $item           Array of item.
+		 *
+		 * @throws Exception Get error.
+		 * @return array $cart_item_data
 		 */
-		public function epofw_order_again_cart_item_data( $cart_item_data, $item ) {
+		public function epofw_order_again_cart_item_data_pro( $cart_item_data, $item ) {
 			if ( $item ) {
 				$product_id         = $item->get_product_id();
 				$get_field_id_arr   = $this->epofw_find_match_id( $product_id );
 				$fields_data_arr    = $this->epofw_get_match_data_from_db( $get_field_id_arr );
-				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr );
+				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, array() );
 				$meta_data          = $item->get_meta_data();
-				if ( $meta_data ) {
-					$new_item_data_arr = array();
+				$new_item_data_arr  = array();
+				if ( ! empty( $meta_data ) ) {
 					foreach ( $meta_data as $meta_data_value ) {
-						if ( array_key_exists( $meta_data_value->key, $get_field_name_arr ) ) {
-							$get_display_key              = $this->epofwGetAddonTitle( $get_field_name_arr, $meta_data_value->key, $meta_data_value->value );
-							$data_arr                     = array();
-							$data_arr['epofw_name']       = $meta_data_value->key;
-							$data_arr['epofw_label']      = $get_field_name_arr[ $meta_data_value->key ]['label']['title'];
-							$data_arr['epofw_value']      = $meta_data_value->value;
-							$data_arr['epofw_price']      = $get_display_key['epofw_price'];
-							$data_arr['epofw_price_type'] = 'fixed';
-							$new_item_data_arr[]          = $data_arr;
+						if ( is_array( json_decode( $meta_data_value->value, true ) ) ) {
+							$meta_value_data = json_decode( $meta_data_value->value, true );
+							if ( array_key_exists( $meta_data_value->key, $meta_value_data ) ) {
+								$addon_value                      = $meta_value_data[ $meta_data_value->key ]['epofw_value'];
+								$data_arr                         = array();
+								$data_arr['epofw_name']           = $meta_data_value->key;
+								$data_arr['epofw_label']          = $meta_value_data[ $meta_data_value->key ]['epofw_form_data']['label']['title'];
+								$data_arr['epofw_value']          = $addon_value;
+								$data_arr['epofw_price']          = $meta_value_data[ $meta_data_value->key ]['epofw_price'];
+								$data_arr['epofw_original_price'] = epofw_price_filter( $meta_value_data[ $meta_data_value->key ]['epofw_original_price'] );
+								$data_arr['epofw_price_type']     = 'fixed';
+								$data_arr['epofw_type']           = $meta_value_data[ $meta_data_value->key ]['epofw_form_data']['field']['type'];
+								if ( isset( $meta_value_data[ $meta_data_value->key ]['epofw_form_data']['common'] ) ) {
+									$data_arr['epofw_form_data']['common'] = $meta_value_data[ $meta_data_value->key ]['epofw_form_data']['common'];
+								}
+								if ( isset( $meta_value_data[ $meta_data_value->key ]['epofw_form_data']['epofw_field_settings'] ) ) {
+									$data_arr['epofw_form_data']['epofw_field_settings'] = $meta_value_data[ $meta_data_value->key ]['epofw_form_data']['epofw_field_settings'];
+								}
+								$new_item_data_arr[ $meta_data_value->key ] = $data_arr;
+							}
+						} elseif ( array_key_exists( $meta_data_value->key, $get_field_name_arr ) ) {
+							$get_display_key                       = $this->epofw_get_addon_title_pro( $get_field_name_arr, $meta_data_value->key );
+							$data_arr                              = array();
+							$data_arr['epofw_name']                = $meta_data_value->key;
+							$data_arr['epofw_label']               = $get_field_name_arr[ $meta_data_value->key ]['label']['title'];
+							$data_arr['epofw_value']               = $meta_data_value->value;
+							$data_arr['epofw_price']               = epofw_price_filter( $get_display_key['epofw_price'] );
+							$data_arr['epofw_original_price']      = epofw_price_filter( $get_display_key['epofw_price'] );
+							$data_arr['epofw_price_type']          = 'fixed';
+							$data_arr['epofw_type']                = $get_field_name_arr[ $meta_data_value->key ]['field']['type'];
+							$data_arr['epofw_form_data']['common'] = $get_field_name_arr[ $meta_data_value->key ]['common'];
+
+							$data_arr['epofw_form_data']['epofw_field_settings'] = $get_field_name_arr[ $meta_data_value->key ]['epofw_field_settings'];
+							$new_item_data_arr[ $meta_data_value->key ]          = $data_arr;
 						}
 					}
-					$cart_item_data['epofw_data'] = $new_item_data_arr;
 				}
+				$cart_item_data['epofw_data'] = $new_item_data_arr;
 			}
 
 			return $cart_item_data;
 		}
 
 		/**
-		 * Get field name from data. It will display in order detail at front side.
-		 *
-		 * @param array $fields_data_arr Array of fields data which fetched from DB.
-		 *
-		 * @return array $new_field_array
-		 *
-		 * @throws Exception
+		 * Get field name from data.
 		 *
 		 * @since    1.0.0
+		 *
+		 * @param array $fields_data_arr Array of fields data which fetched from DB.
+		 * @param array $post_data       Array of post data.
+		 *
+		 * @throws Exception Get error.
+		 * @return array $new_field_array
 		 */
-		public function epofw_get_field_name_from_data( $main_fields_data_arr ) {
-			$new_field_array    = array();
-			if ( ! empty( $main_fields_data_arr ) ) {
-				foreach ( $main_fields_data_arr as $fields_data_arr ) {
-					$general_value_data = epofw_check_array_key_exists( 'general', $fields_data_arr );
-					if ( $general_value_data ) {
-						foreach ( $general_value_data as $fields_value_data ) {
+		public function epofw_get_field_name_from_data( $fields_data_arr, $post_data = array() ) {
+			$new_field_array = array();
+			if ( ! empty( $fields_data_arr ) ) {
+				foreach ( $fields_data_arr as $sub_fields_data_arr ) {
+					$fields_value_data_arr = epofw_check_array_key_exists( 'general', $sub_fields_data_arr );
+					if ( ! empty( $fields_value_data_arr ) ) {
+						foreach ( $fields_value_data_arr as $fields_value_data ) {
 							$check_field = epofw_check_array_key_exists( 'field', $fields_value_data );
 							if ( $check_field ) {
 								$check_field_name = epofw_check_array_key_exists( 'name', $check_field );
 								if ( $check_field_name ) {
+									if ( strpos( $check_field_name, 'epofw_field_' ) === false ) {
+										$check_field_name = 'epofw_field_' . $check_field_name;
+									}
+								}
+								if ( ! empty( $post_data ) ) {
 									$new_field_array[ $check_field_name ] = $fields_value_data;
 								}
 							}
@@ -903,38 +1238,74 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 					}
 				}
 			}
-			return $new_field_array;
+			$new1 = array();
+			if ( $new_field_array ) {
+				if ( ! empty( $post_data ) ) {
+					foreach ( $post_data as $post_data_key => $post_data_value ) {
+						if ( isset( $new_field_array[ $post_data_key ] ) ) {
+							if ( isset( $post_data_value['value'] ) && ! empty( $post_data_value['value'] ) ) {
+								$new1[ $post_data_key ] = $new_field_array[ $post_data_key ];
+							}
+						}
+					}
+				}
+			}
+
+			return $new1;
 		}
 
 		/**
-		 * Formatted meta data for order detail page. Like change label title in order detail section.
+		 * Formatted meta data.
+		 *
+		 * @since 1.0.0
 		 *
 		 * @param array $formatted_meta Array of meta data.
-		 *
 		 * @param array $order_item     Array of Order data.
 		 *
+		 * @throws Exception Get error.
 		 * @return array $formatted_meta
-		 *
-		 * @throws Exception
-		 *
-		 * @since    1.0.0
 		 */
-		public function epofw_item_get_formatted_meta_data( $formatted_meta, $order_item ) {
+		public function epofw_item_get_formatted_meta_data_pro( $formatted_meta, $order_item ) {
 			if ( $order_item ) {
 				$product_id         = $order_item['product_id'];
 				$get_field_id_arr   = $this->epofw_find_match_id( $product_id );
 				$fields_data_arr    = $this->epofw_get_match_data_from_db( $get_field_id_arr );
-				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr );
-				if ( $formatted_meta ) {
-					foreach ( $formatted_meta as $key => $meta ) {
-						if ( array_key_exists( $meta->key, $get_field_name_arr ) ) {
-							$get_display_key        = $this->epofwGetAddonTitle( $get_field_name_arr, $meta->key, $meta->value );
+				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, array() );
+				foreach ( $formatted_meta as $key => $meta ) {
+					if ( is_array( json_decode( $meta->value, true ) ) ) {
+						$meta_value_data = json_decode( $meta->value, true );
+						if ( isset( $meta_value_data[ $meta->key ] ) ) {
+							$get_display_key = $this->epofw_get_addon_title_pro( $meta_value_data, $meta->key );
+							/**
+							 * Apply filters for get formatted display value.
+							 *
+							 * @since 1.0.0
+							 */
+							$meta->display_value = apply_filters( 'epofw_item_get_formatted_meta_display_value', $meta->display_value, $meta_value_data[ $meta->key ], $formatted_meta, $order_item, $get_field_name_arr );
+							if ( ! empty( $get_display_key['epofw_label'] ) ) {
+								$formatted_meta[ $key ] = (object) array(
+									'key'           => $meta->key,
+									'value'         => $meta->value,
+									'display_key'   => $get_display_key['epofw_label'],
+									'display_value' => $meta->display_value, // $addon_value. // If we use this $meta->display_value then if we have multiple option then last option display in the all options.
+								);
+							} else {
+								unset( $formatted_meta[ $key ] );
+							}
+						} else {
+							unset( $formatted_meta[ $key ] );
+						}
+					} elseif ( array_key_exists( $meta->key, $get_field_name_arr ) ) {
+						$get_display_key = $this->epofw_get_addon_title_pro( $get_field_name_arr, $meta->key );
+						if ( ! empty( $get_display_key['epofw_label'] ) ) {
 							$formatted_meta[ $key ] = (object) array(
 								'key'           => $meta->key,
 								'value'         => $meta->value,
 								'display_key'   => $get_display_key['epofw_label'],
-								'display_value' => $meta->value,
+								'display_value' => $meta->display_value,
 							);
+						} else {
+							unset( $formatted_meta[ $key ] );
 						}
 					}
 				}
@@ -946,39 +1317,33 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		/**
 		 * Get Addon label name for order detail at front side.
 		 *
-		 * @param array  $get_field_name_arr Array of meta data.
+		 * @since 1.0.0
 		 *
+		 * @param array  $get_field_name_arr Array of meta data.
 		 * @param string $meta_key           Meta key.
 		 *
 		 * @return array $epofw_label and $opt_price Return label and Price for addon.
-		 *
-		 * @since    1.0.0
 		 */
-		public function epofwGetAddonTitle( $get_field_name_arr, $meta_key, $meta_value ) {
+		public function epofw_get_addon_title_pro( $get_field_name_arr, $meta_key ) {
 			if ( ! empty( $meta_key ) ) {
-				$check_field    = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $meta_key ] );
-				$opt_price      = '';
-				$epofw_label    = '';
-				$opt_price_type = 'fixed';
-				if ( $check_field ) {
-					if ( strpos( $meta_value, ',' ) !== false ) {
-						$meta_value_data = explode( ',', $meta_value );
-					} else {
-						$meta_value_data = $meta_value;
-					}
-					$find_price_based_on_name = $this->epofw_find_price_based_on_name( $check_field, $meta_value_data );
-					if ( $find_price_based_on_name ) {
-						$check_addon_price = epofw_check_array_key_exists( 'addon_price', $find_price_based_on_name );
-						$opt_price         = $check_addon_price;
-					} else {
-						$opt_price = 0;
+				$check_epofw_form_data = epofw_check_array_key_exists( 'epofw_form_data', $get_field_name_arr[ $meta_key ] );
+				$check_field_input     = epofw_check_array_key_exists( 'field', $check_epofw_form_data );
+				$opt_price             = '';
+				$opt_price_type        = 'fixed';
+				if ( $check_field_input ) {
+					$check_addon_price = epofw_check_array_key_exists( 'epofw_price', $get_field_name_arr[ $meta_key ] );
+					$opt_price         = 0;
+					if ( $check_addon_price ) {
+						$opt_price = $check_addon_price;
 					}
 				}
-				$check_label = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $meta_key ] );
+				$epofw_label = '';
+				$check_label = epofw_check_array_key_exists( 'label', $check_epofw_form_data );
 				if ( $check_label ) {
 					$check_title = epofw_check_array_key_exists( 'title', $check_label );
 					if ( $check_title ) {
-						$epofw_label = $check_title . ' (' . wc_price( $opt_price ) . ')';
+						$epofw_label  = $check_title;
+						$epofw_label .= ' (' . wc_price( epofw_price_filter( $opt_price ) ) . ')';
 					}
 				}
 
@@ -989,6 +1354,225 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				);
 			}
 		}
+
+		/**
+		 * Error message.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $filter_name   Filter name.
+		 * @param string $error_message Error Message.
+		 */
+		public function epofw_add_to_cart_error_msg( $filter_name, $error_message ) {
+			wc_add_notice(
+			/**
+			 * Apply filter for error message.
+			 *
+			 * @since 1.0.0
+			 */
+				apply_filters(
+					'epofw_' . $filter_name . '_field_error_msg',
+					$error_message
+				),
+				'error'
+			);
+		}
+
+		/**
+		 * Function will check cart item price.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param int|float $product_price  Product price.
+		 * @param array     $cart_item_data Cart item data.
+		 *
+		 * @return string
+		 */
+		public function epofw_woocommerce_cart_item_price( $product_price, $cart_item_data ) {
+			// Set without tax price becaue wc_get_price_to_display function will calucalte tax based on original price.
+			if ( isset( $cart_item_data['epofw_product_price_without_tax'] ) ) {
+				$product_price = wc_price(
+					wc_get_price_to_display(
+						$cart_item_data['data'],
+						array(
+							'price' => $cart_item_data['epofw_product_price_without_tax'],
+						)
+					)
+				);
+			}
+
+			return $product_price;
+		}
+
+		/**
+		 * Function will fires after add cart item data filter.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param array $cart_item_data Cart item meta data.
+		 *
+		 * @return array
+		 */
+		public function epofw_add_cart_item( $cart_item_data ) {
+			$prices = epofw_product_price( $cart_item_data );
+
+			return $this->epofw_set_product_price( $cart_item_data, $cart_item_data['quantity'], $prices );
+		}
+
+		/**
+		 * Function will set product price.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param array $cart_item_data Cart item data.
+		 * @param int   $quantity       Product quantity.
+		 * @param array $prices         Prices array.
+		 *
+		 * @return array
+		 */
+		public function epofw_set_product_price( $cart_item_data, $quantity, $prices ) {
+			if ( ! empty( $cart_item_data['epofw_data'] ) ) {
+				/**
+				 * Apply filter for price without tax.
+				 *
+				 * @since 1.0.0
+				 */
+				$price_without_tax = apply_filters( 'epofw_original_price_without_tax', $prices['price_without_tax'], $cart_item_data );
+				/**
+				 * Apply filter for regular price without tax.
+				 *
+				 * @since 1.0.0
+				 */
+				$regular_price_without_tax = apply_filters( 'epofw_original_regular_price_without_tax', $prices['regular_price_without_tax'], $cart_item_data );
+				/**
+				 * Apply filter for sale price without tax.
+				 *
+				 * @since 1.0.0
+				 */
+				$sale_price_without_tax = apply_filters( 'epofw_original_sale_price_without_tax', $prices['sale_price_without_tax'], $cart_item_data );
+				/**
+				 * Apply filter for price before calculation.
+				 *
+				 * @since 1.0.0
+				 */
+				$price = apply_filters( 'epofw_price_before_calculation', $prices['price'], $cart_item_data );
+				/**
+				 * Apply filter for regular price before calculation.
+				 *
+				 * @since 1.0.0
+				 */
+				$regular_price = apply_filters( 'epofw_regular_price_before_calculation', $prices['regular_price'], $cart_item_data );
+				/**
+				 * Apply filter for sale price before calculation.
+				 *
+				 * @since 1.0.0
+				 */
+				$sale_price = apply_filters( 'epofw_sale_price_before_calculation', $prices['sale_price'], $cart_item_data );
+
+				$cart_item_data['epofw_product_price_without_tax']  = (float) $price_without_tax;
+				$cart_item_data['epofw_regular_price_without_tax']  = (float) $regular_price_without_tax;
+				$cart_item_data['epofw_sale_price_without_tax']     = (float) $sale_price_without_tax;
+				$cart_item_data['addons_price_before_calc']         = (float) $price;
+				$cart_item_data['addons_regular_price_before_calc'] = (float) $regular_price;
+				$cart_item_data['addons_sale_price_before_calc']    = (float) $sale_price;
+				/**
+				 * Apply filter for set product price.
+				 *
+				 * @since 1.0.0
+				 */
+				$price = apply_filters( 'epofw_set_product_price_after', $price, $quantity );
+				/**
+				 * Apply filter for set product regular price.
+				 *
+				 * @since 1.0.0
+				 */
+				$regular_price = apply_filters( 'epofw_set_product_regular_price_after', $regular_price, $quantity );
+				/**
+				 * Apply filter for set product sale price.
+				 *
+				 * @since 1.0.0
+				 */
+				$sale_price = apply_filters( 'epofw_set_product_sale_price_after', $sale_price, $quantity );
+				if ( ! empty( $cart_item_data ) && isset( $cart_item_data['epofw_data'] ) ) {
+					$addon_price = 0;
+					foreach ( $cart_item_data['epofw_data'] as $addon ) {
+						// We will not add option field's price into product for cart if that option have enable wc tax option. ( Enable WooCommerce Options - Enable Addon Tax ).
+						if ( isset( $addon['epofw_original_price'] ) ) {
+							$addon_original_price = epofw_calculated_price_based_on_condition( $addon['epofw_original_price'], $addon['epofw_price_type'], $price );
+							$addon_price         += $addon_original_price * $quantity;
+						}
+					}
+					$updated_addon_price = (float) ( $addon_price / $quantity ); // $addon_price;
+					/**
+					 * Apply filter for set addon price.
+					 *
+					 * @since 1.0.0
+					 */
+					$updated_addon_price = apply_filters( 'epofw_set_addon_price_after', $updated_addon_price, $addon_price, false, $quantity );
+					$price              += $updated_addon_price;
+					$regular_price      += $updated_addon_price;
+					$sale_price         += $updated_addon_price;
+				}
+				$cart_item_data['data']->set_price( $price );
+				$has_regular_price = is_numeric( $cart_item_data['data']->get_regular_price( 'edit' ) );
+				if ( $has_regular_price ) {
+					$cart_item_data['data']->set_regular_price( $regular_price );
+				}
+				$has_sale_price = is_numeric( $cart_item_data['data']->get_sale_price( 'edit' ) );
+				if ( $has_sale_price ) {
+					$cart_item_data['data']->set_sale_price( $sale_price );
+				}
+			}
+
+			return $cart_item_data;
+		}
+
+		/**
+		 * Get cart item from session.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param array $cart_item_data Cart item data.
+		 * @param array $values         Addon fields data.
+		 *
+		 * @return array
+		 */
+		public function epofw_get_cart_item_from_session( $cart_item_data, $values ) {
+			if ( ! empty( $values['epofw_data'] ) ) {
+				$prices                       = epofw_product_price( $cart_item_data );
+				$cart_item_data['epofw_data'] = $values['epofw_data'];
+				$cart_item_data               = $this->epofw_set_product_price( $cart_item_data, $cart_item_data['quantity'], $prices );
+			}
+
+			return $cart_item_data;
+		}
+
+		/**
+		 * Function will update price when quantity update.
+		 *
+		 * @since    1.0.0
+		 *
+		 * @param string $cart_item_key Cart item key.
+		 * @param int    $quantity      Updated product quantity.
+		 * @param int    $old_quantity  Old product quantity.
+		 * @param object $cart          Cart data.
+		 *
+		 * @return array|void
+		 */
+		public function epofw_update_price_on_quantity_update( $cart_item_key, $quantity, $old_quantity, $cart ) {
+			$cart_item_data = $cart->get_cart_item( $cart_item_key );
+			if ( ! empty( $cart_item_data['epofw_data'] ) ) {
+				$prices = array(
+					'price'                     => $cart_item_data['addons_price_before_calc'],
+					'regular_price'             => $cart_item_data['addons_regular_price_before_calc'],
+					'sale_price'                => $cart_item_data['addons_sale_price_before_calc'],
+					'price_without_tax'         => $cart_item_data['epofw_product_price_without_tax'],
+					'regular_price_without_tax' => $cart_item_data['epofw_regular_price_without_tax'],
+					'sale_price_without_tax'    => $cart_item_data['epofw_sale_price_without_tax'],
+				);
+
+				return $this->epofw_set_product_price( $cart_item_data, $quantity, $prices );
+			}
+		}
 	}
 }
-$epofw_front = EPOFW_Front::instance();

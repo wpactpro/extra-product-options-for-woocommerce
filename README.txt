@@ -2,10 +2,10 @@
 Contributors: actpro
 Tags: Product options, WooCommerce Extra Product Options, WooCommerce Extra product fields, Woocommerce Product Addons
 Requires at least: 3.8
-Tested up to: 5.8.1
+Tested up to: 6.7.2
 Requires PHP: 5.6
-WC tested up to: 5.8.0
-Stable tag: 1.9.6.4
+WC tested up to: 9.6.2
+Stable tag: 3.0.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -207,6 +207,117 @@ Free plugin: Need Technical Help? - <a href ="mailto:wpactpro@gmail.com" target=
 Automatic updates should work great for you.  As always, though, we recommend backing up your site prior to making any updates just to be sure nothing goes wrong.
 
 == Changelog ==
+= 3.0.9 =
+* Refactor code
+* Compatible with WooCommerce 9.6.x
+
+= 3.0.8 =
+* Compatible with WordPress 6.7.x
+* Compatible with WooCommerce 8.9.x
+
+= 3.0.7 =
+* Refactor code
+
+= 3.0.6 =
+* Compatible with WordPress 6.5.x
+* Compatible with WooCommerce 8.8.x
+* Verified nonce when enable/disable option and change field type.
+
+= 3.0.5 =
+* Compatible with WordPress 6.5.x
+* Compatible with WooCommerce 8.8.x
+* Fixed - Cross site scripting
+
+= 3.0.4 =
+* Compatible with WordPress 6.4.x
+* Compatible with WooCommerce 8.4.x
+* Fixed - Scrambled CSS Class for options
+* Fixed - Cross site scripting
+
+= 3.0.3 =
+* Compatible with WordPress 6.3.x
+* Compatible with WooCommerce 8.0.x
+* Update - Addon options can be drag and drop
+
+= 3.0.2 =
+* Compatible with WooCommerce 7.8.x
+* Fixed - Duplicate addons on single product page
+
+= 3.0.1 =
+* Compatible with WooCommerce 7.7.x
+* Compatible with WordPress 6.2.x
+* Fixed - Multiple addons on single product page then subtotal count multiple times
+
+= 3.0 =
+* Compatible with WooCommerce 7.5.x
+* New - General Settings - Addon Details Title
+* New - General Settings - Subtotal Title
+* New - Addon template can modified via theme
+* Compatible Addon field with pro plugin
+* Fixed - Minor issue
+
+= 2.0.9.2 =
+* Compatible with WooCommerce 7.3.x
+
+= 2.0.9.1 =
+* Compatible with WooCommerce 7.1.x
+* Compatible with WordPress 6.1.x
+* Fixed error with php8.1
+
+= 2.0.9 =
+* Compatible with WooCommerce 7.0.0
+* Compatible with WordPress 6.0.x
+
+= 2.0.8 =
+* Fixed duplicate field issue
+
+= 2.0.7 =
+* Compatible with WooCommerce 6.7.x
+* Compatible with WordPress 6.0.x
+
+= 2.0.6 =
+* Compatible with WooCommerce 6.5.x
+
+= 2.0.5 =
+* Compatible with WooCommerce 6.3.x
+* Compatible with WordPress 5.9.x
+
+= 2.0.4 =
+* Fixed - Radio button issue
+* Compatible with WooCommerce 6.2.x
+
+= 2.0.3 =
+* Fixed - Radio button issue
+* Fixed - CSS Issue
+* Fixed - Wrong price display if select another currency from wocommerce setting
+* Compatible with WordPress 6.2.x
+
+= 2.0.2 =
+* Fixed - critical problem to save data
+
+= 2.0.1 =
+* Fixed - Remove comma after some enqueue script and style
+* Compatible with WordPress 5.9.x
+
+= 2.0 =
+* New - Enable/Disable Field Options using checkbox
+* Fixed - PHP Warning
+* Update - Code, CSS and JS
+* Compatible with WooCommerce 6.1.x
+* Compatible with WordPress 5.8.x
+
+= 1.9.8 =
+* Fixed - When click on variable product from cart and back to product page then price calculation issue.
+* Fixed - PHP Warning
+* Compatible with WooCommerce 5.9.x
+* Compatible with WordPress 5.8.x
+
+= 1.9.7 =
+* Fixed - Not working with greek/chinese characters
+* Fixed - PHP Warning
+* Compatible with WooCommerce 5.9.x
+* Compatible with WordPress 5.8.x
+
 = 1.9.6.4 =
 * Fix - PHP Uncaught TypeError
 

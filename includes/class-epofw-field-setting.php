@@ -1,13 +1,13 @@
 <?php
 /**
  * The admin-specific functionality of the plugin.
- *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
  * @package    Extra_Product_Options_For_WooCommerce
  * @subpackage Extra_Product_Options_For_WooCommerce/includes
  */
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -20,50 +20,59 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 	 * EPOFW_Field_Setting class.
 	 */
 	class EPOFW_Field_Setting {
-		protected static $_instance = null;
+		/**
+		 * The object of class.
+		 *
+		 * @since    1.0.0
+		 * @var      string $instance instance object.
+		 */
+		protected static $instance = null;
+
 		/**
 		 * Post type.
 		 *
-		 * @var $post_type Store post type.
-		 *
 		 * @since 1.0.0
+		 * @var $post_type string Store post type.
 		 */
 		private static $post_type = null;
+
 		/**
 		 * Admin object call.
 		 *
-		 * @var      string $epofw_admin_obj The class of external plugin.
-		 *
 		 * @since    1.0.0
+		 * @var      string $epofw_admin_obj The class of external plugin.
 		 */
 		private static $epofw_admin_obj = null;
+
 		/**
 		 * Get current page.
 		 *
-		 * @var $current_page Store current page.
-		 *
 		 * @since 1.0.0
+		 * @var $current_page string Store current page.
 		 */
 		private static $current_page = null;
+
 		/**
 		 * Get current tab.
 		 *
-		 * @var $current_tab Store current tab.
-		 *
 		 * @since 1.0.0
+		 * @var $current_tab string Store current tab.
 		 */
 		private static $current_tab = null;
+
 		/**
 		 * Define the plugins name and versions and also call admin section.
 		 *
 		 * @since    1.0.0
 		 */
 		public static function instance() {
-			if ( is_null( self::$_instance ) ) {
-				self::$_instance = new self();
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
 			}
-			return self::$_instance;
+
+			return self::$instance;
 		}
+
 		/**
 		 * Constructor.
 		 *
@@ -76,11 +85,11 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			self::$post_type       = EPOFW_DFT_POST_TYPE;
 			add_action( 'add_new_btn_prd_list', array( $this, 'add_new_btn_prd_list_fn' ), 10, 2 );
 		}
+
 		/**
 		 * Display output.
 		 *
 		 * @since    1.0.0
-		 *
 		 * @uses     epofw_save_method
 		 * @uses     epofw_add_product_option_form
 		 * @uses     epofw_edit_method_screen
@@ -90,34 +99,43 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 * @uses     EPOFW_Admin::epofw_updated_message()
 		 */
 		public static function epofw_output() {
-			$action          = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
+			$action          = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$action          = ! empty( $action ) ? sanitize_text_field( wp_unslash( $action ) ) : '';
+			$allowed_actions = array( 'add', 'edit', 'delete', 'duplicate' );
 			$post_id_request = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-			$epofw_nonce     = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_STRING );
-			$get_epofw_add   = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
-			$get_tab         = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
-			$message         = filter_input( INPUT_GET, 'message', FILTER_SANITIZE_STRING );
-			if ( isset( $action ) && ! empty( $action ) ) {
+			$post_id_request = isset( $post_id_request ) ? sanitize_text_field( wp_unslash( $post_id_request ) ) : '';
+			$epofw_nonce     = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$epofw_nonce     = isset( $epofw_nonce ) ? sanitize_text_field( wp_unslash( $epofw_nonce ) ) : '';
+			$get_epofw_add   = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$get_epofw_add   = isset( $get_epofw_add ) ? sanitize_text_field( wp_unslash( $get_epofw_add ) ) : '';
+			$get_tab         = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$get_tab         = isset( $get_tab ) ? sanitize_text_field( wp_unslash( $get_tab ) ) : '';
+			$message         = filter_input( INPUT_GET, 'message', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$message         = isset( $message ) ? sanitize_text_field( wp_unslash( $message ) ) : '';
+			if ( ! empty( $action ) && in_array( $action, $allowed_actions, true ) ) {
 				if ( 'add' === $action ) {
 					self::epofw_save_method();
 					self::epofw_add_product_option_form();
 				} elseif ( 'edit' === $action ) {
-					if ( isset( $epofw_nonce ) && ! empty( $epofw_nonce ) ) {
+					if ( ! empty( $epofw_nonce ) ) {
 						$getnonce = wp_verify_nonce( $epofw_nonce, 'edit_' . $post_id_request );
 						if ( isset( $getnonce ) && 1 === $getnonce ) {
 							self::epofw_edit_method_screen( $post_id_request );
 						} else {
 							wp_safe_redirect(
-								add_query_arg(
-									array(
-										'page' => 'epofw-start-page',
-										'tab'  => 'extra_product_option',
-									),
-									admin_url( 'admin.php' )
+								esc_url_raw(
+									add_query_arg(
+										array(
+											'page' => 'epofw-start-page',
+											'tab'  => 'extra_product_option',
+										),
+										admin_url( 'admin.php' )
+									)
 								)
 							);
 							exit;
 						}
-					} elseif ( isset( $get_epofw_add ) && ! empty( $get_epofw_add ) ) {
+					} elseif ( ! empty( $get_epofw_add ) ) {
 						if ( ! wp_verify_nonce( $get_epofw_add, 'epofw_add' ) ) {
 							$message = 'nonce_check';
 						} else {
@@ -134,23 +152,25 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			} else {
 				self::epofw_list_methods_screen();
 			}
-			if ( isset( $message ) && ! empty( $message ) ) {
+			if ( ! empty( $message ) ) {
 				self::$epofw_admin_obj->epofw_updated_message( $message, $get_tab, '' );
 			}
 		}
+
 		/**
 		 * Delete Field Option.
+		 *
+		 * @since    1.0.0
 		 *
 		 * @param int $id Get Field Option id.
 		 *
 		 * @uses     Extra_Product_Options_For_WooCommerce::epofw_updated_message()
-		 *
-		 * @since    1.0.0
 		 */
-		public function epofw_delete_method( $id ) {
-			$epofw_nonce = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_STRING );
-			$get_tab     = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
-			$getnonce    = wp_verify_nonce( $epofw_nonce, 'del_' . $id );
+		public static function epofw_delete_method( $id ) {
+			$epofw_nonce = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$get_tab     = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$get_tab     = isset( $get_tab ) ? sanitize_text_field( wp_unslash( $get_tab ) ) : '';
+			$getnonce    = wp_verify_nonce( sanitize_text_field( wp_unslash( $epofw_nonce ) ), 'del_' . $id );
 			if ( isset( $getnonce ) && 1 === $getnonce ) {
 				wp_delete_post( $id );
 				$delet_action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, '', '', '', 'deleted' );
@@ -160,19 +180,21 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 				self::$epofw_admin_obj->epofw_updated_message( 'nonce_check', $get_tab, '' );
 			}
 		}
+
 		/**
 		 * Duplicate Field Option.
+		 *
+		 * @since    1.0.0
 		 *
 		 * @param int $id Get Field Option id.
 		 *
 		 * @uses     Extra_Product_Options_For_WooCommerce::epofw_updated_message()
-		 *
-		 * @since    1.0.0
 		 */
-		public function epofw_duplicate_method( $id ) {
-			$epofw_nonce = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_STRING );
-			$get_tab     = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
-			$getnonce    = wp_verify_nonce( $epofw_nonce, 'duplicate_' . $id );
+		public static function epofw_duplicate_method( $id ) {
+			$epofw_nonce = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$get_tab     = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$get_tab     = isset( $get_tab ) ? sanitize_text_field( wp_unslash( $get_tab ) ) : '';
+			$getnonce    = wp_verify_nonce( sanitize_text_field( wp_unslash( $epofw_nonce ) ), 'duplicate_' . $id );
 			$epofw_add   = wp_create_nonce( 'epofw_add' );
 			$post_id     = isset( $id ) ? absint( $id ) : '';
 			$new_post_id = '';
@@ -204,11 +226,7 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 								if ( '_wp_old_slug' === $meta_key ) {
 									continue;
 								}
-								if ( is_array( $meta_data[0] ) ) {
-									$meta_value = maybe_unserialize( $meta_data[0] );
-								} else {
-									$meta_value = $meta_data[0];
-								}
+								$meta_value = maybe_unserialize( $meta_data[0] );
 								update_post_meta( $new_post_id, $meta_key, $meta_value );
 							}
 						}
@@ -225,115 +243,157 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 				self::$epofw_admin_obj->epofw_updated_message( 'nonce_check', $get_tab, '' );
 			}
 		}
+
 		/**
 		 * Count total Field Option.
 		 *
-		 * @return int $count_method Count total Field Option ID.
-		 *
 		 * @since    1.0.0
+		 * @return int $count_method Count total Field Option ID.
 		 */
-		public static function cposmp_sm_count_method() {
+		public static function epofw_count_method() {
 			$product_option_args = array(
 				'post_type'      => self::$post_type,
 				'post_status'    => array( 'publish', 'draft' ),
-				'posts_per_page' => - 1,
+				'posts_per_page' => -1,
 				'orderby'        => 'ID',
 				'order'          => 'DESC',
 			);
 			$sm_post_query       = new WP_Query( $product_option_args );
 			$product_option_list = $sm_post_query->posts;
+
 			return count( $product_option_list );
 		}
+
+		/**
+		 * Option field array.
+		 *
+		 * @since 1.1
+		 *
+		 * @param array $gn_value         Option data array.
+		 * @param array $new_field_op_arr New Field data array.
+		 *
+		 * @return array
+		 */
+		private static function epofw_option_field_arr( $gn_value, $new_field_op_arr ) {
+			$gn_label_value = epofw_check_array_key_exists( 'label', $gn_value );
+			if ( $gn_label_value ) {
+				foreach ( $gn_label_value as $l_key => $l_value ) {
+					$gn_opt_price = epofw_check_array_key_exists( 'opt_price', $gn_value );
+					if ( $gn_opt_price ) {
+						foreach ( $gn_opt_price as $gop_key => $gop_value ) {
+							$gn_opt_price_type = epofw_check_array_key_exists( 'opt_price_type', $gn_value );
+							if ( $gn_opt_price_type ) {
+								foreach ( $gn_opt_price_type as $gopt_key => $gopt_value ) {
+									$gn_opt_cs = epofw_check_array_key_exists( 'epofw_cs_switcher', $gn_value );
+									if ( $gn_opt_cs ) {
+										foreach ( $gn_opt_cs as $gocs_key => $gocs_value ) {
+											if (
+												$l_key === $gop_key
+												&& $l_key === $gopt_key
+												&& $gop_key === $gopt_key
+												&& $l_key === $gocs_key
+												&& $gop_key === $gocs_key
+												&& $gopt_key === $gocs_key
+											) {
+												$new_field_op_arr[ $gocs_value ] = $l_value . '||' . $gopt_value . '||' . $gop_value . '||' . $gocs_value;
+											}
+										}
+									} elseif ( $l_key === $gop_key && $l_key === $gopt_key && $gop_key === $gopt_key ) {
+										$new_field_op_arr[ $l_value ] = $l_value . '||' . $gopt_value . '||' . $gop_value;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $new_field_op_arr;
+		}
+
 		/**
 		 * Save Field Option when add or edit.
+		 *
+		 * @since    1.0.0
 		 *
 		 * @param int $method_id Product Field id.
 		 *
 		 * @return bool false when nonce is not verified.
-		 * @uses     cposmp_sm_count_method()
-		 *
-		 * @since    1.0.0
-		 *
+		 * @uses     epofw_count_method()
 		 * @uses     Extra_Product_Options_For_WooCommerce::epofw_updated_message()
 		 */
 		private static function epofw_save_method( $method_id = 0 ) {
-			$action                        = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
-			$epofw_save                    = filter_input( INPUT_POST, 'epofw_save', FILTER_SANITIZE_STRING );
-			$woocommerce_save_method_nonce = filter_input( INPUT_POST, 'woocommerce_save_method_nonce', FILTER_SANITIZE_STRING );
+			$action                        = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$epofw_save                    = filter_input( INPUT_POST, 'epofw_save', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$epofw_save                    = isset( $epofw_save ) ? sanitize_text_field( wp_unslash( $epofw_save ) ) : '';
+			$woocommerce_save_method_nonce = filter_input( INPUT_POST, 'woocommerce_save_method_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			if ( ( isset( $action ) && ! empty( $action ) ) ) {
-				if ( isset( $epofw_save ) ) {
-					if ( empty( $woocommerce_save_method_nonce ) || ! wp_verify_nonce( sanitize_text_field( $woocommerce_save_method_nonce ), 'woocommerce_save_method' ) ) {
+				if ( ! empty( $epofw_save ) ) {
+					if ( empty( $woocommerce_save_method_nonce ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $woocommerce_save_method_nonce ) ), 'woocommerce_save_method' ) ) {
 						esc_html_e( 'Error with security check.', 'extra-product-options-for-woocommerce' );
+
 						return false;
 					}
-					$epofw_data            = filter_input( INPUT_POST, 'epofw_data', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-					$epofw_shipping_status = "";
+					$epofw_data            = ! empty( $_POST['epofw_data'] ) ? sanitize_array( $_POST['epofw_data'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+					$epofw_shipping_status = '';
 					$post_title            = '';
-					$new_epofw_data = array();
+					$new_epofw_data        = array();
 					if ( ! empty( $epofw_data ) ) {
 						foreach ( $epofw_data as $epofw_key => $epofw_sub_data ) {
-							if ( 'general' === $epofw_key ) {
+							if ( 'general' === $epofw_key && ! empty( $epofw_sub_data ) ) {
 								foreach ( $epofw_sub_data as $epofw_field_key => $epofw_field_value ) {
-									foreach ( $epofw_field_value as $field_key => $field_value ) {
-										if ( is_array( $field_value ) ) {
-											foreach ( $field_value as $key => $gn_value ) {
-												$new_field_op_arr = array();
-												if ( $key === 'class' ) {
-													unset( $new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] );
-													$modified_class    = $gn_value;
-													$field_restriction = epofw_check_array_key_exists( 'field_restriction', $field_value );
-													if ( $field_restriction ) {
-														$modified_class .= '||epofw_' . $field_restriction;
-													}
-													$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $modified_class;
-												} elseif ( $key === 'options' ) {
-													$gn_label_value = epofw_check_array_key_exists( 'label', $gn_value );
-													if ( $gn_label_value ) {
-														foreach ( $gn_label_value as $l_key => $l_value ) {
-															$gn_opt_price = epofw_check_array_key_exists( 'opt_price', $gn_value );
-															if ( $gn_opt_price ) {
-																foreach ( $gn_opt_price as $gop_key => $gop_value ) {
-																	$gn_opt_price_type = epofw_check_array_key_exists( 'opt_price_type', $gn_value );
-																	if ( $gn_opt_price_type ) {
-																		foreach ( $gn_opt_price_type as $gopt_key => $gopt_value ) {
-																			if ( $l_key === $gop_key
-																			     && $l_key === $gopt_key
-																			     && $gop_key === $gopt_key ) {
-																				$new_field_op_arr[ $l_value ] = $gopt_value . "||" . $gop_value;
-																			}
-																		}
-																	}
-																}
+									if ( ! empty( $epofw_field_value ) ) {
+										foreach ( $epofw_field_value as $field_key => $field_value ) {
+											if ( ! empty( $field_value ) ) {
+												if ( ! empty( $field_value ) && is_array( $field_value ) ) {
+													foreach ( $field_value as $key => $gn_value ) {
+														$new_field_op_arr = array();
+														if ( 'class' === $key ) {
+															unset( $new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] );
+															$modified_class    = $gn_value;
+															$field_restriction = epofw_check_array_key_exists( 'field_restriction', $field_value );
+															if ( $field_restriction ) {
+																$modified_class .= '||epofw_' . $field_restriction;
 															}
+															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $modified_class;
+														} elseif ( 'options' === $key ) {
+															$new_field_op_arr_data = self::epofw_option_field_arr( $gn_value, $new_field_op_arr );
+
+															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $new_field_op_arr_data;
+														} elseif ( 'name' === $key ) {
+															if ( empty( $gn_value ) ) {
+																$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = 'epofw_' . $field_key . '_' . wp_rand();
+															} else {
+																$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $gn_value;
+															}
+														} else {
+															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $gn_value;
 														}
 													}
-													$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $new_field_op_arr;
-												} elseif ( 'name' === $key ) {
-													if ( empty( $gn_value ) ) {
-														$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = 'epofw_' . $field_key . '_' . wp_rand();
-													} else {
-														$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $gn_value;
-													}
 												} else {
-													$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $gn_value;
+													$new_epofw_data['general'][ $epofw_field_key ][ $field_key ] = $field_value;
 												}
 											}
 										}
 									}
 								}
-							} else if ( 'additional_rule_data' === $epofw_key ) {
-								$new_epofw_data['additional_rule_data'] = $epofw_data['additional_rule_data'];
+							} elseif ( 'additional_rule_data' === $epofw_key ) {
+								$new_epofw_additional = array();
+								if ( ! empty( $epofw_data ) && isset( $epofw_data['additional_rule_data'] ) ) {
+									$new_epofw_additional = $epofw_data['additional_rule_data'];
+								}
+								$new_epofw_data['additional_rule_data'] = $new_epofw_additional;
 							} else {
 								if ( 'epofw_addon_name' === $epofw_key ) {
 									$post_title = $epofw_sub_data;
-								} else if ( 'epofw_addon_status' === $epofw_key ) {
+								} elseif ( 'epofw_addon_status' === $epofw_key ) {
 									$epofw_shipping_status = $epofw_sub_data;
 								}
 								$new_epofw_data[ $epofw_key ] = $epofw_sub_data;
 							}
 						}
 					}
-					$product_option_count = self::cposmp_sm_count_method();
+					$product_option_count = self::epofw_count_method();
 					$method_id            = (int) $method_id;
 					if ( isset( $epofw_shipping_status ) && 'on' === $epofw_shipping_status ) {
 						$post_status = 'publish';
@@ -361,9 +421,11 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 					if ( '' !== $method_id && 0 !== $method_id ) {
 						if ( $method_id > 0 ) {
 							update_post_meta( $method_id, 'epofw_prd_opt_data', $new_epofw_data );
+							update_post_meta( $method_id, 'epofw_mgr_status', true );
 						}
 					} else {
 						echo '<div class="updated error"><p>' . esc_html__( 'Error saving Product Option.', 'extra-product-options-for-woocommerce' ) . '</p></div>';
+
 						return false;
 					}
 					$epofw_add = wp_create_nonce( 'epofw_add' );
@@ -380,20 +442,22 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 				}
 			}
 		}
+
 		/**
 		 * Edit Product Option screen.
 		 *
+		 * @since    1.0.0
+		 *
 		 * @param string $id Get Product Option id.
 		 *
-		 * @uses     epofw_save_method()
 		 * @uses     epofw_edit_method()
-		 *
-		 * @since    1.0.0
+		 * @uses     epofw_save_method()
 		 */
 		public static function epofw_edit_method_screen( $id ) {
 			self::epofw_save_method( $id );
 			self::epofw_edit_method();
 		}
+
 		/**
 		 * Edit Product Option.
 		 *
@@ -402,25 +466,24 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		public static function epofw_edit_method() {
 			include EPOFW_PLUGIN_DIR . '/settings/epofw-admin-settings.php';
 		}
+
 		/**
 		 * Add new button in Product Option list section.
 		 *
 		 * @param string $link_method_url Link method url.
-		 *
 		 * @param string $text            button text.
 		 */
 		public function add_new_btn_prd_list_fn( $link_method_url, $text ) {
 			?>
-			<a href="<?php echo esc_url( $link_method_url ); ?>"
-			   class="page-title-action"><?php echo esc_html( $text ); ?>
+			<a href="<?php echo esc_url( $link_method_url ); ?>" class="page-title-action"><?php echo esc_html( $text ); ?>
 			</a>
 			<?php
 		}
+
 		/**
 		 * List_product_options function.
 		 *
 		 * @since    1.0.0
-		 *
 		 * @uses     EPOFW_Field_Table class
 		 * @uses     EPOFW_Field_Table::process_bulk_action()
 		 * @uses     EPOFW_Field_Table::prepare_items()
@@ -435,15 +498,31 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			?>
 			<h1 class="wp-heading-inline">
 				<?php
-				echo esc_html( esc_html__( 'Field Listing', 'extra-product-options-for-woocommerce' ) );
+				esc_html_e( 'Field Listing', 'extra-product-options-for-woocommerce' );
 				?>
 			</h1>
 			<?php
+			/**
+			 * Fired action before add button for product list.
+			 *
+			 * @since 1.0.0
+			 */
 			do_action( 'before_add_new_btn_prd_list' );
+			/**
+			 * Fired action to add button for product list.
+			 *
+			 * @since 1.0.0
+			 */
 			do_action( 'add_new_btn_prd_list', $link_method_url, esc_html__( 'Add New', 'extra-product-options-for-woocommerce' ) );
+			/**
+			 * Fired action after add button for product list.
+			 *
+			 * @since 1.0.0
+			 */
 			do_action( 'after_add_new_btn_prd_list' );
-			$request_s = filter_input( INPUT_POST, 's', FILTER_SANITIZE_STRING );
-			if ( isset( $request_s ) && ! empty( $request_s ) ) {
+			$request_s = filter_input( INPUT_POST, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$request_s = isset( $request_s ) ? sanitize_text_field( wp_unslash( $request_s ) ) : '';
+			if ( ! empty( $request_s ) ) {
 				?>
 				<span class="subtitle">
 					<?php
@@ -467,6 +546,7 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			);
 			$wc_product_options_table->display();
 		}
+
 		/**
 		 * Add_product_option_form function.
 		 *

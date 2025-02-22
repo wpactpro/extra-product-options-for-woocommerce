@@ -11,10 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 if ( ! defined( 'EPOFW_PLUGIN_VERSION' ) ) {
-	define( 'EPOFW_PLUGIN_VERSION', '1.9.6.4' );
+	define( 'EPOFW_PLUGIN_VERSION', '3.0.9' );
 }
 if ( ! defined( 'EPOFW_SLUG' ) ) {
 	define( 'EPOFW_SLUG', 'extra-product-options-for-woocommerce' );
+}
+if ( ! defined( 'EPOFW_FOLDER_SLUG' ) ) {
+	define( 'EPOFW_FOLDER_SLUG', 'extra-product-options-for-woocommerce' );
+}
+if ( ! defined( 'EPOFW_PLUGIN_BASENAME' ) ) {
+	define( 'EPOFW_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
 if ( ! defined( 'EPOFW_PLUGIN_NAME' ) ) {
 	define( 'EPOFW_PLUGIN_NAME', 'Extra Product Options for WooCommerce' );
@@ -33,4 +39,31 @@ if ( ! defined( 'EPOFW_FIELD_SUB_LABEL' ) ) {
 }
 if ( ! defined( 'EPOFW_ADDITIONAL_RULES' ) ) {
 	define( 'EPOFW_ADDITIONAL_RULES', esc_html__( 'Additional Rules', 'extra-product-options-for-woocommerce' ) );
+}
+if ( ! defined( 'EPOFW_OBN' ) ) {
+	define( 'EPOFW_OBN', '-' );
+}
+if ( ! defined( 'EPOFW_PCT' ) ) {
+	define( 'EPOFW_PCT', '%' );
+}
+if ( ! defined( 'EPOFW_CB' ) ) {
+	define( 'EPOFW_CB', ')' );
+}
+if ( ! defined( 'EPOFW_EQUAL' ) ) {
+	define( 'EPOFW_EQUAL', '=' );
+}
+if ( ! defined( 'EPOFW_VALUE' ) ) {
+	define( 'EPOFW_VALUE', 'value' );
+}
+if ( ! defined( 'EPOFW_FIELD_CONS' ) ) {
+	define( 'EPOFW_FIELD_CONS', 'epofw_field_' );
+}
+if ( ! defined( 'EPOFW_PLUGIN_PATH' ) ) {
+	define( 'EPOFW_PLUGIN_PATH', untrailingslashit( plugin_dir_path( EPOFW_PLUGIN_FILE ) ) );
+}
+if ( ! defined( 'EPOFW_TEMPLATE_CONSTANT' ) ) {
+	define( 'EPOFW_TEMPLATE_CONSTANT', 'epofw-templates' );
+}
+if ( ! defined( 'EPOFW_TEMPLATE_PATH' ) ) {
+	define( 'EPOFW_TEMPLATE_PATH', EPOFW_PLUGIN_PATH . '/templates/' );
 }

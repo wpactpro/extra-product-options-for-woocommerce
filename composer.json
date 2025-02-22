@@ -1,0 +1,31 @@
+{
+  "name": "actpro/extra-product-options-for-woocommerce",
+  "description": "Extra Product Options for WooCommerce",
+  "authors": [
+    {
+      "name": "wpactpro",
+      "email": "wpactpro@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {},
+   "require-dev": {
+        "automattic/vipwpcs": "^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+  "scripts": {
+    "post-install-cmd": ["@install-hooks"],
+    "post-update-cmd": ["@install-hooks"],
+    "lint-php": "vendor/bin/phpcs -s",
+    "lint-php-fix": "vendor/bin/phpcbf",
+    "lint-js": "grunt jsvalidate jshint",
+    "lint-css": "grunt stylelint",
+    "lint": ["@lint-php", "@lint-js", "@lint-css"]
+  }
+}
