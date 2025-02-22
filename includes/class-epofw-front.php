@@ -434,7 +434,12 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			$main_fields_data_arr = $this->epofw_get_fields_data( $post->ID );
 			if ( ! empty( $main_fields_data_arr ) ) {
 
-				wp_nonce_field( 'epofw_add_to_cart_' . $post->ID, 'epofw_add_to_cart_nonce' );
+				// Generate a unique nonce per user session and product.
+				$nonce_action = 'epofw_add_to_cart_' . $post->ID . '_' . get_current_user_id();
+				$nonce_name   = 'epofw_add_to_cart_nonce_' . $post->ID;
+
+				// Add both nonce and nonce action as hidden fields.
+				wp_nonce_field( $nonce_action, $nonce_name );
 
 				foreach ( $main_fields_data_arr as $fields_data_arr ) {
 					$addon_position = epofw_check_array_key_exists( 'epofw_addon_position', $fields_data_arr );
@@ -529,6 +534,23 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			if ( ! isset( $_POST ) && empty( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				return false;
 			}
+
+			// Get the nonce name based on product ID.
+			$nonce_name = 'epofw_add_to_cart_nonce_' . $product_id;
+			$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+			// Generate the same nonce action as used when creating.
+			$nonce_action = 'epofw_add_to_cart_' . $product_id . '_' . get_current_user_id();
+
+			// Verify nonce with the specific action.
+			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, $nonce_action ) ) {
+				wc_add_notice(
+					esc_html__( 'Security check failed. Please refresh the page and try again.', 'extra-product-options-for-woocommerce' ), 
+					'error'
+				);
+				return false;
+			}
+
 			$get_post_data      = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$fields_data_arr    = $this->epofw_get_fields_data( $product_id );
 			$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, $get_post_data );
