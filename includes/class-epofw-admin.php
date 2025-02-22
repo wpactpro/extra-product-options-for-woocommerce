@@ -318,7 +318,12 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 				$suffix      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 				$get_post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 				$get_post_id = isset( $get_post_id ) ? sanitize_text_field( wp_unslash( $get_post_id ) ) : '';
-				wp_enqueue_style( 'epofw-admin-css', EPOFW_PLUGIN_URL . 'assets/css/epofw-admin' . $suffix . '.css', array(), 'all' );
+				wp_enqueue_style( 
+					'epofw-admin-css',
+					EPOFW_PLUGIN_URL . 'assets/css/epofw-admin' . $suffix . '.css',
+					array('select2-min-css', 'woocommerce_admin_styles'),
+					$this->version
+				);
 				wp_enqueue_style( 'select2-min-css', EPOFW_PLUGIN_URL . 'assets/css/select2.min.css', array(), 'all' );
 				if ( class_exists( 'Woocommerce' ) ) {
 					wp_enqueue_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), 'all' );
