@@ -292,10 +292,10 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 							'decimal_separator'            => wc_get_price_decimal_separator(),
 							'thousand_separator'           => wc_get_price_thousand_separator(),
 							'decimals'                     => wc_get_price_decimals(),
-							'timepicker_select_validation'  => __( 'Please select a valid time.', 'extra-product-options-for-woocommerce' ),
-							'timepicker_change_validation'  => __( 'Please enter a valid time.', 'extra-product-options-for-woocommerce' ),
-							'datepicker_select_validation'  => __( 'Please select a valid date.', 'extra-product-options-for-woocommerce' ),
-							'datepicker_change_validation'  => __( 'Please enter a valid date.', 'extra-product-options-for-woocommerce' ),
+							'timepicker_select_validation' => __( 'Please select a valid time.', 'extra-product-options-for-woocommerce' ),
+							'timepicker_change_validation' => __( 'Please enter a valid time.', 'extra-product-options-for-woocommerce' ),
+							'datepicker_select_validation' => __( 'Please select a valid date.', 'extra-product-options-for-woocommerce' ),
+							'datepicker_change_validation' => __( 'Please enter a valid date.', 'extra-product-options-for-woocommerce' ),
 							'colorpicker_select_validation' => __( 'Please select a valid color code.', 'extra-product-options-for-woocommerce' ),
 							'colorpicker_change_validation' => __( 'Please enter a valid color code.', 'extra-product-options-for-woocommerce' ),
 						)
@@ -847,7 +847,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 												implode( ', ', array_filter( $post_check_field_name ) )
 											);
 										} else {
-											$post_check_field_name = trim( sanitize_text_field( wp_unslash( esc_html( wp_strip_all_tags( $epofw_field_value ) ) ) ) );
+											$post_check_field_name           = trim( sanitize_text_field( wp_unslash( esc_html( wp_strip_all_tags( $epofw_field_value ) ) ) ) );
 											$passed_cart_data['epofw_value'] = $post_check_field_name;
 										}
 										$epofw_validate_option = $this->epofw_validate_options_exists( $post_check_field_name, $get_field_name_arr[ $post_key ] );
