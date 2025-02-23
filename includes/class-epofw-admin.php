@@ -667,6 +667,28 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 			}
 			wp_die();
 		}
+
+		/**
+		 * Display plugin image.
+		 *
+		 * @since 3.0.9
+		 *
+		 * @param string $image_name Image name.
+		 * @param string $alt Alt text.
+		 * @param string $class Class name.
+		 */
+		public static function epofw_display_plugin_image( $image_name, $alt = '', $class = '' ) {
+			$image_url  = EPOFW_PLUGIN_URL . '/assets/images/' . $image_name;
+			$image_path = EPOFW_PLUGIN_DIR . '/assets/images/' . $image_name;
+			if ( file_exists( $image_path ) ) {
+				printf(
+					'<img src="%s" alt="%s" class="%s" />',
+					esc_url( $image_url ),
+					esc_attr( $alt ),
+					esc_attr( $class )
+				);
+			}
+		}
 	}
 }
 $epofw_admin = new EPOFW_Admin();

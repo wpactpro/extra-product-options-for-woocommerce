@@ -35,42 +35,78 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<strong><?php esc_html_e( 'Step 1:', 'extra-product-options-for-woocommerce' ); ?> </strong>
 						<?php esc_html_e( 'You can add product option based on different field types.', 'extra-product-options-for-woocommerce' ); ?>
 						<span class="aboutinfo">
-							<img src="<?php echo esc_url( EPOFW_PLUGIN_URL . 'assets/images/admin_field_option.png' ); ?>" alt=''>
+							<?php
+							EPOFW_Admin::epofw_display_plugin_image(
+								'admin_field_option.png',
+								esc_attr__( 'Admin Field Options', 'extra-product-options-for-woocommerce' ),
+								'epofw-admin-field-img'
+							);
+							?>
 						</span>
 					</p>
 					<p class="epofw_gs info_text">
 						<strong><?php esc_html_e( 'Step 2:', 'extra-product-options-for-woocommerce' ); ?> </strong>
 						<?php esc_html_e( 'Product page.', 'extra-product-options-for-woocommerce' ); ?>
 						<span class="aboutinfo">
-							<img src="<?php echo esc_url( EPOFW_PLUGIN_URL . 'assets/images/front_field_option.png' ); ?>" alt=''>
+						<?php
+							EPOFW_Admin::epofw_display_plugin_image(
+								'front_field_option.png',
+								esc_attr__( 'Admin Field Options', 'extra-product-options-for-woocommerce' ),
+								'epofw-front-field-img'
+							);
+							?>
 						</span>
 					</p>
 					<p class="epofw_gs info_text">
-						<strong><?php esc_html_e( 'Step 3:', 'extra-product-options-for-woocommerce' ); ?>
-						</strong><?php esc_html_e( 'Cart Page', 'extra-product-options-for-woocommerce' ); ?>
+						<strong><?php esc_html_e( 'Step 3:', 'extra-product-options-for-woocommerce' ); ?> </strong>
+						<?php esc_html_e( 'Cart Page', 'extra-product-options-for-woocommerce' ); ?>
 						<span class="aboutinfo">
-							<img src="<?php echo esc_url( EPOFW_PLUGIN_URL . 'assets/images/cart_field_option.png' ); ?>" alt=''>
+							<?php
+							EPOFW_Admin::epofw_display_plugin_image(
+								'cart_field_option.png',
+								esc_attr__( 'Cart Field Options', 'extra-product-options-for-woocommerce' ),
+								'epofw-cart-field-img'
+							);
+							?>
 						</span>
 					</p>
 					<p class="epofw_gs info_text">
 						<strong><?php esc_html_e( 'Step 4:', 'extra-product-options-for-woocommerce' ); ?> </strong>
 						<?php esc_html_e( 'Checkout Page', 'extra-product-options-for-woocommerce' ); ?>
 						<span class="aboutinfo">
-							<img src="<?php echo esc_url( EPOFW_PLUGIN_URL . 'assets/images/checkout_field_option.png' ); ?>" alt=''>
+							<?php
+							EPOFW_Admin::epofw_display_plugin_image(
+								'checkout_field_option.png',
+								esc_attr__( 'Checkout Field Options', 'extra-product-options-for-woocommerce' ),
+								'epofw-checkout-field-img'
+							);
+							?>
 						</span>
 					</p>
 					<p class="epofw_gs info_text">
 						<strong><?php esc_html_e( 'Step 5:', 'extra-product-options-for-woocommerce' ); ?> </strong>
 						<?php esc_html_e( 'Order Detail Page (After Place Order)', 'extra-product-options-for-woocommerce' ); ?>
 						<span class="aboutinfo">
-							<img src="<?php echo esc_url( EPOFW_PLUGIN_URL . 'assets/images/order_detail_field_option.png' ); ?>" alt=''>
+							<?php
+							EPOFW_Admin::epofw_display_plugin_image(
+								'order_detail_field_option.png',
+								esc_attr__( 'Order Detail Field Options', 'extra-product-options-for-woocommerce' ),
+								'epofw-order-detail-field-img'
+							);
+							?>
 						</span>
 					</p>
 					<p class="epofw_gs info_text">
 						<strong><?php esc_html_e( 'Step 6:', 'extra-product-options-for-woocommerce' ); ?> </strong>
 						<?php esc_html_e( 'Order Detail Page (Admin)', 'extra-product-options-for-woocommerce' ); ?>
 						<span class="aboutinfo">
-							<img src="<?php echo esc_url( EPOFW_PLUGIN_URL . 'assets/images/admin_order_detail.png' ); ?>" alt=''>
+							<?php
+							EPOFW_Admin::epofw_display_plugin_image(
+								'admin_order_detail.png',
+								esc_attr__( 'Admin Order Detail Options', 'extra-product-options-for-woocommerce' ),
+								'epofw-admin-order-detail-img'
+							);
+							?>
 						</span>
 					</p>
 				</td>
