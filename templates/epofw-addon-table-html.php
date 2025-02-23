@@ -9,7 +9,7 @@
  * the readme will list any important changes.
  *
  * @package Extra_Product_Options_For_WooCommerce/Templates
- * @version
+ * @version 1.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -141,7 +141,8 @@ if ( ! empty( $fields_general_data_arr ) ) {
 		/**
 		 * Add nonce field for addon field data.
 		 */
-		wp_nonce_field( 'epfow_addon_field_nonce_' . $product_id );
+		$nonce_action = 'epfow_addon_field_nonce_' . absint( $product_id );
+		wp_nonce_field( $nonce_action );
 		?>
 	</div>
 	<?php

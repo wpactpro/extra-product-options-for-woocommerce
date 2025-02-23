@@ -146,8 +146,8 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		 *
 		 * @since    1.0.0
 		 *
-		 * @param mixed $wp_query WP_Query - For getting posts data.
 		 * @param mixed $where    Where condition for WP_Query.
+		 * @param mixed $wp_query WP_Query - For getting posts data.
 		 *
 		 * @return mixed $where Where condition for WP_Query.
 		 */
@@ -277,7 +277,7 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function epofw_admin_tab( $aon_tab_array ) {
-			$current_tab_array = $this->epofw_admin_action_tab_fn();
+			$current_tab_array = self::epofw_admin_action_tab_fn();
 			if ( ! empty( $aon_tab_array ) ) {
 				$tab_array = array_merge( $current_tab_array, $aon_tab_array );
 			} else {
@@ -318,10 +318,10 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 				$suffix      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 				$get_post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 				$get_post_id = isset( $get_post_id ) ? sanitize_text_field( wp_unslash( $get_post_id ) ) : '';
-				wp_enqueue_style( 
+				wp_enqueue_style(
 					'epofw-admin-css',
 					EPOFW_PLUGIN_URL . 'assets/css/epofw-admin' . $suffix . '.css',
-					array('select2-min-css', 'woocommerce_admin_styles'),
+					array( 'select2-min-css', 'woocommerce_admin_styles' ),
 					$this->version
 				);
 				wp_enqueue_style( 'select2-min-css', EPOFW_PLUGIN_URL . 'assets/css/select2.min.css', array(), 'all' );
@@ -475,7 +475,7 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function dynamic_url( $page = '', $tab = '', $action = '', $post_id = '', $nonce = '', $message = '' ) {
+		public static function dynamic_url( $page = '', $tab = '', $action = '', $post_id = '', $nonce = '', $message = '' ) {
 			$url_args = array(
 				'post_type' => 'product',
 				'page'      => $page,
@@ -542,7 +542,7 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function epofw_current_tab() {
+		public static function epofw_current_tab() {
 			$current_tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			if ( ! isset( $current_tab ) ) {
 				$current_tab = 'field-section';
@@ -564,10 +564,11 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function epofw_updated_message( $message, $tab, $validation_msg ) {
+		public static function epofw_updated_message( $message, $tab, $validation_msg ) {
 			if ( empty( $message ) ) {
 				return false;
 			}
+
 			if ( 'field-section' === $tab ) {
 				if ( 'created' === $message ) {
 					$updated_message = esc_html__( 'Product Field successfully created.', 'extra-product-options-for-woocommerce' );
@@ -603,19 +604,17 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 					$validated_messsage = esc_html( $validation_msg );
 				}
 			}
+
 			if ( ! empty( $updated_message ) ) {
 				printf( '<div id="message" class="notice notice-success is-dismissible"><p>%s</p></div>', esc_html( $updated_message ) );
-
 				return false;
 			}
 			if ( ! empty( $failed_messsage ) ) {
 				printf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $failed_messsage ) );
-
 				return false;
 			}
 			if ( ! empty( $validated_messsage ) ) {
 				printf( '<div id="message" class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $validated_messsage ) );
-
 				return false;
 			}
 		}

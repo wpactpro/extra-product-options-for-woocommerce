@@ -22,7 +22,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * The object of class.
 		 *
 		 * @since    1.0.0
-		 * @var      string $instance instance object.
+		 * @var      string $instance Instance object.
 		 */
 		protected static $instance = null;
 
@@ -40,6 +40,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * Define the plugins name and versions and also call admin section.
 		 *
 		 * @since    1.0.0
+		 * @return   object Instance of this class.
 		 */
 		public static function instance() {
 			if ( is_null( self::$instance ) ) {
@@ -144,6 +145,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * Add nonce field to the form.
 		 *
 		 * @since 3.0.9
+		 * @return void
 		 */
 		public function epofw_add_nonce_field() {
 			global $post;
@@ -172,12 +174,18 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 
 			// Get the nonce name based on product ID.
 			$nonce_name = 'epofw_add_to_cart_nonce_' . $product_id;
-			$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+			// Verify nonce exists and is valid.
+			if ( ! isset( $_POST[ $nonce_name ] ) ) {
+				return false;
+			}
+
+			$nonce = sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) );
 
 			// Generate the same nonce action as used when creating.
 			$nonce_action = 'epofw_add_to_cart_' . $product_id . '_' . get_current_user_id();
 
-			return ! empty( $nonce ) && wp_verify_nonce( $nonce, $nonce_action );
+			return wp_verify_nonce( $nonce, $nonce_action );
 		}
 
 		/**
@@ -661,8 +669,9 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 												if ( 1 !== preg_match( '/^[0-9]*$/', $post_check_field_name ) ) {
 													/* translators: %1$s: Field label that only accepts numbers */
 													$error_message = sprintf(
+														/* translators: %1$s: Field label that only accepts numbers */
 														esc_html__( 'Only numbers are allowed for "%1$s".', 'extra-product-options-for-woocommerce' ),
-														$safe_field_title
+														esc_html( $safe_field_title )
 													);
 													$this->epofw_add_to_cart_error_msg( 'only_number', $error_message );
 													$field_err_status[] = false;
@@ -714,11 +723,9 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @throws Exception When validation fails.
 		 */
 		public function epofw_add_cart_item_data( $cart_item, $product_id ) {
-			error_log( 'epofw_add_cart_item_data' );
 			// Verify nonce and product ID.
 			$product_id = absint( $product_id );
 			if ( ! $product_id || ! $this->verify_add_to_cart_nonce( $product_id ) ) {
-				error_log( 'Product ID or nonce verification failed' );
 				return false;
 			}
 
@@ -742,7 +749,23 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 							$search_key = 'epofw_shop_' . esc_attr( $get_product_id ) . '_';
 							$post_key   = str_replace( $search_key, '', $post_key );
 						}
-						$post_data[ $post_key ] = $post_value_data;
+
+						// Handle array values properly.
+						if ( isset( $post_value_data['value'] ) ) {
+							if ( is_array( $post_value_data['value'] ) ) {
+								// Sanitize each array value.
+								$post_data[ $post_key ] = array(
+									'value' => array_map( 'sanitize_text_field', $post_value_data['value'] ),
+								);
+							} else {
+								// Handle single value.
+								$post_data[ $post_key ] = array(
+									'value' => sanitize_text_field( $post_value_data['value'] ),
+								);
+							}
+						} else {
+							$post_data[ $post_key ] = $post_value_data;
+						}
 					} else {
 						$post_data[ $post_key ] = $post_value_data;
 					}
@@ -754,12 +777,15 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			if ( isset( $post_data['variation_id'] ) ) {
 				$product_id = $post_data['variation_id'];
 			}
+
 			$get_exftpoc      = $this->exclude_field_type_on_cart_page();
 			$passed_cart_data = array();
+
 			if ( isset( $post_data ) ) {
 				$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, $post_data );
 				if ( ! empty( $get_field_name_arr ) ) {
 					$epofw_post_data = array();
+					$quantity        = 1;
 					foreach ( $post_data as $post_key => $post_value_data ) {
 						if ( strpos( $post_key, 'epofw_field_' ) !== false ) {
 							if ( strpos( $post_key, 'hidden_epofw_field_' ) !== false ) {
@@ -769,69 +795,83 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 						}
 						$quantity = $post_data['quantity'];
 					}
+
+					// Process each field value.
 					if ( ! empty( $epofw_post_data ) ) {
 						foreach ( $epofw_post_data as $post_key => $post_value_data ) {
-							if ( ! empty( $post_value_data ) ) {
-								if ( array_key_exists( $post_key, $get_field_name_arr ) ) {
-									$check_field_label = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_key ] );
-									$check_field_input = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_key ] );
-									if ( $check_field_label ) {
-										$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
+							if ( ! empty( $post_value_data ) && array_key_exists( $post_key, $get_field_name_arr ) ) {
+								$check_field_label = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_key ] );
+								$check_field_input = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_key ] );
+								if ( $check_field_label ) {
+									$check_field_lbl_title = epofw_check_array_key_exists( 'title', $check_field_label );
+								}
+								$check_field_name     = '';
+								$check_field_inp_type = '';
+								if ( $check_field_input ) {
+									$check_field_inp_type = epofw_check_array_key_exists( 'type', $check_field_input );
+									$check_field_name     = epofw_check_array_key_exists( 'name', $check_field_input );
+									if ( strpos( $check_field_name, 'epofw_field_' ) === false ) {
+										$check_field_name = 'epofw_field_' . $check_field_name;
 									}
-									$check_field_name     = '';
-									$check_field_inp_type = '';
-									if ( $check_field_input ) {
-										$check_field_inp_type = epofw_check_array_key_exists( 'type', $check_field_input );
-										$check_field_name     = epofw_check_array_key_exists( 'name', $check_field_input );
-										if ( strpos( $check_field_name, 'epofw_field_' ) === false ) {
-											$check_field_name = 'epofw_field_' . $check_field_name;
-										}
+								}
+								if ( in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
+									unset( $get_field_name_arr[ $post_key ] );
+								} elseif ( isset( $post_data[ $check_field_name ] ) ) {
+									if ( is_array( $post_value_data ) ) {
+										$epofw_field_value = isset( $post_value_data['value'] ) ? $post_value_data['value'] : '';
+									} else {
+										$epofw_field_value = $post_data[ $check_field_name ];
 									}
-									if ( in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-										unset( $get_field_name_arr[ $post_key ] );
-									} elseif ( isset( $post_data[ $check_field_name ] ) ) {
-										if ( is_array( $post_value_data ) ) {
-											$epofw_field_value = isset( $post_value_data['value'] ) ? $post_value_data['value'] : '';
+									if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
+										$passed_cart_data['epofw_label'] = $check_field_lbl_title;
+									}
+									if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
+										$passed_cart_data['product_id'] = $product_id;
+										$passed_cart_data['epofw_type'] = $check_field_inp_type;
+										$passed_cart_data['epofw_name'] = $check_field_name;
+										if ( is_array( $epofw_field_value ) ) {
+											// Sanitize array values and remove any empty or malicious content.
+											$post_check_field_name = array_filter(
+												array_map(
+													function ( $value ) {
+														// Remove any HTML, extra whitespace, and sanitize.
+														$clean_value = trim( sanitize_text_field( wp_unslash( $value ) ) );
+														return '' !== $clean_value ? $clean_value : null;
+													},
+													$epofw_field_value
+												)
+											);
+
+											// Join with comma and space, escape for display.
+											$passed_cart_data['epofw_value'] = esc_html(
+												implode( ', ', array_filter( $post_check_field_name ) )
+											);
 										} else {
-											$epofw_field_value = $post_data[ $check_field_name ];
+											$post_check_field_name = trim( sanitize_text_field( wp_unslash( esc_html( wp_strip_all_tags( $epofw_field_value ) ) ) ) );
+											$passed_cart_data['epofw_value'] = $post_check_field_name;
 										}
-										if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-											$passed_cart_data['epofw_label'] = $check_field_lbl_title;
+										$epofw_validate_option = $this->epofw_validate_options_exists( $post_check_field_name, $get_field_name_arr[ $post_key ] );
+										if ( ! $epofw_validate_option ) {
+											$message = apply_filters( 'epfow_addon_invalid_option', __( 'Option is invalid', 'extra-product-options-for-woocommerce' ), $product_id );
+											throw new Exception( esc_html( $message ) );
 										}
-										if ( ! in_array( $check_field_inp_type, $get_exftpoc, true ) ) {
-											$passed_cart_data['product_id'] = $product_id;
-											$passed_cart_data['epofw_type'] = $check_field_inp_type;
-											$passed_cart_data['epofw_name'] = $check_field_name;
-											if ( is_array( $epofw_field_value ) ) {   // phpcs:ignore WordPress.Security.NonceVerification.Missing
-												$post_check_field_name           = array_map( 'sanitize_text_field', wp_unslash( wp_strip_all_tags( $epofw_field_value ) ) );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 // phpcs:ignore WordPress.Security.NonceVerification.Missing
-												$passed_cart_data['epofw_value'] = implode( ',', $post_check_field_name );
-											} else {
-												$post_check_field_name           = trim( sanitize_text_field( wp_unslash( esc_html( wp_strip_all_tags( $epofw_field_value ) ) ) ) );
-												$passed_cart_data['epofw_value'] = $post_check_field_name;
-											}
-											$epofw_validate_option = $this->epofw_validate_options_exists( $post_check_field_name, $get_field_name_arr[ $post_key ] );
-											if ( ! $epofw_validate_option ) {
-												$message = apply_filters( 'epfow_addon_invalid_option', __( 'Option is invalid', 'extra-product-options-for-woocommerce' ), $product_id );
-												throw new Exception( esc_html( $message ) );
-											}
-											$find_price_based_on_name = $this->epofw_find_price_based_on_name( $product_id, $post_check_field_name, $quantity, $get_field_name_arr[ $post_key ] );
-											if ( $find_price_based_on_name ) {
-												$check_addon_price                        = epofw_check_array_key_exists( 'addon_price', $find_price_based_on_name );
-												$check_addon_price_type                   = epofw_check_array_key_exists( 'addon_price_type', $find_price_based_on_name );
-												$passed_cart_data['epofw_price']          = $check_addon_price;
-												$check_addon_original_price               = epofw_check_array_key_exists( 'addon_original_price', $find_price_based_on_name );
-												$passed_cart_data['epofw_original_price'] = $check_addon_original_price;
-												$passed_cart_data['epofw_price_type']     = $check_addon_price_type;
-											} else {
-												$passed_cart_data['epofw_price']          = 0;
-												$passed_cart_data['epofw_original_price'] = 0;
-												$passed_cart_data['epofw_price_type']     = 'fixed';
-											}
-											$passed_cart_data['epofw_form_data'] = $get_field_name_arr[ $post_key ];
+										$find_price_based_on_name = $this->epofw_find_price_based_on_name( $product_id, $post_check_field_name, $quantity, $get_field_name_arr[ $post_key ] );
+										if ( $find_price_based_on_name ) {
+											$check_addon_price                        = epofw_check_array_key_exists( 'addon_price', $find_price_based_on_name );
+											$check_addon_price_type                   = epofw_check_array_key_exists( 'addon_price_type', $find_price_based_on_name );
+											$passed_cart_data['epofw_price']          = $check_addon_price;
+											$check_addon_original_price               = epofw_check_array_key_exists( 'addon_original_price', $find_price_based_on_name );
+											$passed_cart_data['epofw_original_price'] = $check_addon_original_price;
+											$passed_cart_data['epofw_price_type']     = $check_addon_price_type;
+										} else {
+											$passed_cart_data['epofw_price']          = 0;
+											$passed_cart_data['epofw_original_price'] = 0;
+											$passed_cart_data['epofw_price_type']     = 'fixed';
 										}
-										if ( ! empty( $passed_cart_data ) ) {
-											$cart_item['epofw_data'][ $check_field_name ] = $passed_cart_data;
-										}
+										$passed_cart_data['epofw_form_data'] = $get_field_name_arr[ $post_key ];
+									}
+									if ( ! empty( $passed_cart_data ) ) {
+										$cart_item['epofw_data'][ $check_field_name ] = $passed_cart_data;
 									}
 								}
 							}
@@ -878,6 +918,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			$check_field_options  = isset( $fields_data['epofw_field_settings']['options'] ) ? $fields_data['epofw_field_settings']['options'] : array();
 			$check_field_inp_type = isset( $fields_data['field']['type'] ) ? $fields_data['field']['type'] : '';
 			$is_valid             = true;
+
 			if (
 				'select' === $check_field_inp_type ||
 				'radiogroup' === $check_field_inp_type ||
@@ -1101,7 +1142,8 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			if ( 'colorpicker' === $epofw_type ) {
 				$epofw_value = $this->epofw_render_color( $get_epofw_value );
 			} else {
-				$epofw_value = $get_epofw_value;
+				// Sanitize and escape the value.
+				$epofw_value = esc_html( wp_strip_all_tags( $get_epofw_value ) );
 			}
 
 			/**

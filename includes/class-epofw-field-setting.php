@@ -12,6 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * EPOFW_Field_Setting class.
  */
@@ -79,9 +80,12 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 * @since 1.0.0
 		 */
 		public function __construct() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'extra-product-options-for-woocommerce' ) );
+			}
 			self::$epofw_admin_obj = new EPOFW_Admin();
-			self::$current_page    = self::$epofw_admin_obj->epofw_current_page();
-			self::$current_tab     = self::$epofw_admin_obj->epofw_current_tab();
+			self::$current_page    = EPOFW_Admin::epofw_current_page();
+			self::$current_tab     = EPOFW_Admin::epofw_current_tab();
 			self::$post_type       = EPOFW_DFT_POST_TYPE;
 			add_action( 'add_new_btn_prd_list', array( $this, 'add_new_btn_prd_list_fn' ), 10, 2 );
 		}
@@ -153,7 +157,7 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 				self::epofw_list_methods_screen();
 			}
 			if ( ! empty( $message ) ) {
-				self::$epofw_admin_obj->epofw_updated_message( $message, $get_tab, '' );
+				EPOFW_Admin::epofw_updated_message( $message, $get_tab, '' );
 			}
 		}
 
@@ -167,17 +171,27 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 * @uses     Extra_Product_Options_For_WooCommerce::epofw_updated_message()
 		 */
 		public static function epofw_delete_method( $id ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'extra-product-options-for-woocommerce' ) );
+			}
 			$epofw_nonce = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$get_tab     = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$get_tab     = isset( $get_tab ) ? sanitize_text_field( wp_unslash( $get_tab ) ) : '';
 			$getnonce    = wp_verify_nonce( sanitize_text_field( wp_unslash( $epofw_nonce ) ), 'del_' . $id );
 			if ( isset( $getnonce ) && 1 === $getnonce ) {
 				wp_delete_post( $id );
-				$delet_action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, '', '', '', 'deleted' );
+				$delet_action_redirect_url = EPOFW_Admin::dynamic_url(
+					self::$current_page,
+					self::$current_tab,
+					'',
+					'',
+					'',
+					'deleted'
+				);
 				wp_safe_redirect( $delet_action_redirect_url );
 				exit;
 			} else {
-				self::$epofw_admin_obj->epofw_updated_message( 'nonce_check', $get_tab, '' );
+				EPOFW_Admin::epofw_updated_message( 'nonce_check', $get_tab, '' );
 			}
 		}
 
@@ -191,6 +205,9 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 * @uses     Extra_Product_Options_For_WooCommerce::epofw_updated_message()
 		 */
 		public static function epofw_duplicate_method( $id ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'extra-product-options-for-woocommerce' ) );
+			}
 			$epofw_nonce = filter_input( INPUT_GET, 'epofw_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$get_tab     = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$get_tab     = isset( $get_tab ) ? sanitize_text_field( wp_unslash( $get_tab ) ) : '';
@@ -231,16 +248,30 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 							}
 						}
 					}
-					$duplicat_action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, 'edit', $new_post_id, esc_attr( $epofw_add ), 'duplicated' );
+					$duplicat_action_redirect_url = EPOFW_Admin::dynamic_url(
+						self::$current_page,
+						self::$current_tab,
+						'edit',
+						$new_post_id,
+						esc_attr( $epofw_add ),
+						'duplicated'
+					);
 					wp_safe_redirect( $duplicat_action_redirect_url );
 					exit();
 				} else {
-					$action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, '', '', '', 'failed' );
+					$action_redirect_url = EPOFW_Admin::dynamic_url(
+						self::$current_page,
+						self::$current_tab,
+						'',
+						'',
+						'',
+						'failed'
+					);
 					wp_safe_redirect( $action_redirect_url );
 					exit();
 				}
 			} else {
-				self::$epofw_admin_obj->epofw_updated_message( 'nonce_check', $get_tab, '' );
+				EPOFW_Admin::epofw_updated_message( 'nonce_check', $get_tab, '' );
 			}
 		}
 
@@ -323,16 +354,20 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 * @uses     Extra_Product_Options_For_WooCommerce::epofw_updated_message()
 		 */
 		private static function epofw_save_method( $method_id = 0 ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'extra-product-options-for-woocommerce' ) );
+			}
 			$action                        = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$epofw_save                    = filter_input( INPUT_POST, 'epofw_save', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			$epofw_save                    = isset( $epofw_save ) ? sanitize_text_field( wp_unslash( $epofw_save ) ) : '';
 			$woocommerce_save_method_nonce = filter_input( INPUT_POST, 'woocommerce_save_method_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			if ( ( isset( $action ) && ! empty( $action ) ) ) {
 				if ( ! empty( $epofw_save ) ) {
-					if ( empty( $woocommerce_save_method_nonce ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $woocommerce_save_method_nonce ) ), 'woocommerce_save_method' ) ) {
-						esc_html_e( 'Error with security check.', 'extra-product-options-for-woocommerce' );
-
-						return false;
+					if (
+						! isset( $_POST['woocommerce_save_method_nonce'] ) ||
+						! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_save_method_nonce'] ) ), 'woocommerce_save_method' )
+					) {
+						wp_die( esc_html__( 'Security check failed.', 'extra-product-options-for-woocommerce' ) );
 					}
 					$epofw_data            = ! empty( $_POST['epofw_data'] ) ? sanitize_array( $_POST['epofw_data'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 					$epofw_shipping_status = '';
@@ -430,12 +465,26 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 					}
 					$epofw_add = wp_create_nonce( 'epofw_add' );
 					if ( 'add' === $action ) {
-						$add_action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, 'edit', $method_id, esc_attr( $epofw_add ), 'created' );
+						$add_action_redirect_url = EPOFW_Admin::dynamic_url(
+							self::$current_page,
+							self::$current_tab,
+							'edit',
+							$method_id,
+							esc_attr( $epofw_add ),
+							'created'
+						);
 						wp_safe_redirect( $add_action_redirect_url );
 						exit();
 					}
 					if ( 'edit' === $action ) {
-						$edit_action_redirect_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, 'edit', $method_id, esc_attr( $epofw_add ), 'saved' );
+						$edit_action_redirect_url = EPOFW_Admin::dynamic_url(
+							self::$current_page,
+							self::$current_tab,
+							'edit',
+							$method_id,
+							esc_attr( $epofw_add ),
+							'saved'
+						);
 						wp_safe_redirect( $edit_action_redirect_url );
 						exit();
 					}
@@ -475,7 +524,9 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 		 */
 		public function add_new_btn_prd_list_fn( $link_method_url, $text ) {
 			?>
-			<a href="<?php echo esc_url( $link_method_url ); ?>" class="page-title-action"><?php echo esc_html( $text ); ?></a>
+			<a href="<?php echo esc_url( $link_method_url ); ?>" class="page-title-action">
+				<?php echo esc_html( $text ); ?>
+			</a>
 			<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=epofw_import_all_fields' ), 'epofw_import_fields_nonce' ) ); ?>" class="page-title-action">
 				<?php esc_html_e( 'Import Dummy Fields', 'extra-product-options-for-woocommerce' ); ?>
 			</a>
@@ -496,7 +547,14 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			if ( ! class_exists( 'EPOFW_Field_Table' ) ) {
 				require_once EPOFW_PLUGIN_DIR . '/includes/class-epofw-field-table.php';
 			}
-			$link_method_url = self::$epofw_admin_obj->dynamic_url( self::$current_page, self::$current_tab, 'add', '', '', '' );
+			$link_method_url = EPOFW_Admin::dynamic_url(
+				self::$current_page,
+				self::$current_tab,
+				'add',
+				'',
+				'',
+				''
+			);
 			?>
 			<h1 class="wp-heading-inline">
 				<?php

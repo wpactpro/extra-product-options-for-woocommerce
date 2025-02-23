@@ -3699,7 +3699,9 @@ function epofw_price_filter( $epofw_price ) {
  * @return mixed|string
  */
 function epofw_format_price_with_decimals( $addon_price, $egppc_args, $fields_data ) {
-	$opt_price = empty( $addon_price ) ? ! empty( $egppc_args['opt_price'] ) ? $egppc_args['opt_price'] : 0 : $addon_price;
+	$opt_price = empty( $addon_price )
+		? ( ! empty( $egppc_args['opt_price'] ) ? $egppc_args['opt_price'] : 0 )
+		: $addon_price;
 	/**
 	 * Filters for before format price with decimals.
 	 *

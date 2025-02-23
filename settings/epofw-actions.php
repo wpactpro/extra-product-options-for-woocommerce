@@ -1,4 +1,12 @@
 <?php
+/**
+ * Extra Product Options for WooCommerce Actions
+ *
+ * Handles all action and filter hooks for the plugin.
+ *
+ * @package Extra_Product_Options_For_WooCommerce
+ * @since   2.5
+ */
 
 /**
  * Function will add class for label.
@@ -22,10 +30,10 @@ add_filter( 'epofw_get_field_label_class', 'epofw_get_field_label_class_callback
  *
  * @since 2.5
  *
- * @param array $field_input_property Array of field inout.
+ * @param array $field_input_property Array of field input.
  * @param array $fields_data          Array of fields data.
  *
- * @return array $field_input_property Array of field inout.
+ * @return array $field_input_property Array of field input.
  */
 function epofw_get_field_input_property_callback( $field_input_property, $fields_data ) {
 	$check_field_lbl_title                   = epofw_get_field_label_title( $fields_data );
@@ -42,13 +50,13 @@ add_filter( 'epofw_get_field_input_property', 'epofw_get_field_input_property_ca
  * @since 2.5
  *
  * @param array $args {
- *                                 The array of data.
+ *     The array of data.
  *
- * @type object    $product_data   Data of the current product.
- * @type int|float $product_price  Product price.
- * @type string    $opt_price_type Price type - Fixed, Percentage of product price or etc.
- * @type string    $epofw_action   Page action - shop|product page.
- * @type array     $fields_data    Array of addon data.
+ *     @type object    $product_data   Data of the current product.
+ *     @type int|float $product_price  Product price.
+ *     @type string    $opt_price_type Price type - Fixed, Percentage of product price or etc.
+ *     @type string    $epofw_action   Page action - shop|product page.
+ *     @type array     $fields_data    Array of addon data.
  * }
  */
 function epofw_html_table_field_label_td_callback( $args ) {

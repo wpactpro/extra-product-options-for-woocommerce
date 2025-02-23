@@ -23,7 +23,8 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 	protected $action = 'epofw_bg_process';
 
 	/**
-	 * Task
+	 * Task.
+	 *
 	 * Override this method to perform any actions required on each
 	 * queue item. Return the modified item for further processing
 	 * in the next pass through. Or, return false to remove the
@@ -69,17 +70,17 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 												) {
 													if ( 'class' === $key ) {
 														unset( $new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] );
-														$modified_class    = $gn_value;
+														$modified_class    = sanitize_text_field( $gn_value );
 														$field_restriction = epofw_check_array_key_exists( 'field_restriction', $field_value );
 														if ( $field_restriction ) {
-															$modified_class .= '||epofw_' . $field_restriction;
+															$modified_class .= '||epofw_' . sanitize_text_field( $field_restriction );
 														}
 														$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $modified_class;
 													} elseif ( 'name' === $key ) {
 														if ( empty( $gn_value ) ) {
-															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = 'epofw_' . $field_key . '_' . wp_rand();
+															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = 'epofw_' . sanitize_key( $field_key ) . '_' . wp_rand();
 														} else {
-															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $gn_value;
+															$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = sanitize_text_field( $gn_value );
 														}
 													} else {
 														if ( ! is_array( $gn_value ) ) {
@@ -88,7 +89,7 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 														$new_epofw_data['general'][ $epofw_field_key ][ $field_key ][ $key ] = $gn_value;
 													}
 												} elseif ( 'status' === $key ) {
-													$new_epofw_data['general'][ $epofw_field_key ]['field_status'] = $gn_value;
+													$new_epofw_data['general'][ $epofw_field_key ]['field_status'] = sanitize_text_field( $gn_value );
 												} else {
 													if ( ! is_array( $gn_value ) ) {
 														$gn_value = sanitize_text_field( $gn_value );
@@ -97,10 +98,10 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 														if ( ! empty( $gn_value ) ) {
 															$new_options_array = array();
 															foreach ( $gn_value as $gn_value_key => $gn_value_v ) {
-																$new_options_array[ $gn_value_key ] = $gn_value_key . '||' . $gn_value_v;
+																$new_options_array[ sanitize_key( $gn_value_key ) ] = sanitize_key( $gn_value_key ) . '||' . sanitize_text_field( $gn_value_v );
 															}
 														}
-														$new_epofw_data['general'][ $epofw_field_key ]['epofw_field_settings'][ $key ] = $new_options_array;
+														$new_epofw_data['general'][ $epofw_field_key ]['epofw_field_settings'][ $key ] = isset( $new_options_array ) ? $new_options_array : array();
 													} else {
 														$new_epofw_data['general'][ $epofw_field_key ]['epofw_field_settings'][ $key ] = $gn_value;
 													}
@@ -108,7 +109,7 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 											}
 										}
 									} else {
-										$new_epofw_data['general'][ $epofw_field_key ][ $field_key ] = $field_value;
+										$new_epofw_data['general'][ $epofw_field_key ][ $field_key ] = sanitize_text_field( $field_value );
 									}
 								}
 							}
@@ -116,14 +117,14 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 							$new_epofw_additional = array();
 							foreach ( $epofw_data['additional_rule_data'] as $key => $epofw_ard_data ) {
 								$epofw_ard_key                = wp_rand();
-								$new_epofw_additional[ $key ] = $epofw_ard_data;
+								$new_epofw_additional[ $key ] = map_deep( $epofw_ard_data, 'sanitize_text_field' );
 							}
 							$new_epofw_data['additional_rule_data'][ $epofw_ard_key ] = $new_epofw_additional;
 						} else {
 							if ( 'epofw_addon_name' === $epofw_key ) {
-								$post_title = $epofw_sub_data;
+								$post_title = sanitize_text_field( $epofw_sub_data );
 							} elseif ( 'epofw_addon_status' === $epofw_key ) {
-								$epofw_shipping_status = $epofw_sub_data;
+								$epofw_shipping_status = sanitize_text_field( $epofw_sub_data );
 							}
 							if ( isset( $epofw_shipping_status ) && 'on' === $epofw_shipping_status ) {
 								$post_status = 'publish';
@@ -132,11 +133,11 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 							}
 							wp_update_post(
 								array(
-									'ID'          => $f_id,
+									'ID'          => absint( $f_id ),
 									'post_status' => $post_status,
 								)
 							);
-							$new_epofw_data[ $epofw_key ] = $epofw_sub_data;
+							$new_epofw_data[ $epofw_key ] = sanitize_text_field( $epofw_sub_data );
 						}
 					}
 					update_post_meta( $f_id, 'epofw_prd_opt_data', $new_epofw_data );
@@ -148,7 +149,7 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 					} else {
 						$get_epofw_migration_count = 1;
 					}
-					update_option( 'epofw_migration_count', $get_epofw_migration_count );
+					update_option( 'epofw_migration_count', absint( $get_epofw_migration_count ) );
 				}
 			}
 		}
@@ -166,12 +167,13 @@ class EPOFW_Bg_Process extends WC_Background_Process {
 	}
 
 	/**
-	 * Complete
+	 * Complete.
+	 *
 	 * Override if applicable, but ensure that the below actions are
 	 * performed, or, call parent::complete().
 	 */
 	protected function complete() {
 		parent::complete();
-		wc_print_notice( 'Background process complete' );
+		wc_print_notice( esc_html__( 'Background process complete', 'extra-product-options-for-woocommerce' ) );
 	}
 }

@@ -7,7 +7,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 $epofw_gs = filter_input( INPUT_POST, 'epofw_gs', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 $epofw_gs = isset( $epofw_gs ) ? sanitize_text_field( wp_unslash( $epofw_gs ) ) : '';

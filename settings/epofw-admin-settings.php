@@ -3,20 +3,21 @@
  * If this file is called directly, abort.
  *
  * @package    Extra_Product_Options_For_WooCommerce
- * @subpackage Extra_Product_Options_For_WooCommerce/settings
+ * @subpackage Extra_Product_Options_For_WooCommerce/settings.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 $get_action  = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-$get_action  = isset( $get_action ) ? sanitize_text_field( wp_unslash( $get_action ) ) : 'add';
+$get_action  = ! empty( $get_action ) ? sanitize_text_field( wp_unslash( $get_action ) ) : 'add';
 $get_data    = '';
 $field_type  = '';
 $get_post_id = '';
 if ( 'edit' === $get_action ) {
-	$get_post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-	$get_post_id = isset( $get_post_id ) ? sanitize_text_field( wp_unslash( $get_post_id ) ) : '';
+	$get_post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+	$get_post_id = ! empty( $get_post_id ) ? absint( $get_post_id ) : '';
 	$get_data    = epofw_get_data_from_db( $get_post_id );
 }
 $epofw_field                = epofw_field_act_arr_fn();
@@ -25,7 +26,7 @@ $check_epofw_addon_status   = epofw_check_array_key_exists( 'epofw_addon_status'
 $check_epofw_addon_name     = epofw_check_array_key_exists( 'epofw_addon_name', $get_data );
 $check_epofw_addon_position = epofw_check_array_key_exists( 'epofw_addon_position', $get_data );
 ?>
-	<h1 class="wp-heading-inline"><?php echo esc_html__( 'Add Product Addon', 'extra-product-options-for-woocommerce' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Add Product Addon', 'extra-product-options-for-woocommerce' ); ?></h1>
 	<hr class="wp-header-end">
 	<div class="epofw_main_form_section">
 		<div class="epofw_main_left_section">
@@ -50,7 +51,7 @@ $check_epofw_addon_position = epofw_check_array_key_exists( 'epofw_addon_positio
 									</div>
 									<div class="forminp">
 										<div class="forminp1">
-											<input type="checkbox" name="epofw_data[epofw_addon_status]" id="epofw_addon_status_id" value="on" <?php checked( 'on', $check_epofw_addon_status ); ?>>
+											<input type="checkbox" name="epofw_data[epofw_addon_status]" id="epofw_addon_status_id" value="on" <?php checked( 'on', esc_attr( $check_epofw_addon_status ) ); ?>>
 										</div>
 									</div>
 								</div>
