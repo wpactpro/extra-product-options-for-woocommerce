@@ -9,7 +9,7 @@ Stable tag: 3.0.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Extra product options for WooCommerce Plugin allows you to add extra options (17+ field types) price fields to your WooCommerce products. Easy way to add custom fields as per your business requirement.
+Extra product options - Add extra options (17+ field types) with custom pricing to WooCommerce products.
 
 == Description ==
 
@@ -208,7 +208,9 @@ Automatic updates should work great for you.  As always, though, we recommend ba
 
 == Changelog ==
 = 3.0.9 =
+* New - Import Dummy Data
 * Refactor code
+* Compatible with WordPress 6.7.x
 * Compatible with WooCommerce 9.6.x
 
 = 3.0.8 =
