@@ -310,7 +310,7 @@ module.exports = function (grunt) {
 	grunt.registerTask( 'src', ['checkDependencies', 'jsvalidate', 'jshint', 'stylelint', 'sass', 'rtlcss', 'checktextdomain', 'uglify', 'cssmin', 'makepot:src'] );
 	// grunt.registerTask( 'src', ['checkDependencies', 'stylelint', 'sass', 'rtlcss', 'checktextdomain', 'uglify', 'cssmin', 'makepot:src'] );
 	
-	grunt.registerTask( 'build', ['string-replace', 'clean:all', 'copy:files', 'compress', 'clean:all', 'clean:composer.json', 'clean:composer.lock', 'clean:phpcs.xml'] ); //'exec:cli',
+	grunt.registerTask( 'build', ['string-replace', 'clean:all', 'copy:files', 'compress', 'clean:all'] ); //'exec:cli',
 	grunt.registerTask( 'release', ['src', 'build'] );
 
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', ['jsvalidate', 'jshint'] );

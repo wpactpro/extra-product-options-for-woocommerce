@@ -1,14 +1,14 @@
-# Copyright (C) 2024 actpro
+# Copyright (C) 2025 actpro
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Extra Product Options for WooCommerce 3.0.8\n"
+"Project-Id-Version: Extra Product Options for WooCommerce 3.0.9\n"
 "Report-Msgid-Bugs-To: https://www.wpactpro.com/contact/\n"
-"POT-Creation-Date: 2024-06-01 11:05:30+00:00\n"
+"POT-Creation-Date: 2025-02-24 15:32:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
 "Last-Translator: wpactpro <wpactpro@gmail.com>\n"
 "Language-Team: wpactpro <wpactpro@gmail.com>\n"
 "Language: en\n"
@@ -37,7 +37,7 @@ msgid "Extra Product Option"
 msgstr ""
 
 #: includes/class-epofw-admin.php:172 includes/class-epofw-admin.php:229
-#: includes/class-epofw-admin.php:624
+#: includes/class-epofw-admin.php:629
 msgid "You have not permission for this one."
 msgstr ""
 
@@ -46,8 +46,7 @@ msgid "Nonce verification failed."
 msgstr ""
 
 #: includes/class-epofw-admin.php:233 includes/class-epofw-admin.php:237
-#: includes/class-epofw-admin.php:628 includes/class-epofw-admin.php:632
-#: includes/class-epofw-front.php:658
+#: includes/class-epofw-admin.php:633 includes/class-epofw-admin.php:637
 msgid "Nonce verification failed"
 msgstr ""
 
@@ -63,185 +62,208 @@ msgstr ""
 msgid "Getting Started"
 msgstr ""
 
-#: includes/class-epofw-admin.php:569
+#: includes/class-epofw-admin.php:574
 msgid "Product Field successfully created."
 msgstr ""
 
-#: includes/class-epofw-admin.php:571
+#: includes/class-epofw-admin.php:576
 msgid "Product Field successfully updated."
 msgstr ""
 
-#: includes/class-epofw-admin.php:573
+#: includes/class-epofw-admin.php:578
 msgid "Product Field deleted."
 msgstr ""
 
-#: includes/class-epofw-admin.php:575
+#: includes/class-epofw-admin.php:580
 msgid "Product Field duplicated."
 msgstr ""
 
-#: includes/class-epofw-admin.php:577
+#: includes/class-epofw-admin.php:582
 msgid "Product Field disabled."
 msgstr ""
 
-#: includes/class-epofw-admin.php:579
+#: includes/class-epofw-admin.php:584
 msgid "Product Field enabled."
 msgstr ""
 
-#: includes/class-epofw-admin.php:582
+#: includes/class-epofw-admin.php:586
+msgid "Fields imported successfully."
+msgstr ""
+
+#: includes/class-epofw-admin.php:589
 msgid "There was an error with saving data."
 msgstr ""
 
-#: includes/class-epofw-admin.php:584 includes/class-epofw-admin.php:594
+#: includes/class-epofw-admin.php:591 includes/class-epofw-admin.php:601
 msgid "There was an error with security check."
 msgstr ""
 
-#: includes/class-epofw-admin.php:591
+#: includes/class-epofw-admin.php:598
 msgid "Settings save successfully"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:333
-#: settings/epofw-general-settings.php:17
-msgid "Error with security check."
+#: includes/class-epofw-bg-process.php:177
+msgid "Background process complete"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:427
+#: includes/class-epofw-field-setting.php:84
+#: includes/class-epofw-field-setting.php:175
+#: includes/class-epofw-field-setting.php:209
+#: includes/class-epofw-field-setting.php:358
+#: includes/class-epofw-import.php:36
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:370
+msgid "Security check failed."
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:462
 msgid "Error saving Product Option."
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:501
+#: includes/class-epofw-field-setting.php:531
+msgid "Import Dummy Fields"
+msgstr ""
+
+#: includes/class-epofw-field-setting.php:561
 msgid "Field Listing"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:516
+#: includes/class-epofw-field-setting.php:576
 msgid "Add New"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:529
+#: includes/class-epofw-field-setting.php:589
 msgid "Search results for "
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:541
+#: includes/class-epofw-field-setting.php:601
 msgid "Search Product Option"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:79 settings/epofw-constant.php:35
+#: includes/class-epofw-field-table.php:88 settings/epofw-constant.php:35
 msgid "Field Title"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:80 settings/epofw-admin-settings.php:48
+#: includes/class-epofw-field-table.php:89 settings/epofw-admin-settings.php:49
 msgid "Status"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:81
+#: includes/class-epofw-field-table.php:90
 msgid "Date"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:170
+#: includes/class-epofw-field-table.php:183
 msgid "No Field Option found."
 msgstr ""
 
-#: includes/class-epofw-field-table.php:232
+#: includes/class-epofw-field-table.php:252
 msgid "Edit"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:233
-#: includes/class-epofw-field-table.php:283
+#: includes/class-epofw-field-table.php:253
+#: includes/class-epofw-field-table.php:306
 msgid "Delete"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:234
+#: includes/class-epofw-field-table.php:254
 msgid "Duplicate"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:248
-#: includes/class-epofw-field-table.php:268
+#: includes/class-epofw-field-table.php:269
+#: includes/class-epofw-field-table.php:290
 msgid "Everywhere"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:251
-#: includes/class-epofw-field-table.php:282
-#: settings/epofw-admin-settings.php:183
+#: includes/class-epofw-field-table.php:272
+#: includes/class-epofw-field-table.php:305
+#: settings/epofw-admin-settings.php:184
 msgid "Enable"
 msgstr ""
 
-#: includes/class-epofw-field-table.php:253
-#: includes/class-epofw-field-table.php:281
-#: settings/epofw-admin-settings.php:185 settings/epofw-admin-settings.php:262
+#: includes/class-epofw-field-table.php:274
+#: includes/class-epofw-field-table.php:304
+#: settings/epofw-admin-settings.php:186 settings/epofw-admin-settings.php:263
 msgid "Disable"
 msgstr ""
 
-#: includes/class-epofw-front.php:208
+#: includes/class-epofw-front.php:263
 msgid "Clear"
 msgstr ""
 
-#: includes/class-epofw-front.php:209
+#: includes/class-epofw-front.php:264
 msgid "Default"
 msgstr ""
 
-#: includes/class-epofw-front.php:210
+#: includes/class-epofw-front.php:265
 msgid "Select Color"
 msgstr ""
 
-#: includes/class-epofw-front.php:211
+#: includes/class-epofw-front.php:266
 msgid "Current Color"
 msgstr ""
 
-#: includes/class-epofw-front.php:240
+#: includes/class-epofw-front.php:295
 #: includes/class-epofw-woocs-compatiblity.php:112
 msgid "Please select a valid time."
 msgstr ""
 
-#: includes/class-epofw-front.php:241
+#: includes/class-epofw-front.php:296
 #: includes/class-epofw-woocs-compatiblity.php:113
 msgid "Please enter a valid time."
 msgstr ""
 
-#: includes/class-epofw-front.php:242
+#: includes/class-epofw-front.php:297
 #: includes/class-epofw-woocs-compatiblity.php:114
 msgid "Please select a valid date."
 msgstr ""
 
-#: includes/class-epofw-front.php:243
+#: includes/class-epofw-front.php:298
 #: includes/class-epofw-woocs-compatiblity.php:115
 msgid "Please enter a valid date."
 msgstr ""
 
-#: includes/class-epofw-front.php:244
+#: includes/class-epofw-front.php:299
 #: includes/class-epofw-woocs-compatiblity.php:116
 msgid "Please select a valid color code."
 msgstr ""
 
-#: includes/class-epofw-front.php:245
+#: includes/class-epofw-front.php:300
 #: includes/class-epofw-woocs-compatiblity.php:117
 msgid "Please enter a valid color code."
 msgstr ""
 
-#: includes/class-epofw-front.php:589
-#. translators: 1: Field label
+#: includes/class-epofw-front.php:601
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+
+#: includes/class-epofw-front.php:673
+#. translators: %1$s: Field label that only accepts numbers
 msgid "Only numbers are allowed for \"%1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:597
-#. translators: 1: Field label
+#: includes/class-epofw-front.php:683
+#. translators: %1$s: Field label that accepts decimal numbers
 msgid "Decimal numbers are allowed for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:605
-#. translators: 1: Field label
+#: includes/class-epofw-front.php:689
+#. translators: %1$s: Field label that only accepts text
 msgid "Only texts are allowed for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:613
-#. translators: 1: Field label
+#: includes/class-epofw-front.php:695
+#. translators: %1$s: Field label that accepts both text and numbers
 msgid "Only text and numbers are allowed for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:621
-#. translators: 1: Field label
+#: includes/class-epofw-front.php:701
+#. translators: %1$s: Field label that requires email format
 msgid "Invalid email format for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:746
+#: includes/class-epofw-front.php:855
 msgid "Option is invalid"
 msgstr ""
 
@@ -265,51 +287,71 @@ msgstr ""
 msgid "You can add product option based on different field types."
 msgstr ""
 
-#: settings/epofw-about-info.php:42
+#: settings/epofw-about-info.php:41 settings/epofw-about-info.php:54
+msgid "Admin Field Options"
+msgstr ""
+
+#: settings/epofw-about-info.php:48
 msgid "Step 2:"
 msgstr ""
 
-#: settings/epofw-about-info.php:43
+#: settings/epofw-about-info.php:49
 msgid "Product page."
 msgstr ""
 
-#: settings/epofw-about-info.php:49
+#: settings/epofw-about-info.php:61
 msgid "Step 3:"
 msgstr ""
 
-#: settings/epofw-about-info.php:50
+#: settings/epofw-about-info.php:62
 msgid "Cart Page"
 msgstr ""
 
-#: settings/epofw-about-info.php:56
+#: settings/epofw-about-info.php:67
+msgid "Cart Field Options"
+msgstr ""
+
+#: settings/epofw-about-info.php:74
 msgid "Step 4:"
 msgstr ""
 
-#: settings/epofw-about-info.php:57
+#: settings/epofw-about-info.php:75
 msgid "Checkout Page"
 msgstr ""
 
-#: settings/epofw-about-info.php:63
+#: settings/epofw-about-info.php:80
+msgid "Checkout Field Options"
+msgstr ""
+
+#: settings/epofw-about-info.php:87
 msgid "Step 5:"
 msgstr ""
 
-#: settings/epofw-about-info.php:64
+#: settings/epofw-about-info.php:88
 msgid "Order Detail Page (After Place Order)"
 msgstr ""
 
-#: settings/epofw-about-info.php:70
+#: settings/epofw-about-info.php:93
+msgid "Order Detail Field Options"
+msgstr ""
+
+#: settings/epofw-about-info.php:100
 msgid "Step 6:"
 msgstr ""
 
-#: settings/epofw-about-info.php:71
+#: settings/epofw-about-info.php:101
 msgid "Order Detail Page (Admin)"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:28
+#: settings/epofw-about-info.php:106
+msgid "Admin Order Detail Options"
+msgstr ""
+
+#: settings/epofw-admin-settings.php:29
 msgid "Add Product Addon"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:74 settings/epofw-common-function.php:357
+#: settings/epofw-admin-settings.php:75 settings/epofw-common-function.php:357
 #: settings/epofw-common-function.php:496
 #: settings/epofw-common-function.php:590
 #: settings/epofw-common-function.php:680
@@ -326,73 +368,73 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:106
+#: settings/epofw-admin-settings.php:107
 msgid "Display Position"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:112
+#: settings/epofw-admin-settings.php:113
 msgid "Before Add to Cart"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:113
+#: settings/epofw-admin-settings.php:114
 msgid "After Add to Cart"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:135
+#: settings/epofw-admin-settings.php:136
 msgid "Extra Product Fields"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:137
+#: settings/epofw-admin-settings.php:138
 msgid "Enable/Disable Options"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:145
+#: settings/epofw-admin-settings.php:146
 msgid "No."
 msgstr ""
 
-#: settings/epofw-admin-settings.php:151
+#: settings/epofw-admin-settings.php:152
 msgid "Field Name"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:154
+#: settings/epofw-admin-settings.php:155
 #: settings/epofw-common-function.php:2121
 msgid "Field Type"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:157
+#: settings/epofw-admin-settings.php:158
 #: settings/epofw-common-function.php:2203
 msgid "Field Status"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:160
+#: settings/epofw-admin-settings.php:161
 msgid "Field Required"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:163
+#: settings/epofw-admin-settings.php:164
 msgid "Action"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:178
+#: settings/epofw-admin-settings.php:179
 msgid "True"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:180 settings/epofw-admin-settings.php:265
+#: settings/epofw-admin-settings.php:181 settings/epofw-admin-settings.php:266
 msgid "False"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:256
+#: settings/epofw-admin-settings.php:257
 msgid "Field 1"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:259
+#: settings/epofw-admin-settings.php:260
 msgid "text"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:305
+#: settings/epofw-admin-settings.php:306
 msgid "Add Field"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:316
+#: settings/epofw-admin-settings.php:317
 #: settings/epofw-general-settings.php:114
 msgid "Save Changes"
 msgstr ""
@@ -1120,6 +1162,10 @@ msgstr ""
 
 #: settings/epofw-constant.php:41
 msgid "Additional Rules"
+msgstr ""
+
+#: settings/epofw-general-settings.php:17
+msgid "Error with security check."
 msgstr ""
 
 #: settings/epofw-general-settings.php:53
