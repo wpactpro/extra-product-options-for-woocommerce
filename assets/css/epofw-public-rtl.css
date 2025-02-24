@@ -1,0 +1,529 @@
+.epofw_fields_table tr td label.epofw_td_label {
+	margin: 0 0 15px 5px;
+	display: block;
+}
+
+.epofw_fields_table tr td input {
+	width: auto !important;
+	margin-left: 5px;
+}
+
+tr#epofw_hidden {
+	display: none;
+}
+
+.addon_total_tbl #addon_details strong {
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+}
+
+.epofw_above label:first-child {
+	display: block;
+}
+
+.single-product ul.woocommerce-error {
+	margin-right: 0;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	flex-direction: column;
+	-webkit-box-align: start;
+	align-items: flex-start;
+}
+
+img.epofw_file_type_img {
+	display: block;
+	margin: 10px 0;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.dv_img_container img {
+	position: relative;
+}
+
+.dv_img_a_container {
+	padding: 4px 5px !important;
+	font-size: 10px;
+	position: absolute;
+	left: 0;
+	background-color: #f00;
+	color: #fff;
+	display: inline-block;
+	z-index: 9999;
+}
+
+.dv_img_container {
+	position: relative;
+}
+
+.epofw_switcher_field input {
+	display: none;
+}
+
+table.epofw_fields_table tr td:first-child,
+table.addon_total_tbl tr td:first-child {
+	width: 35% !important;
+}
+
+label.epofw_switcher_field {
+	display: inline-block;
+	text-align: center;
+	align-items: center;
+	padding: 0 5px;
+	margin-bottom: 15px;
+}
+
+.epofw_switcher_field .button {
+	margin-bottom: 5px;
+}
+
+.epofw_button {
+	cursor: pointer;
+	margin-bottom: 5px;
+}
+
+body .epofw_addon_str_div .epofw_fields_table.epofw_field_dnl,
+body .epofw_addon_str_table .epofw_fields_table.epofw_field_dnl {
+	display: none;
+}
+
+.addon_total_hd,
+.epofw_field_qty_hd {
+	display: none;
+}
+
+/*2252021 - .theme-twentytwenty */
+.theme-twentytwenty .epofw_addon_str_div .epofw_fields_table {
+	display: block;
+	width: 100%;
+	float: right;
+	margin: 35px 0;
+}
+
+.theme-twentytwenty .epofw_addon_str_div .epofw_label_left {
+	width: 100%;
+	display: block;
+	float: right;
+	margin-bottom: 20px;
+}
+
+.theme-twentytwenty .epofw_addon_str_div .epofw_label_left div.label_div {
+	width: 30%;
+	display: inline-block;
+	float: right;
+}
+
+.theme-twentytwenty .epofw_addon_str_div .epofw_label_left div.epofw_td_value {
+	float: right;
+	display: inline-block;
+}
+
+.theme-twentytwenty .epofw_addon_str_div input[type="text"], .theme-twentytwenty .epofw_addon_str_div input[type="password"], .theme-twentytwenty .epofw_addon_str_div input[type="file"] {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.theme-twentytwenty .epofw_addon_str_div input[type="checkbox"], .theme-twentytwenty .epofw_addon_str_div input[type="radio"] {
+	width: 1.5rem;
+	margin: 3px 5px 0 3px;
+}
+
+li.select2-search.select2-search--inline {
+	margin: 0 !important;
+}
+
+.select2-selection--multiple,
+.select2-dropdown {
+	width: 262px !important;
+}
+
+.epofw_shop .epofw_label_left,
+.epofw_shop .epofw_td_label {
+	margin: 10px 0;
+}
+
+.theme-storefront .epofw_addon_html .epofw_label_left {
+	margin: 15px 0;
+}
+
+.theme-storefront .epofw_addon_html .label.epofw_td_label {
+	margin: 5px 0;
+}
+
+.theme-twentynineteen .epofw_addon_html .epofw_label_left {
+	margin: 15px 0;
+}
+
+.theme-twentynineteen .epofw_addon_html .label.epofw_td_label {
+	margin: 5px 0;
+}
+
+.theme-twentynineteen .epofw_addon_html .epofw_td_value input[type="text"] {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.theme-twentynineteen .epofw_addon_totals {
+	margin: 20px 0;
+}
+
+.theme-twentytwentyone .epofw_addon_html .epofw_label_left,
+.theme-twentytwenty .epofw_addon_html .epofw_label_left {
+	margin: 15px 0;
+}
+
+.theme-twentytwentyone .epofw_addon_html .label.epofw_td_label,
+.theme-twentytwenty .epofw_addon_html .label.epofw_td_label {
+	margin: 5px 0;
+}
+
+.theme-twentytwentyone .epofw_addon_totals,
+.theme-twentytwenty .epofw_addon_totals {
+	margin: 20px 0;
+}
+
+/* Free Plugin css */
+div.product form.cart table.epofw_fields_table {
+	margin: 35px 0;
+	float: right;
+	width: 100%;
+}
+
+div.product form.cart table.epofw_fields_table td {
+	padding-right: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+div.product form.cart table#addon_total {
+	float: right;
+	width: 100%;
+	margin: 35px 0;
+}
+
+div.product form.cart table#addon_total td {
+	padding-right: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ui-timepicker-div dl dt {
+	margin-top: 0 !important;
+}
+
+.ui-timepicker-div dl dd {
+	margin: 0 40% 20px 10px !important;
+}
+
+
+/* theme-twentynineteen */
+.theme-twentynineteen .epofw_fields_table {
+	margin: 35px 0;
+}
+
+.theme-twentynineteen .epofw_fields_table tr td input[type="text"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="email"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="url"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="password"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="search"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="number"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="tel"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="date"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="month"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="week"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="time"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="datetime"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="datetime-local"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="color"],
+.theme-twentynineteen .epofw_fields_table tr td textarea {
+	width: auto;
+}
+
+.theme-twentynineteen .epofw_fields_table tr td input[type="checkbox"],
+.theme-twentynineteen .epofw_fields_table tr td input[type="radio"] {
+	width: auto;
+	margin-left: 5px;
+}
+
+.theme-twentynineteen .epofw_fields_table tr td span.select2.select2-container.select2-container--default.select2-container--focus {
+	width: 360px !important;
+}
+
+.theme-twentynineteen .epofw_fields_table tr td span .select2-selection--multiple {
+	width: 262px !important;
+}
+
+.theme-twentynineteen .epofw_fields_table tr td span li.select2-search.select2-search--inline {
+	margin: 0 !important;
+}
+
+.theme-twentynineteen #addon_total #addon_details td:first-child strong {
+	text-align: center;
+	display: block;
+}
+
+.theme-twentynineteen #addon_total #addon_details strong {
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+}
+
+.theme-twentynineteen .product-name dd p {
+	display: inline;
+}
+
+.theme-twentynineteen .ui-timepicker-div dl dd {
+	margin: 0 40% 25px 10px;
+}
+
+/* theme-twentytwenty */
+.theme-twentytwenty .epofw_fields_table {
+	width: 100%;
+	float: right;
+	margin: 35px 0;
+}
+
+.theme-twentytwenty .epofw_fields_table tr td input[type="text"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="email"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="url"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="password"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="search"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="tel"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="date"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="month"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="week"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="time"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="datetime"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="datetime-local"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="color"],
+.theme-twentytwenty .epofw_fields_table tr td textarea {
+	width: auto;
+}
+
+.theme-twentytwenty .epofw_fields_table tr td input[type="checkbox"],
+.theme-twentytwenty .epofw_fields_table tr td input[type="radio"] {
+	width: auto;
+	margin-left: 5px;
+}
+
+.theme-twentytwenty .epofw_fields_table tr td span.select2.select2-container.select2-container--default.select2-container--focus {
+	width: 360px !important;
+}
+
+.theme-twentytwenty .epofw_fields_table tr td span .select2-selection--multiple {
+	width: 262px !important;
+}
+
+.theme-twentytwenty .epofw_fields_table tr td span li.select2-search.select2-search--inline {
+	margin: 0 !important;
+}
+
+.theme-twentytwenty #addon_total #addon_details td:first-child strong {
+	text-align: center;
+	display: block;
+}
+
+.theme-twentytwenty #addon_total #addon_details strong {
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+}
+
+.theme-twentytwenty .product-name dd p {
+	display: inline;
+}
+
+.theme-twentytwenty .ui-timepicker-div dl dt {
+	margin-top: 0 !important;
+}
+
+.theme-twentytwenty .ui-timepicker-div dl dd {
+	margin: 0 40% 20px 10px;
+}
+
+/* theme-twentytwentyone */
+.theme-twentytwentyone .epofw_fields_table {
+	margin: 35px 0;
+}
+
+.theme-twentytwentyone .epofw_fields_table tr td a:focus,
+.theme-twentytwentyone .epofw_fields_table tr td input:focus,
+.theme-twentytwentyone .epofw_fields_table tr td textarea:focus,
+.theme-twentytwentyone .epofw_fields_table tr td button:focus {
+	outline: none;
+}
+
+.theme-twentytwentyone .epofw_fields_table tr td input[type="text"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="email"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="url"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="password"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="search"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="tel"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="date"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="month"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="week"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="time"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="datetime"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="datetime-local"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="color"],
+.theme-twentytwentyone .epofw_fields_table tr td textarea {
+	width: auto;
+}
+
+.theme-twentytwentyone .epofw_fields_table tr td input[type="checkbox"],
+.theme-twentytwentyone .epofw_fields_table tr td input[type="radio"] {
+	width: 25px;
+	margin-left: 5px;
+	vertical-align: sub;
+}
+
+.theme-twentytwentyone .epofw_fields_table tr td span.select2.select2-container.select2-container--default.select2-container--focus {
+	width: 360px !important;
+}
+
+.theme-twentytwentyone .epofw_fields_table tr td span .select2-selection--multiple {
+	width: 262px !important;
+}
+
+.theme-twentytwentyone .epofw_fields_table tr td span li.select2-search.select2-search--inline {
+	margin: 0 !important;
+}
+
+.theme-twentytwentyone #addon_total #addon_details td:first-child strong {
+	text-align: center;
+	display: block;
+}
+
+.theme-twentytwentyone #addon_total #addon_details strong {
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+}
+
+.theme-twentytwentyone .product-name dd p {
+	display: inline;
+}
+
+.theme-twentytwentyone .ui-timepicker-div dl dt {
+	margin-top: 0 !important;
+}
+
+.theme-twentytwentyone .ui-timepicker-div dl dd {
+	margin: 0 40% 20px 10px;
+}
+
+/* theme-storefront */
+.theme-storefront .epofw_fields_table {
+	margin: 35px 0;
+}
+
+.theme-storefront .epofw_fields_table tr td label {
+	display: block;
+}
+
+.theme-storefront .epofw_fields_table tr td a:focus,
+.theme-storefront .epofw_fields_table tr td input:focus,
+.theme-storefront .epofw_fields_table tr td textarea:focus,
+.theme-storefront .epofw_fields_table tr td button:focus {
+	outline: none;
+}
+
+.theme-storefront .epofw_fields_table tr td input[type="text"],
+.theme-storefront .epofw_fields_table tr td input[type="email"],
+.theme-storefront .epofw_fields_table tr td input[type="url"],
+.theme-storefront .epofw_fields_table tr td input[type="password"],
+.theme-storefront .epofw_fields_table tr td input[type="search"],
+.theme-storefront .epofw_fields_table tr td input[type="tel"],
+.theme-storefront .epofw_fields_table tr td input[type="date"],
+.theme-storefront .epofw_fields_table tr td input[type="month"],
+.theme-storefront .epofw_fields_table tr td input[type="week"],
+.theme-storefront .epofw_fields_table tr td input[type="time"],
+.theme-storefront .epofw_fields_table tr td input[type="datetime"],
+.theme-storefront .epofw_fields_table tr td input[type="datetime-local"],
+.theme-storefront .epofw_fields_table tr td input[type="color"],
+.theme-storefront .epofw_fields_table tr td textarea {
+	width: auto;
+}
+
+.theme-storefront .epofw_fields_table tr td input[type="checkbox"],
+.theme-storefront .epofw_fields_table tr td input[type="radio"] {
+	margin-left: 5px;
+}
+
+.theme-storefront .epofw_fields_table tr td input[type="number"] {
+	width: 4.235801032em;
+	text-align: center;
+}
+
+.theme-storefront .epofw_fields_table tr td span.select2.select2-container.select2-container--default.select2-container--focus {
+	width: 200px !important;
+}
+
+.theme-storefront .epofw_fields_table tr td span .select2-selection--multiple {
+	width: 200px !important;
+}
+
+.theme-storefront .epofw_fields_table tr td span li.select2-search.select2-search--inline {
+	margin: 0 !important;
+}
+
+.theme-storefront #addon_total #addon_details td:first-child strong {
+	text-align: center;
+	display: block;
+}
+
+.theme-storefront #addon_total #addon_details strong {
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+}
+
+.theme-storefront .product-name dd p {
+	display: inline;
+}
+
+.theme-storefront .ui-timepicker-div dl dt {
+	margin-top: 0 !important;
+}
+
+.theme-storefront .ui-timepicker-div dl dd {
+	margin: 0 40% 20px 10px;
+}
+
+.theme-neve .epofw_fields_table tr:last-child td {
+	border-bottom: none;
+}
+
+.theme-neve #addon_total tr:last-child td {
+	border-bottom: none;
+}
+
+.theme-neve .ui-timepicker-div dl dt {
+	margin-top: 0 !important;
+}
+
+.theme-neve .ui-timepicker-div dl dd {
+	margin: 0 40% 20px 10px;
+}
+
+.theme-astra div.product form.cart table.epofw_fields_table {
+	margin: 35px 0;
+	float: right;
+	width: 100%;
+}
+
+.theme-astra div.product form.cart table.epofw_fields_table td {
+	padding-right: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-astra div.product form.cart table#addon_total td {
+	padding-right: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-astra .ui-timepicker-div dl dt {
+	margin-top: 0 !important;
+}
+
+.theme-astra .ui-timepicker-div dl dd {
+	margin: 0 40% 20px 10px;
+}

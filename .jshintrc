@@ -1,0 +1,30 @@
+{
+	"boss": true,
+	"curly": true,
+	"eqeqeq": false,
+	"eqnull": true,
+	"expr": true,
+	"immed": true,
+	"noarg": true,
+	"quotmark": "single",
+	"undef": true,
+	"unused": true,
+	"esversion": 5,
+
+	"browser": true,
+	"devel": true,
+  	"maxerr": 99999999,
+
+	"globals": {
+		"_": false,
+		"ajaxurl": false,
+		"jQuery": false,
+		"wp": false,
+		"epofw_front_var": false,
+		"epofw_var": false,
+		"CodeMirror": false,
+		"AWSF": false,
+		"AWSSF": false,
+		"epofw_shop_front_var": false
+	}
+}
