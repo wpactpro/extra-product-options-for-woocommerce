@@ -5,7 +5,7 @@
  * @package    Extra_Product_Options_For_WooCommerce
  * @subpackage Extra_Product_Options_For_WooCommerce/includes
  *
- * @since
+ * @since 2.5
  */
 
 // If this file is called directly, abort.

@@ -23,7 +23,7 @@ function epofw_get_field_label_class_callback( $field_label_class ) {
 	return $field_label_class;
 }
 
-add_filter( 'epofw_get_field_label_class', 'epofw_get_field_label_class_callback', 10, 1 );
+add_filter( 'epofw_get_field_label_class', 'epofw_get_field_label_class_callback' );
 
 /**
  * Function will display field label html.
