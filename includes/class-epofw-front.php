@@ -547,6 +547,10 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 			global $post;
 			$main_fields_data_arr = $this->epofw_get_fields_data( $post->ID );
 			if ( ! empty( $main_fields_data_arr ) ) {
+
+				// Add nonce field using the centralized function.
+				$this->epofw_add_nonce_field();
+
 				foreach ( $main_fields_data_arr as $fields_data_arr ) {
 					$addon_position = epofw_check_array_key_exists( 'epofw_addon_position', $fields_data_arr );
 					if ( 'after_add_to_cart' === $addon_position ) {
@@ -604,7 +608,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				return false;
 			}
 
-			$get_post_data      = $_POST; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$get_post_data      = array_map( 'sanitize_text_field', wp_unslash( $_POST ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$fields_data_arr    = $this->epofw_get_fields_data( $product_id );
 			$get_field_name_arr = $this->epofw_get_field_name_from_data( $fields_data_arr, $get_post_data );
 			$field_err_status   = $this->epofw_check_validation( $get_post_data, $get_field_name_arr );
@@ -1506,10 +1510,11 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 *
 		 * @param int|float $product_price  Product price.
 		 * @param array     $cart_item_data Cart item data.
+		 * @param string    $cart_item_key  Cart item key.
 		 *
 		 * @return string
 		 */
-		public function epofw_woocommerce_cart_item_price( $product_price, $cart_item_data ) {
+		public function epofw_woocommerce_cart_item_price( $product_price, $cart_item_data, $cart_item_key ) {
 			// Set without tax price becaue wc_get_price_to_display function will calucalte tax based on original price.
 			if ( isset( $cart_item_data['epofw_product_price_without_tax'] ) ) {
 				$product_price = wc_price(

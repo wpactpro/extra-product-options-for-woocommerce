@@ -357,10 +357,9 @@ if ( ! class_exists( 'EPOFW_Field_Setting' ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'extra-product-options-for-woocommerce' ) );
 			}
-			$action                        = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-			$epofw_save                    = filter_input( INPUT_POST, 'epofw_save', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-			$epofw_save                    = isset( $epofw_save ) ? sanitize_text_field( wp_unslash( $epofw_save ) ) : '';
-			$woocommerce_save_method_nonce = filter_input( INPUT_POST, 'woocommerce_save_method_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$action     = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$epofw_save = filter_input( INPUT_POST, 'epofw_save', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+			$epofw_save = isset( $epofw_save ) ? sanitize_text_field( wp_unslash( $epofw_save ) ) : '';
 			if ( ( isset( $action ) && ! empty( $action ) ) ) {
 				if ( ! empty( $epofw_save ) ) {
 					if (

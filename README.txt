@@ -4,8 +4,8 @@ Tags: Product options, WooCommerce Extra Product Options, WooCommerce Extra prod
 Requires at least: 3.8
 Tested up to: 6.7.2
 Requires PHP: 5.6
-WC tested up to: 9.6.2
-Stable tag: 3.0.9
+WC tested up to: 9.7.0
+Stable tag: 3.1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -207,6 +207,11 @@ Free plugin: Need Technical Help? - <a href ="mailto:wpactpro@gmail.com" target=
 Automatic updates should work great for you.  As always, though, we recommend backing up your site prior to making any updates just to be sure nothing goes wrong.
 
 == Changelog ==
+= 3.1.0 =
+* Add nonce after add to cart button.
+* Refactor code
+* Compatible with WooCommerce 9.7.x
+
 = 3.0.9 =
 * New - Import Dummy Data
 * Refactor code

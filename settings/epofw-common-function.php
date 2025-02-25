@@ -56,7 +56,7 @@ function epofw_field_end_tr_fn() {
  */
 function epofw_field_start_th_fn() {
 	?>
-	<div scope="row1" class="col-251">    <div scope="row" class="col-25">
+	<div scope="row1" class="col-251"><div scope="row" class="col-25">
 	<?php
 }
 
@@ -2169,7 +2169,9 @@ function epofw_field_type_fn( $get_data, $get_post_id, $field_slug, $field_type,
 	if ( ! empty( $field_id ) ) {
 		$data_property['id'] = $field_id;
 	}
-	$data_property['class']   = $field_class;
+	if ( ! empty( $field_class ) ) {
+		$data_property['class'] = $field_class;
+	}
 	$data_property['options'] = epofw_field_type_options_data();
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo cp_render_fields( $data_property, $field_type, $inc_key );
@@ -2251,7 +2253,9 @@ function epofw_field_status_fn( $get_data, $get_post_id, $field_slug, $field_typ
 	if ( ! empty( $field_id ) ) {
 		$data_property['id'] = $field_id;
 	}
-	$data_property['class'] = $field_class;
+	if ( ! empty( $field_class ) ) {
+		$data_property['class'] = $field_class;
+	}
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo cp_render_fields( $data_property, $field_type, $inc_key );
 	/**
