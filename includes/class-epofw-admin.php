@@ -199,8 +199,10 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 				} else {
 					$prd_query = new WP_Query( $args );
 				}
-				foreach ( $prd_query->posts as $prd_id ) {
-					$data_array[] = array( $prd_id, get_the_title( $prd_id ) );
+				if ( ! empty( $prd_query ) ) {
+					foreach ( $prd_query->posts as $prd_id ) {
+						$data_array[] = array( $prd_id, get_the_title( $prd_id ) );
+					}
 				}
 			} elseif ( 'category' === $current_val ) {
 				$args               = array(
@@ -459,21 +461,17 @@ if ( ! class_exists( 'EPOFW_Admin' ) ) {
 		/**
 		 * Getting dynamic url.
 		 *
-		 * @param string $page Getting page name.
+		 * @since 1.0.0
 		 *
-		 * @param string $tab Getting tab name.
-		 *
-		 * @param string $action Getting action.
-		 *
+		 * @param string $tab     Getting tab name.
+		 * @param string $action  Getting action.
 		 * @param string $post_id Getting current post id.
-		 *
-		 * @param string $nonce Checking nonce if available in url.
-		 *
+		 * @param string $nonce   Checking nonce if available in url.
 		 * @param string $message Checking if any dynamic messages pass in url.
+		 * @param string $page    Getting page name.
 		 *
 		 * @return string $url return url.
 		 *
-		 * @since 1.0.0
 		 */
 		public static function dynamic_url( $page = '', $tab = '', $action = '', $post_id = '', $nonce = '', $message = '' ) {
 			$url_args = array(

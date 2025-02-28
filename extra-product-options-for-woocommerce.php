@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Extra Product Options for WooCommerce
  * Description:         Extra product options for WooCommerce Plugin allows you to add custom form fields (12+ field types) and sections to your WooCommerce product page. Easy way to add custom fields as per your requirement
- * Version:             3.1.0
+ * Version:             3.1.1
  * Author:              actpro
  * Author URI:          https://profiles.wordpress.org/actpro/
  * License:             GPL-2.0+

@@ -329,7 +329,7 @@ if ( ! class_exists( 'EPOFW_Field_Table' ) ) {
 				FILTER_SANITIZE_NUMBER_INT,
 				FILTER_REQUIRE_ARRAY
 			);
-			$method_id_cb     = ! empty( $get_method_id_cb ) ? array_map( 'absint', wp_unslash( $get_method_id_cb ) ) : array();
+			$method_id_cb = ! empty( $get_method_id_cb ) ? array_map( 'absint', wp_unslash( $get_method_id_cb ) ) : array();
 
 			if ( empty( $method_id_cb ) ) {
 				return;
@@ -395,7 +395,7 @@ if ( ! class_exists( 'EPOFW_Field_Table' ) ) {
 		public static function epofw_find( $get_orderby, $args = '' ) {
 			$defaults          = array(
 				'post_status'    => 'any',
-				'posts_per_page' => - 1,
+				'posts_per_page' => -1,
 				'offset'         => 0,
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
