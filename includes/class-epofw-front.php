@@ -586,6 +586,15 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @return string|boolean
 		 */
 		public function epofw_add_to_cart_validation( $passed, $product_id ) {
+
+			if ( ! isset( $_POST ) && empty( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+				return false;
+			}
+
+			if ( ! isset( $_POST[ 'epofw_add_to_cart_nonce_' . $product_id ] ) ) {
+				return $passed;
+			}
+
 			// Check if this is an "Order Again" request.
 			if ( isset( $_GET['order_again'] ) ) {
 				// Verify WooCommerce's order again nonce.
