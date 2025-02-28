@@ -138,6 +138,7 @@ function epofw_field_property_settings( $field_property_array ) {
 			}
 		}
 	}
+
 	/**
 	 * Apply filter for text field array.
 	 *
@@ -2685,13 +2686,15 @@ function epofw_loop_fields_data( $field_data, $get_data, $inc_key ) {
 						<?php
 					}
 					/**
-					 * Fire action after end td.
+					 * Fire action for end td.
 					 *
 					 * @since 3.0.0
+					 *
+					 * @param array $field_extra_option Field extra options.
 					 */
 					do_action( 'epofw_field_end_td', $field_extra_option );
 					/**
-					 * Fire action after end tr.
+					 * Fire action for end tr.
 					 *
 					 * @since 3.0.0
 					 */
@@ -2723,7 +2726,8 @@ function epofw_field_additional_conditional_name() {
 }
 
 /**
- * Additional conditional operator name.
+ * Get additional conditional operator name for Extra Product Options fields.
+ * This function retrieves the additional conditional operator name based on the provided condition.
  *
  * @since 1.0.0
  * @return array $conditional_op_arr Return conditional operator name.
@@ -3261,7 +3265,9 @@ function epofw_calculate_price_based_on_condition( $epofwtwp_args, $fields_data 
 }
 
 /**
- * Function will return calculated price based on condition.
+ * Calculate and return the price based on a given condition.
+ * This function calculates and returns the price based on the provided condition,
+ * price type, and the original product price.
  *
  * @since 2.5
  *
@@ -3317,7 +3323,8 @@ function epofw_explore_label_from_opt_group( $v_value ) {
 }
 
 /**
- * Function to get field list.
+ * Get the list of fields for a specific product in Extra Product Options for WooCommerce.
+ * This function retrieves the list of fields based on the provided product and field IDs.
  *
  * @since 1.0.0
  *
@@ -3346,9 +3353,12 @@ function epofw_get_fields_list( $current_prd_id, $current_field_id ) {
 				if ( ! empty( $general_data ) ) {
 					foreach ( $general_data as $general_data_key => $general_data_val ) {
 						if (
-							! empty( $general_data_val )
-							&& ( isset( $general_data_val['field_status'] ) && 'on' === $general_data_val['field_status'] )
-							&& $current_field_id !== $general_data_key
+							! empty( $general_data_val ) &&
+							(
+								isset( $general_data_val['field_status'] ) &&
+								'on' === $general_data_val['field_status']
+							) &&
+							$current_field_id !== $general_data_key
 						) {
 							$generate_key                      = 'epofw_' . $general_data_val['field']['type'] . '_' . $general_data_key;
 							$fields_array[ $general_data_key ] = $generate_key . '||' . $general_data_val['field']['type'] . '||' . $general_data_val['label']['title'];
@@ -3409,13 +3419,14 @@ function epofw_display_product_price( $product_data, $action ) {
 }
 
 /**
- * Convert string Cyrillic to Latin.
+ * Convert a string from Cyrillic to Latin characters.
+ * This function performs a conversion of a string from Cyrillic to Latin characters.
  *
  * @since 1.2
  *
- * @param string $name_string Input string.
+ * @param string $name_string The string to be converted.
  *
- * @return array|string|string[]
+ * @return string Converted string with Latin characters.
  */
 function epofw_get_cyric_string_to_latin( $name_string ) {
 	if ( preg_match( '/[А-Яа-яЁё]/u', $name_string ) ) {
@@ -3564,11 +3575,14 @@ function epofw_get_cyric_string_to_latin( $name_string ) {
 }
 
 /**
- * Function to get general settings.
+ * Get the general setting value for a specific key.
+ * This function retrieves the value associated with a specific key from the general settings.
  *
- * @param string $key Key of settings.
+ * @since 1.0.0
  *
- * @return string
+ * @param string $key The key for which to retrieve the general setting value.
+ *
+ * @return mixed|null General setting value for the specified key, or null if not found.
  */
 function epofw_general_settings( $key ) {
 	$get_data = get_option( 'epofw_general_data' );
@@ -3584,11 +3598,15 @@ function epofw_general_settings( $key ) {
 }
 
 /**
- * Function to get addon details title.
+ * Get the details title for a specific addon key.
+ * This function retrieves the details title for a given addon key, using general settings.
+ * If no specific details title is found, it returns a default fallback title.
  *
- * @param string $key Key of settings.
+ * @since 1.0.0
  *
- * @return string
+ * @param string $key The addon key for which to retrieve the details title.
+ *
+ * @return string Details title for the specified addon key, or a default fallback title.
  */
 function epofw_get_addon_details_title( $key ) {
 	$epofw_addon_details_title = epofw_general_settings( $key );
@@ -3597,11 +3615,14 @@ function epofw_get_addon_details_title( $key ) {
 }
 
 /**
- * Function to get addon subtitle.
+ * Get the subtitle title for a specific addon key.
+ * This function retrieves the subtitle title for a given addon key.
  *
- * @param string $key Key of settings.
+ * @since 1.0.0
  *
- * @return string
+ * @param string $key The addon key for which to retrieve the subtitle title.
+ *
+ * @return mixed|void Subtitle title for the specified addon key.
  */
 function epofw_get_addon_subtitle_title( $key ) {
 	$epofw_addon_details_subtotal_title = epofw_general_settings( $key );
@@ -3676,11 +3697,14 @@ function epofw_title_with_price( $epofwtwp_args, $fields_data ) {
 }
 
 /**
- * Adde filter for the price.
+ * Add a filter for the price.
+ * This function applies a filter to modify the provided Extra Product Options for WooCommerce price.
  *
- * @param mixed $epofw_price Addon price.
+ * @since 1.0.0
  *
- * @return mixed|void
+ * @param mixed $epofw_price The original Extra Product Options for WooCommerce price.
+ *
+ * @return mixed|void Modified or unmodified Extra Product Options for WooCommerce price.
  */
 function epofw_price_filter( $epofw_price ) {
 	/**
@@ -3692,15 +3716,16 @@ function epofw_price_filter( $epofw_price ) {
 }
 
 /**
- * Function will format price with decimal.
+ * Format the addon price with decimals.
+ * This function formats the addon price with the specified decimal precision.
  *
- * @since  2.4.2
+ * @since 2.4.2
  *
- * @param mixed $addon_price Addon price.
+ * @param float $addon_price The addon price to be formatted.
  * @param array $egppc_args  Array of fields argument.
  * @param array $fields_data Array of fields data.
  *
- * @return mixed|string
+ * @return mixed|string Formatted addon price with decimals.
  */
 function epofw_format_price_with_decimals( $addon_price, $egppc_args, $fields_data ) {
 	$opt_price = empty( $addon_price )

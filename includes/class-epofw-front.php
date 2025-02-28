@@ -56,13 +56,6 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @since    1.0.0
 		 */
 		public function epofw_front_init() {
-			// Add nonce field to the form.
-			add_action(
-				'woocommerce_before_add_to_cart_form',
-				array( $this, 'epofw_add_nonce_field' ),
-				10
-			);
-
 			add_action(
 				'woocommerce_before_add_to_cart_button',
 				array(
@@ -604,10 +597,6 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				return $passed;
 			}
 
-			if ( ! isset( $_POST ) && empty( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-				return false;
-			}
-
 			// Verify nonce.
 			if ( ! $this->verify_add_to_cart_nonce( $product_id ) ) {
 				wc_add_notice(
@@ -654,7 +643,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 
 				if ( ! empty( $epofw_post_data ) ) {
 					foreach ( $epofw_post_data as $post_data_key => $value ) {
-						if ( ! empty( $value ) && array_key_exists( $post_data_key, $get_field_name_arr ) ) {
+						if ( ! empty( $value ) && ! empty( $get_field_name_arr ) && array_key_exists( $post_data_key, $get_field_name_arr ) ) {
 							$check_field_label     = epofw_check_array_key_exists( 'label', $get_field_name_arr[ $post_data_key ] );
 							$check_field_input     = epofw_check_array_key_exists( 'field', $get_field_name_arr[ $post_data_key ] );
 							$check_field_lbl_title = '';
@@ -692,26 +681,34 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 											}
 											if ( 'all_number' === $check_field_restriction ) {
 												if ( 1 !== preg_match( '/^[0-9]+(\\.[0-9]+)]*$/', $post_check_field_name ) ) {
-													/* translators: %1$s: Field label that accepts decimal numbers */
-													$error_message = sprintf( esc_html__( 'Decimal numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+													/* translators: 1: Field label */
+													$error_message = sprintf( __( 'Decimal numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+													$this->epofw_add_to_cart_error_msg( 'all_number', $error_message );
+													$field_err_status[] = false;
 												}
 											}
 											if ( 'only_text' === $check_field_restriction ) {
 												if ( 1 !== preg_match( '/^[a-zA-Z]*$/i', $post_check_field_name ) ) {
-													/* translators: %1$s: Field label that only accepts text */
-													$error_message = sprintf( esc_html__( 'Only texts are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+													/* translators: 1: Field label */
+													$error_message = sprintf( __( 'Only texts are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+													$this->epofw_add_to_cart_error_msg( 'only_text', $error_message );
+													$field_err_status[] = false;
 												}
 											}
 											if ( 'text_number' === $check_field_restriction ) {
 												if ( 1 !== preg_match( '/^[a-zA-Z0-9]*$/i', $post_check_field_name ) ) {
-													/* translators: %1$s: Field label that accepts both text and numbers */
-													$error_message = sprintf( esc_html__( 'Only text and numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+													/* translators: 1: Field label */
+													$error_message = sprintf( __( 'Only text and numbers are allowed for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+													$this->epofw_add_to_cart_error_msg( 'text_number', $error_message );
+													$field_err_status[] = false;
 												}
 											}
 											if ( 'email' === $check_field_restriction ) {
 												if ( ! filter_var( $post_check_field_name, FILTER_VALIDATE_EMAIL ) ) {
-													/* translators: %1$s: Field label that requires email format */
-													$error_message = sprintf( esc_html__( 'Invalid email format for " %1$s".', 'extra-product-options-for-woocommerce' ), $safe_field_title );
+													/* translators: 1: Field label */
+													$error_message = sprintf( __( 'Invalid email format for " %1$s".', 'extra-product-options-for-woocommerce' ), $check_field_lbl_title );
+													$this->epofw_add_to_cart_error_msg( 'email', $error_message );
+													$field_err_status[] = false;
 												}
 											}
 										}
@@ -1115,6 +1112,7 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 * @param array $epofw_data_value   Array of field data.
 		 * @param bool  $check_epofw_haoic  Hide addon order in cart page.
 		 * @param bool  $check_epofw_haopic Hide addon order price in cart page.
+		 *
 		 * @return string $epofw_name Return string.
 		 */
 		public function epofw_display_name_in_cart( $epofw_data_value, $check_epofw_haoic, $check_epofw_haopic ) {
@@ -1190,9 +1188,19 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 				$epofw_value .= '</span>';
 
 				// Escape the value before adding to filter.
+				/**
+				 * Apply filter for render color code.
+				 *
+				 * @since 1.0.0
+				 */
 				$epofw_value .= apply_filters( 'epofw_render_color_code', esc_html( $get_epofw_value ) );
 			}
 
+			/**
+			 * Apply filter for render color html.
+			 *
+			 * @since 1.0.0
+			 */
 			return apply_filters( 'epofw_render_color_html', $epofw_value, esc_html( $get_epofw_value ) );
 		}
 
@@ -1449,7 +1457,8 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		}
 
 		/**
-		 * Get Addon label name for order detail at front side.
+		 * Get Addon label name and price for order detail on the front side.
+		 * Retrieves the addon label name and price based on the provided parameters.
 		 *
 		 * @since 1.0.0
 		 *

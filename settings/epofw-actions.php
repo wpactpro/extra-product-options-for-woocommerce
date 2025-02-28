@@ -403,15 +403,27 @@ function epofw_html_start_tr_display_callback( $args ) {
 	$check_field_title_position = epofw_get_field_label_title_position( $fields_data );
 	$check_field_inp_type       = epofw_get_field_type( $fields_data );
 	/**
-	 * Filter for tr tag.
+	 * Filter the HTML tag for the start of a table row (tr) during display.
+	 * Applies a filter to customize the HTML tag for the start of a table row (tr) based on the provided structure.
 	 *
-	 * @since 1.0.0
+	 * @since 2.5
+	 *
+	 * @param string $tag  The HTML tag for the start of a table row.
+	 * @param array  $args Additional arguments for customization.
+	 *
+	 * @return string Modified HTML tag for the start of a table row.
 	 */
 	$tag = apply_filters( 'epofw_html_start_tr_tag_display', epofw_get_tag_based_on_structure( 'tr' ), $args );
 	/**
-	 * Filter for tr class.
+	 * Filter the CSS class for a table row (tr) during display.
+	 * Applies a filter to customize the CSS class for a table row (tr) based on specific conditions.
 	 *
-	 * @since 1.0.0
+	 * @since 2.5
+	 *
+	 * @param string $tr_class The default CSS class for the table row.
+	 * @param array  $args     Additional arguments for customization.
+	 *
+	 * @return string Modified CSS class for the table row.
 	 */
 	$tr_class = apply_filters( 'epofw_html_tr_class_display', 'epofw_tr_se epofw_label_' . $check_field_title_position, $args );
 	?>
