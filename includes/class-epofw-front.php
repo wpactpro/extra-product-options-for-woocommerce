@@ -1519,11 +1519,10 @@ if ( ! class_exists( 'EPOFW_Front' ) ) {
 		 *
 		 * @param int|float $product_price  Product price.
 		 * @param array     $cart_item_data Cart item data.
-		 * @param string    $cart_item_key  Cart item key.
 		 *
 		 * @return string
 		 */
-		public function epofw_woocommerce_cart_item_price( $product_price, $cart_item_data, $cart_item_key ) {
+		public function epofw_woocommerce_cart_item_price( $product_price, $cart_item_data ) {
 			// Set without tax price becaue wc_get_price_to_display function will calucalte tax based on original price.
 			if ( isset( $cart_item_data['epofw_product_price_without_tax'] ) ) {
 				$product_price = wc_price(
