@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Extra Product Options for WooCommerce 3.0.9\n"
+"Project-Id-Version: Extra Product Options for WooCommerce 3.1.1\n"
 "Report-Msgid-Bugs-To: https://www.wpactpro.com/contact/\n"
-"POT-Creation-Date: 2025-02-24 15:32:51+00:00\n"
+"POT-Creation-Date: 2025-02-28 11:36:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,8 +36,8 @@ msgstr ""
 msgid "Extra Product Option"
 msgstr ""
 
-#: includes/class-epofw-admin.php:172 includes/class-epofw-admin.php:229
-#: includes/class-epofw-admin.php:629
+#: includes/class-epofw-admin.php:172 includes/class-epofw-admin.php:231
+#: includes/class-epofw-admin.php:627
 msgid "You have not permission for this one."
 msgstr ""
 
@@ -45,60 +45,60 @@ msgstr ""
 msgid "Nonce verification failed."
 msgstr ""
 
-#: includes/class-epofw-admin.php:233 includes/class-epofw-admin.php:237
-#: includes/class-epofw-admin.php:633 includes/class-epofw-admin.php:637
+#: includes/class-epofw-admin.php:235 includes/class-epofw-admin.php:239
+#: includes/class-epofw-admin.php:631 includes/class-epofw-admin.php:635
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/class-epofw-admin.php:262 settings/epofw-general-settings.php:31
+#: includes/class-epofw-admin.php:264 settings/epofw-general-settings.php:31
 msgid "General Settings"
 msgstr ""
 
-#: includes/class-epofw-admin.php:263
+#: includes/class-epofw-admin.php:265
 msgid "Product Option"
 msgstr ""
 
-#: includes/class-epofw-admin.php:264 settings/epofw-about-info.php:21
+#: includes/class-epofw-admin.php:266 settings/epofw-about-info.php:21
 msgid "Getting Started"
 msgstr ""
 
-#: includes/class-epofw-admin.php:574
+#: includes/class-epofw-admin.php:572
 msgid "Product Field successfully created."
 msgstr ""
 
-#: includes/class-epofw-admin.php:576
+#: includes/class-epofw-admin.php:574
 msgid "Product Field successfully updated."
 msgstr ""
 
-#: includes/class-epofw-admin.php:578
+#: includes/class-epofw-admin.php:576
 msgid "Product Field deleted."
 msgstr ""
 
-#: includes/class-epofw-admin.php:580
+#: includes/class-epofw-admin.php:578
 msgid "Product Field duplicated."
 msgstr ""
 
-#: includes/class-epofw-admin.php:582
+#: includes/class-epofw-admin.php:580
 msgid "Product Field disabled."
 msgstr ""
 
-#: includes/class-epofw-admin.php:584
+#: includes/class-epofw-admin.php:582
 msgid "Product Field enabled."
 msgstr ""
 
-#: includes/class-epofw-admin.php:586
+#: includes/class-epofw-admin.php:584
 msgid "Fields imported successfully."
 msgstr ""
 
-#: includes/class-epofw-admin.php:589
+#: includes/class-epofw-admin.php:587
 msgid "There was an error with saving data."
 msgstr ""
 
-#: includes/class-epofw-admin.php:591 includes/class-epofw-admin.php:601
+#: includes/class-epofw-admin.php:589 includes/class-epofw-admin.php:599
 msgid "There was an error with security check."
 msgstr ""
 
-#: includes/class-epofw-admin.php:598
+#: includes/class-epofw-admin.php:596
 msgid "Settings save successfully"
 msgstr ""
 
@@ -114,31 +114,31 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:370
+#: includes/class-epofw-field-setting.php:369
 msgid "Security check failed."
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:462
+#: includes/class-epofw-field-setting.php:461
 msgid "Error saving Product Option."
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:531
+#: includes/class-epofw-field-setting.php:530
 msgid "Import Dummy Fields"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:561
+#: includes/class-epofw-field-setting.php:560
 msgid "Field Listing"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:576
+#: includes/class-epofw-field-setting.php:575
 msgid "Add New"
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:589
+#: includes/class-epofw-field-setting.php:588
 msgid "Search results for "
 msgstr ""
 
-#: includes/class-epofw-field-setting.php:601
+#: includes/class-epofw-field-setting.php:600
 msgid "Search Product Option"
 msgstr ""
 
@@ -188,82 +188,82 @@ msgstr ""
 msgid "Disable"
 msgstr ""
 
-#: includes/class-epofw-front.php:263
+#: includes/class-epofw-front.php:256
 msgid "Clear"
 msgstr ""
 
-#: includes/class-epofw-front.php:264
+#: includes/class-epofw-front.php:257
 msgid "Default"
 msgstr ""
 
-#: includes/class-epofw-front.php:265
+#: includes/class-epofw-front.php:258
 msgid "Select Color"
 msgstr ""
 
-#: includes/class-epofw-front.php:266
+#: includes/class-epofw-front.php:259
 msgid "Current Color"
 msgstr ""
 
-#: includes/class-epofw-front.php:295
+#: includes/class-epofw-front.php:288
 #: includes/class-epofw-woocs-compatiblity.php:112
 msgid "Please select a valid time."
 msgstr ""
 
-#: includes/class-epofw-front.php:296
+#: includes/class-epofw-front.php:289
 #: includes/class-epofw-woocs-compatiblity.php:113
 msgid "Please enter a valid time."
 msgstr ""
 
-#: includes/class-epofw-front.php:297
+#: includes/class-epofw-front.php:290
 #: includes/class-epofw-woocs-compatiblity.php:114
 msgid "Please select a valid date."
 msgstr ""
 
-#: includes/class-epofw-front.php:298
+#: includes/class-epofw-front.php:291
 #: includes/class-epofw-woocs-compatiblity.php:115
 msgid "Please enter a valid date."
 msgstr ""
 
-#: includes/class-epofw-front.php:299
+#: includes/class-epofw-front.php:292
 #: includes/class-epofw-woocs-compatiblity.php:116
 msgid "Please select a valid color code."
 msgstr ""
 
-#: includes/class-epofw-front.php:300
+#: includes/class-epofw-front.php:293
 #: includes/class-epofw-woocs-compatiblity.php:117
 msgid "Please enter a valid color code."
 msgstr ""
 
-#: includes/class-epofw-front.php:601
+#: includes/class-epofw-front.php:603
 msgid "Security check failed. Please refresh the page and try again."
 msgstr ""
 
-#: includes/class-epofw-front.php:673
+#: includes/class-epofw-front.php:675
 #. translators: %1$s: Field label that only accepts numbers
 msgid "Only numbers are allowed for \"%1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:683
-#. translators: %1$s: Field label that accepts decimal numbers
+#: includes/class-epofw-front.php:685
+#. translators: 1: Field label
 msgid "Decimal numbers are allowed for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:689
-#. translators: %1$s: Field label that only accepts text
+#: includes/class-epofw-front.php:693
+#. translators: 1: Field label
 msgid "Only texts are allowed for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:695
-#. translators: %1$s: Field label that accepts both text and numbers
+#: includes/class-epofw-front.php:701
+#. translators: 1: Field label
 msgid "Only text and numbers are allowed for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:701
-#. translators: %1$s: Field label that requires email format
+#: includes/class-epofw-front.php:709
+#. translators: 1: Field label
 msgid "Invalid email format for \" %1$s\"."
 msgstr ""
 
-#: includes/class-epofw-front.php:855
+#: includes/class-epofw-front.php:865
 msgid "Option is invalid"
 msgstr ""
 
@@ -351,20 +351,20 @@ msgstr ""
 msgid "Add Product Addon"
 msgstr ""
 
-#: settings/epofw-admin-settings.php:75 settings/epofw-common-function.php:357
-#: settings/epofw-common-function.php:496
-#: settings/epofw-common-function.php:590
-#: settings/epofw-common-function.php:680
-#: settings/epofw-common-function.php:805
-#: settings/epofw-common-function.php:899
-#: settings/epofw-common-function.php:993
-#: settings/epofw-common-function.php:1087
-#: settings/epofw-common-function.php:1181
-#: settings/epofw-common-function.php:1288
-#: settings/epofw-common-function.php:1642
-#: settings/epofw-common-function.php:1771
-#: settings/epofw-common-function.php:1887
-#: settings/epofw-common-function.php:1991
+#: settings/epofw-admin-settings.php:75 settings/epofw-common-function.php:358
+#: settings/epofw-common-function.php:497
+#: settings/epofw-common-function.php:591
+#: settings/epofw-common-function.php:681
+#: settings/epofw-common-function.php:806
+#: settings/epofw-common-function.php:900
+#: settings/epofw-common-function.php:994
+#: settings/epofw-common-function.php:1088
+#: settings/epofw-common-function.php:1182
+#: settings/epofw-common-function.php:1289
+#: settings/epofw-common-function.php:1643
+#: settings/epofw-common-function.php:1772
+#: settings/epofw-common-function.php:1888
+#: settings/epofw-common-function.php:1992
 msgid "Name"
 msgstr ""
 
@@ -397,12 +397,12 @@ msgid "Field Name"
 msgstr ""
 
 #: settings/epofw-admin-settings.php:155
-#: settings/epofw-common-function.php:2121
+#: settings/epofw-common-function.php:2122
 msgid "Field Type"
 msgstr ""
 
 #: settings/epofw-admin-settings.php:158
-#: settings/epofw-common-function.php:2203
+#: settings/epofw-common-function.php:2206
 msgid "Field Status"
 msgstr ""
 
@@ -439,8 +439,124 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: settings/epofw-common-function.php:161
+#: settings/epofw-common-function.php:162
+#: settings/epofw-common-function.php:175
+#: settings/epofw-common-function.php:319
+#: settings/epofw-common-function.php:458
+#: settings/epofw-common-function.php:642
+#: settings/epofw-common-function.php:792
+#: settings/epofw-common-function.php:886
+#: settings/epofw-common-function.php:980
+#: settings/epofw-common-function.php:1074
+#: settings/epofw-common-function.php:1168
+#: settings/epofw-common-function.php:1262
+#: settings/epofw-common-function.php:1403
+#: settings/epofw-common-function.php:1499
+#: settings/epofw-common-function.php:1604
+#: settings/epofw-common-function.php:1734
+#: settings/epofw-common-function.php:1863
+#: settings/epofw-common-function.php:1979
+msgid "If you want to make required field then you can checked this option."
+msgstr ""
+
+#: settings/epofw-common-function.php:163
+#: settings/epofw-common-function.php:1404
+#: settings/epofw-common-function.php:1500
+msgid "Enter Field Title"
+msgstr ""
+
 #: settings/epofw-common-function.php:174
+msgid "Field Title Option"
+msgstr ""
+
+#: settings/epofw-common-function.php:189
+#: settings/epofw-common-function.php:231
+#: settings/epofw-common-function.php:1415
+#: settings/epofw-common-function.php:1511
+msgid "Label Class"
+msgstr ""
+
+#: settings/epofw-common-function.php:190
+#: settings/epofw-common-function.php:232
+#: settings/epofw-common-function.php:359
+#: settings/epofw-common-function.php:371
+#: settings/epofw-common-function.php:383
+#: settings/epofw-common-function.php:498
+#: settings/epofw-common-function.php:510
+#: settings/epofw-common-function.php:522
+#: settings/epofw-common-function.php:592
+#: settings/epofw-common-function.php:604
+#: settings/epofw-common-function.php:682
+#: settings/epofw-common-function.php:694
+#: settings/epofw-common-function.php:706
+#: settings/epofw-common-function.php:807
+#: settings/epofw-common-function.php:819
+#: settings/epofw-common-function.php:831
+#: settings/epofw-common-function.php:901
+#: settings/epofw-common-function.php:913
+#: settings/epofw-common-function.php:925
+#: settings/epofw-common-function.php:995
+#: settings/epofw-common-function.php:1007
+#: settings/epofw-common-function.php:1019
+#: settings/epofw-common-function.php:1089
+#: settings/epofw-common-function.php:1101
+#: settings/epofw-common-function.php:1113
+#: settings/epofw-common-function.php:1183
+#: settings/epofw-common-function.php:1195
+#: settings/epofw-common-function.php:1207
+#: settings/epofw-common-function.php:1290
+#: settings/epofw-common-function.php:1302
+#: settings/epofw-common-function.php:1314
+#: settings/epofw-common-function.php:1416
+#: settings/epofw-common-function.php:1433
+#: settings/epofw-common-function.php:1445
+#: settings/epofw-common-function.php:1512
+#: settings/epofw-common-function.php:1529
+#: settings/epofw-common-function.php:1541
+#: settings/epofw-common-function.php:1644
+#: settings/epofw-common-function.php:1656
+#: settings/epofw-common-function.php:1668
+#: settings/epofw-common-function.php:1773
+#: settings/epofw-common-function.php:1785
+#: settings/epofw-common-function.php:1797
+#: settings/epofw-common-function.php:1889
+#: settings/epofw-common-function.php:1901
+#: settings/epofw-common-function.php:1913
+#: settings/epofw-common-function.php:1993
+#: settings/epofw-common-function.php:2005
+#: settings/epofw-common-function.php:2017
+msgid ""
+"This is use for fields property. Not for customer or user purpose. "
+"<strong>Note:</strong> If you want to change it then please make it unique."
+msgstr ""
+
+#: settings/epofw-common-function.php:191
+#: settings/epofw-common-function.php:233
+#: settings/epofw-common-function.php:1417
+#: settings/epofw-common-function.php:1513
+msgid "Enter class name for label"
+msgstr ""
+
+#: settings/epofw-common-function.php:203
+msgid "Field Subtitle Option"
+msgstr ""
+
+#: settings/epofw-common-function.php:204
+msgid "Allow to add subtitle with different options."
+msgstr ""
+
+#: settings/epofw-common-function.php:219
+msgid "Allow to add subtitle."
+msgstr ""
+
+#: settings/epofw-common-function.php:220
+msgid "Enter Subtitle"
+msgstr ""
+
+#: settings/epofw-common-function.php:275
+msgid "0.00"
+msgstr ""
+
 #: settings/epofw-common-function.php:318
 #: settings/epofw-common-function.php:457
 #: settings/epofw-common-function.php:641
@@ -450,155 +566,30 @@ msgstr ""
 #: settings/epofw-common-function.php:1073
 #: settings/epofw-common-function.php:1167
 #: settings/epofw-common-function.php:1261
-#: settings/epofw-common-function.php:1402
-#: settings/epofw-common-function.php:1498
 #: settings/epofw-common-function.php:1603
 #: settings/epofw-common-function.php:1733
 #: settings/epofw-common-function.php:1862
 #: settings/epofw-common-function.php:1978
-msgid "If you want to make required field then you can checked this option."
-msgstr ""
-
-#: settings/epofw-common-function.php:162
-#: settings/epofw-common-function.php:1403
-#: settings/epofw-common-function.php:1499
-msgid "Enter Field Title"
-msgstr ""
-
-#: settings/epofw-common-function.php:173
-msgid "Field Title Option"
-msgstr ""
-
-#: settings/epofw-common-function.php:188
-#: settings/epofw-common-function.php:230
-#: settings/epofw-common-function.php:1414
-#: settings/epofw-common-function.php:1510
-msgid "Label Class"
-msgstr ""
-
-#: settings/epofw-common-function.php:189
-#: settings/epofw-common-function.php:231
-#: settings/epofw-common-function.php:358
-#: settings/epofw-common-function.php:370
-#: settings/epofw-common-function.php:382
-#: settings/epofw-common-function.php:497
-#: settings/epofw-common-function.php:509
-#: settings/epofw-common-function.php:521
-#: settings/epofw-common-function.php:591
-#: settings/epofw-common-function.php:603
-#: settings/epofw-common-function.php:681
-#: settings/epofw-common-function.php:693
-#: settings/epofw-common-function.php:705
-#: settings/epofw-common-function.php:806
-#: settings/epofw-common-function.php:818
-#: settings/epofw-common-function.php:830
-#: settings/epofw-common-function.php:900
-#: settings/epofw-common-function.php:912
-#: settings/epofw-common-function.php:924
-#: settings/epofw-common-function.php:994
-#: settings/epofw-common-function.php:1006
-#: settings/epofw-common-function.php:1018
-#: settings/epofw-common-function.php:1088
-#: settings/epofw-common-function.php:1100
-#: settings/epofw-common-function.php:1112
-#: settings/epofw-common-function.php:1182
-#: settings/epofw-common-function.php:1194
-#: settings/epofw-common-function.php:1206
-#: settings/epofw-common-function.php:1289
-#: settings/epofw-common-function.php:1301
-#: settings/epofw-common-function.php:1313
-#: settings/epofw-common-function.php:1415
-#: settings/epofw-common-function.php:1432
-#: settings/epofw-common-function.php:1444
-#: settings/epofw-common-function.php:1511
-#: settings/epofw-common-function.php:1528
-#: settings/epofw-common-function.php:1540
-#: settings/epofw-common-function.php:1643
-#: settings/epofw-common-function.php:1655
-#: settings/epofw-common-function.php:1667
-#: settings/epofw-common-function.php:1772
-#: settings/epofw-common-function.php:1784
-#: settings/epofw-common-function.php:1796
-#: settings/epofw-common-function.php:1888
-#: settings/epofw-common-function.php:1900
-#: settings/epofw-common-function.php:1912
-#: settings/epofw-common-function.php:1992
-#: settings/epofw-common-function.php:2004
-#: settings/epofw-common-function.php:2016
-msgid ""
-"This is use for fields property. Not for customer or user purpose. "
-"<strong>Note:</strong> If you want to change it then please make it unique."
-msgstr ""
-
-#: settings/epofw-common-function.php:190
-#: settings/epofw-common-function.php:232
-#: settings/epofw-common-function.php:1416
-#: settings/epofw-common-function.php:1512
-msgid "Enter class name for label"
-msgstr ""
-
-#: settings/epofw-common-function.php:202
-msgid "Field Subtitle Option"
-msgstr ""
-
-#: settings/epofw-common-function.php:203
-msgid "Allow to add subtitle with different options."
-msgstr ""
-
-#: settings/epofw-common-function.php:218
-msgid "Allow to add subtitle."
-msgstr ""
-
-#: settings/epofw-common-function.php:219
-msgid "Enter Subtitle"
-msgstr ""
-
-#: settings/epofw-common-function.php:274
-msgid "0.00"
-msgstr ""
-
-#: settings/epofw-common-function.php:317
-#: settings/epofw-common-function.php:456
-#: settings/epofw-common-function.php:640
-#: settings/epofw-common-function.php:790
-#: settings/epofw-common-function.php:884
-#: settings/epofw-common-function.php:978
-#: settings/epofw-common-function.php:1072
-#: settings/epofw-common-function.php:1166
-#: settings/epofw-common-function.php:1260
-#: settings/epofw-common-function.php:1602
-#: settings/epofw-common-function.php:1732
-#: settings/epofw-common-function.php:1861
-#: settings/epofw-common-function.php:1977
 msgid "Required"
 msgstr ""
 
-#: settings/epofw-common-function.php:327
-#: settings/epofw-common-function.php:466
-#: settings/epofw-common-function.php:572
-#: settings/epofw-common-function.php:650
-#: settings/epofw-common-function.php:800
-#: settings/epofw-common-function.php:894
-#: settings/epofw-common-function.php:988
-#: settings/epofw-common-function.php:1082
-#: settings/epofw-common-function.php:1176
-#: settings/epofw-common-function.php:1270
-#: settings/epofw-common-function.php:1426
-#: settings/epofw-common-function.php:1522
-#: settings/epofw-common-function.php:1612
-#: settings/epofw-common-function.php:1742
-#: settings/epofw-common-function.php:1871
-#: settings/epofw-common-function.php:1986
+#: settings/epofw-common-function.php:328
+#: settings/epofw-common-function.php:467
+#: settings/epofw-common-function.php:573
+#: settings/epofw-common-function.php:651
+#: settings/epofw-common-function.php:801
+#: settings/epofw-common-function.php:895
+#: settings/epofw-common-function.php:989
+#: settings/epofw-common-function.php:1083
+#: settings/epofw-common-function.php:1177
+#: settings/epofw-common-function.php:1271
+#: settings/epofw-common-function.php:1427
+#: settings/epofw-common-function.php:1523
+#: settings/epofw-common-function.php:1613
+#: settings/epofw-common-function.php:1743
+#: settings/epofw-common-function.php:1872
+#: settings/epofw-common-function.php:1987
 msgid "Fields Extra Options"
-msgstr ""
-
-#: settings/epofw-common-function.php:332
-#: settings/epofw-common-function.php:471
-#: settings/epofw-common-function.php:577
-#: settings/epofw-common-function.php:655
-#: settings/epofw-common-function.php:1275
-#: settings/epofw-common-function.php:1617
-msgid "Default Value"
 msgstr ""
 
 #: settings/epofw-common-function.php:333
@@ -607,9 +598,7 @@ msgstr ""
 #: settings/epofw-common-function.php:656
 #: settings/epofw-common-function.php:1276
 #: settings/epofw-common-function.php:1618
-msgid ""
-"You can enter some default value which will display at front side in input "
-"box."
+msgid "Default Value"
 msgstr ""
 
 #: settings/epofw-common-function.php:334
@@ -618,15 +607,18 @@ msgstr ""
 #: settings/epofw-common-function.php:657
 #: settings/epofw-common-function.php:1277
 #: settings/epofw-common-function.php:1619
-msgid "Enter default value"
+msgid ""
+"You can enter some default value which will display at front side in input "
+"box."
 msgstr ""
 
-#: settings/epofw-common-function.php:345
-#: settings/epofw-common-function.php:484
-#: settings/epofw-common-function.php:668
-#: settings/epofw-common-function.php:1630
-#: settings/epofw-common-function.php:1759
-msgid "Placeholder"
+#: settings/epofw-common-function.php:335
+#: settings/epofw-common-function.php:474
+#: settings/epofw-common-function.php:580
+#: settings/epofw-common-function.php:658
+#: settings/epofw-common-function.php:1278
+#: settings/epofw-common-function.php:1620
+msgid "Enter default value"
 msgstr ""
 
 #: settings/epofw-common-function.php:346
@@ -634,9 +626,7 @@ msgstr ""
 #: settings/epofw-common-function.php:669
 #: settings/epofw-common-function.php:1631
 #: settings/epofw-common-function.php:1760
-msgid ""
-"You can enter some placeholder which will display at front side in input "
-"box."
+msgid "Placeholder"
 msgstr ""
 
 #: settings/epofw-common-function.php:347
@@ -644,137 +634,136 @@ msgstr ""
 #: settings/epofw-common-function.php:670
 #: settings/epofw-common-function.php:1632
 #: settings/epofw-common-function.php:1761
+msgid ""
+"You can enter some placeholder which will display at front side in input "
+"box."
+msgstr ""
+
+#: settings/epofw-common-function.php:348
+#: settings/epofw-common-function.php:487
+#: settings/epofw-common-function.php:671
+#: settings/epofw-common-function.php:1633
+#: settings/epofw-common-function.php:1762
 msgid "Enter placeholder"
 msgstr ""
 
-#: settings/epofw-common-function.php:359
-#: settings/epofw-common-function.php:498
-#: settings/epofw-common-function.php:592
-#: settings/epofw-common-function.php:682
-#: settings/epofw-common-function.php:807
-#: settings/epofw-common-function.php:901
-#: settings/epofw-common-function.php:995
-#: settings/epofw-common-function.php:1089
-#: settings/epofw-common-function.php:1183
-#: settings/epofw-common-function.php:1290
-#: settings/epofw-common-function.php:1644
-#: settings/epofw-common-function.php:1773
-#: settings/epofw-common-function.php:1889
-#: settings/epofw-common-function.php:1993
+#: settings/epofw-common-function.php:360
+#: settings/epofw-common-function.php:499
+#: settings/epofw-common-function.php:593
+#: settings/epofw-common-function.php:683
+#: settings/epofw-common-function.php:808
+#: settings/epofw-common-function.php:902
+#: settings/epofw-common-function.php:996
+#: settings/epofw-common-function.php:1090
+#: settings/epofw-common-function.php:1184
+#: settings/epofw-common-function.php:1291
+#: settings/epofw-common-function.php:1645
+#: settings/epofw-common-function.php:1774
+#: settings/epofw-common-function.php:1890
+#: settings/epofw-common-function.php:1994
 msgid "Enter unique name for fields"
 msgstr ""
 
-#: settings/epofw-common-function.php:369
-#: settings/epofw-common-function.php:508
-#: settings/epofw-common-function.php:602
-#: settings/epofw-common-function.php:692
-#: settings/epofw-common-function.php:817
-#: settings/epofw-common-function.php:911
-#: settings/epofw-common-function.php:1005
-#: settings/epofw-common-function.php:1099
-#: settings/epofw-common-function.php:1193
-#: settings/epofw-common-function.php:1300
-#: settings/epofw-common-function.php:1431
-#: settings/epofw-common-function.php:1527
-#: settings/epofw-common-function.php:1654
-#: settings/epofw-common-function.php:1783
-#: settings/epofw-common-function.php:1899
-#: settings/epofw-common-function.php:2003
+#: settings/epofw-common-function.php:370
+#: settings/epofw-common-function.php:509
+#: settings/epofw-common-function.php:603
+#: settings/epofw-common-function.php:693
+#: settings/epofw-common-function.php:818
+#: settings/epofw-common-function.php:912
+#: settings/epofw-common-function.php:1006
+#: settings/epofw-common-function.php:1100
+#: settings/epofw-common-function.php:1194
+#: settings/epofw-common-function.php:1301
+#: settings/epofw-common-function.php:1432
+#: settings/epofw-common-function.php:1528
+#: settings/epofw-common-function.php:1655
+#: settings/epofw-common-function.php:1784
+#: settings/epofw-common-function.php:1900
+#: settings/epofw-common-function.php:2004
 msgid "ID"
 msgstr ""
 
-#: settings/epofw-common-function.php:371
-#: settings/epofw-common-function.php:510
-#: settings/epofw-common-function.php:604
-#: settings/epofw-common-function.php:694
-#: settings/epofw-common-function.php:819
-#: settings/epofw-common-function.php:913
-#: settings/epofw-common-function.php:1007
-#: settings/epofw-common-function.php:1101
-#: settings/epofw-common-function.php:1195
-#: settings/epofw-common-function.php:1302
-#: settings/epofw-common-function.php:1433
-#: settings/epofw-common-function.php:1529
-#: settings/epofw-common-function.php:1656
-#: settings/epofw-common-function.php:1785
-#: settings/epofw-common-function.php:1901
-#: settings/epofw-common-function.php:2005
+#: settings/epofw-common-function.php:372
+#: settings/epofw-common-function.php:511
+#: settings/epofw-common-function.php:605
+#: settings/epofw-common-function.php:695
+#: settings/epofw-common-function.php:820
+#: settings/epofw-common-function.php:914
+#: settings/epofw-common-function.php:1008
+#: settings/epofw-common-function.php:1102
+#: settings/epofw-common-function.php:1196
+#: settings/epofw-common-function.php:1303
+#: settings/epofw-common-function.php:1434
+#: settings/epofw-common-function.php:1530
+#: settings/epofw-common-function.php:1657
+#: settings/epofw-common-function.php:1786
+#: settings/epofw-common-function.php:1902
+#: settings/epofw-common-function.php:2006
 msgid "Enter unique id for fields"
 msgstr ""
 
-#: settings/epofw-common-function.php:381
-#: settings/epofw-common-function.php:520
-#: settings/epofw-common-function.php:704
-#: settings/epofw-common-function.php:829
-#: settings/epofw-common-function.php:923
-#: settings/epofw-common-function.php:1017
-#: settings/epofw-common-function.php:1111
-#: settings/epofw-common-function.php:1205
-#: settings/epofw-common-function.php:1312
-#: settings/epofw-common-function.php:1443
-#: settings/epofw-common-function.php:1539
-#: settings/epofw-common-function.php:1666
-#: settings/epofw-common-function.php:1795
-#: settings/epofw-common-function.php:1911
-#: settings/epofw-common-function.php:2015
+#: settings/epofw-common-function.php:382
+#: settings/epofw-common-function.php:521
+#: settings/epofw-common-function.php:705
+#: settings/epofw-common-function.php:830
+#: settings/epofw-common-function.php:924
+#: settings/epofw-common-function.php:1018
+#: settings/epofw-common-function.php:1112
+#: settings/epofw-common-function.php:1206
+#: settings/epofw-common-function.php:1313
+#: settings/epofw-common-function.php:1444
+#: settings/epofw-common-function.php:1540
+#: settings/epofw-common-function.php:1667
+#: settings/epofw-common-function.php:1796
+#: settings/epofw-common-function.php:1912
+#: settings/epofw-common-function.php:2016
 msgid "Class"
 msgstr ""
 
-#: settings/epofw-common-function.php:383
-#: settings/epofw-common-function.php:395
-#: settings/epofw-common-function.php:522
-#: settings/epofw-common-function.php:706
-#: settings/epofw-common-function.php:831
-#: settings/epofw-common-function.php:925
-#: settings/epofw-common-function.php:1019
-#: settings/epofw-common-function.php:1113
-#: settings/epofw-common-function.php:1207
-#: settings/epofw-common-function.php:1314
-#: settings/epofw-common-function.php:1445
-#: settings/epofw-common-function.php:1541
-#: settings/epofw-common-function.php:1668
-#: settings/epofw-common-function.php:1680
-#: settings/epofw-common-function.php:1797
-#: settings/epofw-common-function.php:1809
-#: settings/epofw-common-function.php:1913
-#: settings/epofw-common-function.php:1925
-#: settings/epofw-common-function.php:2017
+#: settings/epofw-common-function.php:384
+#: settings/epofw-common-function.php:396
+#: settings/epofw-common-function.php:523
+#: settings/epofw-common-function.php:707
+#: settings/epofw-common-function.php:832
+#: settings/epofw-common-function.php:926
+#: settings/epofw-common-function.php:1020
+#: settings/epofw-common-function.php:1114
+#: settings/epofw-common-function.php:1208
+#: settings/epofw-common-function.php:1315
+#: settings/epofw-common-function.php:1446
+#: settings/epofw-common-function.php:1542
+#: settings/epofw-common-function.php:1669
+#: settings/epofw-common-function.php:1681
+#: settings/epofw-common-function.php:1798
+#: settings/epofw-common-function.php:1810
+#: settings/epofw-common-function.php:1914
+#: settings/epofw-common-function.php:1926
+#: settings/epofw-common-function.php:2018
 msgid "Enter class name for fields"
-msgstr ""
-
-#: settings/epofw-common-function.php:393
-#: settings/epofw-common-function.php:1678
-#: settings/epofw-common-function.php:1807
-#: settings/epofw-common-function.php:1923
-msgid "Readonly Field"
 msgstr ""
 
 #: settings/epofw-common-function.php:394
 #: settings/epofw-common-function.php:1679
 #: settings/epofw-common-function.php:1808
 #: settings/epofw-common-function.php:1924
+msgid "Readonly Field"
+msgstr ""
+
+#: settings/epofw-common-function.php:395
+#: settings/epofw-common-function.php:1680
+#: settings/epofw-common-function.php:1809
+#: settings/epofw-common-function.php:1925
 msgid ""
 "If you want to make this field only readable purpose then you can checked "
 "this option."
 msgstr ""
 
-#: settings/epofw-common-function.php:409
+#: settings/epofw-common-function.php:410
 msgid "Field Restriction"
 msgstr ""
 
-#: settings/epofw-common-function.php:410
+#: settings/epofw-common-function.php:411
 msgid "Select field which you want to allow to user"
-msgstr ""
-
-#: settings/epofw-common-function.php:418
-#: settings/epofw-common-function.php:536
-#: settings/epofw-common-function.php:752
-#: settings/epofw-common-function.php:1364
-#: settings/epofw-common-function.php:1694
-#: settings/epofw-common-function.php:1823
-#: settings/epofw-common-function.php:1939
-#: settings/epofw-common-function.php:2031
-msgid "Enable Price"
 msgstr ""
 
 #: settings/epofw-common-function.php:419
@@ -785,51 +774,54 @@ msgstr ""
 #: settings/epofw-common-function.php:1824
 #: settings/epofw-common-function.php:1940
 #: settings/epofw-common-function.php:2032
+msgid "Enable Price"
+msgstr ""
+
+#: settings/epofw-common-function.php:420
+#: settings/epofw-common-function.php:538
+#: settings/epofw-common-function.php:754
+#: settings/epofw-common-function.php:1366
+#: settings/epofw-common-function.php:1696
+#: settings/epofw-common-function.php:1825
+#: settings/epofw-common-function.php:1941
+#: settings/epofw-common-function.php:2033
 msgid "If you want to add price for text box."
 msgstr ""
 
-#: settings/epofw-common-function.php:716
+#: settings/epofw-common-function.php:717
 msgid "Text Area Options"
 msgstr ""
 
-#: settings/epofw-common-function.php:717
+#: settings/epofw-common-function.php:718
 msgid "This options for the textarea."
 msgstr ""
 
-#: settings/epofw-common-function.php:722
+#: settings/epofw-common-function.php:723
 msgid "Field Cols"
 msgstr ""
 
-#: settings/epofw-common-function.php:723
+#: settings/epofw-common-function.php:724
 msgid ""
 "This is use for fields property. Not for customer or user purpose. It will "
 "increase textareas width as column."
 msgstr ""
 
-#: settings/epofw-common-function.php:724
+#: settings/epofw-common-function.php:725
 msgid "Field Cols Placeholder"
 msgstr ""
 
-#: settings/epofw-common-function.php:735
+#: settings/epofw-common-function.php:736
 msgid "Field Rows"
 msgstr ""
 
-#: settings/epofw-common-function.php:736
+#: settings/epofw-common-function.php:737
 msgid ""
 "This is use for fields property. Not for customer or user purpose. It will "
 "increase textareas width as row."
 msgstr ""
 
-#: settings/epofw-common-function.php:737
+#: settings/epofw-common-function.php:738
 msgid "Field Rows Placeholder"
-msgstr ""
-
-#: settings/epofw-common-function.php:843
-#: settings/epofw-common-function.php:937
-#: settings/epofw-common-function.php:1031
-#: settings/epofw-common-function.php:1125
-#: settings/epofw-common-function.php:1219
-msgid "Options"
 msgstr ""
 
 #: settings/epofw-common-function.php:844
@@ -837,322 +829,330 @@ msgstr ""
 #: settings/epofw-common-function.php:1032
 #: settings/epofw-common-function.php:1126
 #: settings/epofw-common-function.php:1220
+msgid "Options"
+msgstr ""
+
+#: settings/epofw-common-function.php:845
+#: settings/epofw-common-function.php:939
+#: settings/epofw-common-function.php:1033
+#: settings/epofw-common-function.php:1127
+#: settings/epofw-common-function.php:1221
 msgid "Fields option which will display in product page."
 msgstr ""
 
-#: settings/epofw-common-function.php:849
-#: settings/epofw-common-function.php:943
-#: settings/epofw-common-function.php:1037
-#: settings/epofw-common-function.php:1131
-#: settings/epofw-common-function.php:1225
+#: settings/epofw-common-function.php:850
+#: settings/epofw-common-function.php:944
+#: settings/epofw-common-function.php:1038
+#: settings/epofw-common-function.php:1132
+#: settings/epofw-common-function.php:1226
 msgid "Options Placeholder"
 msgstr ""
 
-#: settings/epofw-common-function.php:1324
+#: settings/epofw-common-function.php:1325
 msgid "Number Options"
 msgstr ""
 
-#: settings/epofw-common-function.php:1325
+#: settings/epofw-common-function.php:1326
 msgid "This options for the number fields."
 msgstr ""
 
-#: settings/epofw-common-function.php:1330
-#: settings/epofw-common-function.php:1332
+#: settings/epofw-common-function.php:1331
+#: settings/epofw-common-function.php:1333
 msgid "Min Number"
 msgstr ""
 
-#: settings/epofw-common-function.php:1331
+#: settings/epofw-common-function.php:1332
 msgid ""
 "You can give minimum number for fields which will use at front side in "
 "number fields."
 msgstr ""
 
-#: settings/epofw-common-function.php:1340
-#: settings/epofw-common-function.php:1342
+#: settings/epofw-common-function.php:1341
+#: settings/epofw-common-function.php:1343
 msgid "Max Number"
 msgstr ""
 
-#: settings/epofw-common-function.php:1341
+#: settings/epofw-common-function.php:1342
 msgid ""
 "You can give maximum number for fields which will use at front side in "
 "number fields."
 msgstr ""
 
-#: settings/epofw-common-function.php:1350
-#: settings/epofw-common-function.php:1352
+#: settings/epofw-common-function.php:1351
+#: settings/epofw-common-function.php:1353
 msgid "Step Number"
 msgstr ""
 
-#: settings/epofw-common-function.php:1351
+#: settings/epofw-common-function.php:1352
 msgid ""
 "You can give increment steps number for fields which will use at front side "
 "in number fields."
 msgstr ""
 
-#: settings/epofw-common-function.php:1455
+#: settings/epofw-common-function.php:1456
 msgid "Heading Options"
 msgstr ""
 
-#: settings/epofw-common-function.php:1456
+#: settings/epofw-common-function.php:1457
 msgid "This options for heading."
 msgstr ""
 
-#: settings/epofw-common-function.php:1461
+#: settings/epofw-common-function.php:1462
 msgid "Select Heading"
 msgstr ""
 
-#: settings/epofw-common-function.php:1462
+#: settings/epofw-common-function.php:1463
 msgid "It will display heading tag in product page."
 msgstr ""
 
-#: settings/epofw-common-function.php:1551
+#: settings/epofw-common-function.php:1552
 msgid "Paragraph Options"
 msgstr ""
 
-#: settings/epofw-common-function.php:1552
+#: settings/epofw-common-function.php:1553
 msgid "This options for the paragraphs."
 msgstr ""
 
-#: settings/epofw-common-function.php:1557
+#: settings/epofw-common-function.php:1558
 msgid "Field Content"
 msgstr ""
 
-#: settings/epofw-common-function.php:1558
+#: settings/epofw-common-function.php:1559
 msgid "It will display content in product page."
 msgstr ""
 
-#: settings/epofw-common-function.php:1559
+#: settings/epofw-common-function.php:1560
 msgid "Enter content"
 msgstr ""
 
-#: settings/epofw-common-function.php:1567
+#: settings/epofw-common-function.php:1568
 msgid "Select Content Type"
 msgstr ""
 
-#: settings/epofw-common-function.php:1568
+#: settings/epofw-common-function.php:1569
 msgid "Select content tag in which you want to display content."
 msgstr ""
 
-#: settings/epofw-common-function.php:1747
-#: settings/epofw-common-function.php:1749
+#: settings/epofw-common-function.php:1748
+#: settings/epofw-common-function.php:1750
 msgid "Default Time"
 msgstr ""
 
-#: settings/epofw-common-function.php:1748
+#: settings/epofw-common-function.php:1749
 msgid "Display time at front side."
 msgstr ""
 
-#: settings/epofw-common-function.php:1876
+#: settings/epofw-common-function.php:1877
 msgid "Select Default Color"
 msgstr ""
 
-#: settings/epofw-common-function.php:1877
+#: settings/epofw-common-function.php:1878
 msgid "Select default color display at front side."
 msgstr ""
 
-#: settings/epofw-common-function.php:2122
+#: settings/epofw-common-function.php:2123
 msgid "Select type which field will display in product page at front side."
 msgstr ""
 
-#: settings/epofw-common-function.php:2204
+#: settings/epofw-common-function.php:2207
 msgid "Enable or disable field based on checkbox."
 msgstr ""
 
-#: settings/epofw-common-function.php:2282
+#: settings/epofw-common-function.php:2287
 msgid "In which product you want to display product fields."
 msgstr ""
 
-#: settings/epofw-common-function.php:2709
+#: settings/epofw-common-function.php:2716
 msgid "Product"
 msgstr ""
 
-#: settings/epofw-common-function.php:2710
+#: settings/epofw-common-function.php:2717
 msgid "Category"
 msgstr ""
 
-#: settings/epofw-common-function.php:2729
+#: settings/epofw-common-function.php:2737
 msgid "Is Equal To"
 msgstr ""
 
-#: settings/epofw-common-function.php:2730
+#: settings/epofw-common-function.php:2738
 msgid "Not Equal To"
 msgstr ""
 
-#: settings/epofw-common-function.php:2754
+#: settings/epofw-common-function.php:2762
 msgid "Fixed"
 msgstr ""
 
-#: settings/epofw-common-function.php:2774
+#: settings/epofw-common-function.php:2782
 msgid "Label"
 msgstr ""
 
-#: settings/epofw-common-function.php:2775
+#: settings/epofw-common-function.php:2783
 msgid "H1"
 msgstr ""
 
-#: settings/epofw-common-function.php:2776
+#: settings/epofw-common-function.php:2784
 msgid "H2"
 msgstr ""
 
-#: settings/epofw-common-function.php:2777
+#: settings/epofw-common-function.php:2785
 msgid "H3"
 msgstr ""
 
-#: settings/epofw-common-function.php:2778
+#: settings/epofw-common-function.php:2786
 msgid "H4"
 msgstr ""
 
-#: settings/epofw-common-function.php:2779
+#: settings/epofw-common-function.php:2787
 msgid "H5"
 msgstr ""
 
-#: settings/epofw-common-function.php:2780
+#: settings/epofw-common-function.php:2788
 msgid "H6"
 msgstr ""
 
-#: settings/epofw-common-function.php:2781
+#: settings/epofw-common-function.php:2789
 msgid "Strong"
 msgstr ""
 
-#: settings/epofw-common-function.php:2782
+#: settings/epofw-common-function.php:2790
 msgid "Span"
 msgstr ""
 
-#: settings/epofw-common-function.php:2783
+#: settings/epofw-common-function.php:2791
 msgid "Div"
 msgstr ""
 
-#: settings/epofw-common-function.php:2802
+#: settings/epofw-common-function.php:2810
 msgid "Allow all"
 msgstr ""
 
-#: settings/epofw-common-function.php:2803
+#: settings/epofw-common-function.php:2811
 msgid "Only Text"
 msgstr ""
 
-#: settings/epofw-common-function.php:2804
+#: settings/epofw-common-function.php:2812
 msgid "Only Number"
 msgstr ""
 
-#: settings/epofw-common-function.php:2805
+#: settings/epofw-common-function.php:2813
 msgid "Number with decimal"
 msgstr ""
 
-#: settings/epofw-common-function.php:2806
+#: settings/epofw-common-function.php:2814
 msgid "Text and Number"
 msgstr ""
 
-#: settings/epofw-common-function.php:2807
+#: settings/epofw-common-function.php:2815
 msgid "Email"
 msgstr ""
 
-#: settings/epofw-common-function.php:2826
+#: settings/epofw-common-function.php:2834
 msgid "P"
 msgstr ""
 
-#: settings/epofw-common-function.php:2827
+#: settings/epofw-common-function.php:2835
 msgid "Address"
 msgstr ""
 
-#: settings/epofw-common-function.php:2828
+#: settings/epofw-common-function.php:2836
 msgid "Blockquote"
 msgstr ""
 
-#: settings/epofw-common-function.php:2829
+#: settings/epofw-common-function.php:2837
 msgid "Canvas"
 msgstr ""
 
-#: settings/epofw-common-function.php:2830
+#: settings/epofw-common-function.php:2838
 msgid "Output"
 msgstr ""
 
-#: settings/epofw-common-function.php:2849
+#: settings/epofw-common-function.php:2857
 msgid "Text"
 msgstr ""
 
-#: settings/epofw-common-function.php:2850
+#: settings/epofw-common-function.php:2858
 msgid "Hidden"
 msgstr ""
 
-#: settings/epofw-common-function.php:2851
+#: settings/epofw-common-function.php:2859
 msgid "Number"
 msgstr ""
 
-#: settings/epofw-common-function.php:2852
+#: settings/epofw-common-function.php:2860
 msgid "Password"
 msgstr ""
 
-#: settings/epofw-common-function.php:2853
+#: settings/epofw-common-function.php:2861
 msgid "Textarea"
 msgstr ""
 
-#: settings/epofw-common-function.php:2854
+#: settings/epofw-common-function.php:2862
 msgid "Select"
 msgstr ""
 
-#: settings/epofw-common-function.php:2855
+#: settings/epofw-common-function.php:2863
 msgid "Multiselect"
 msgstr ""
 
-#: settings/epofw-common-function.php:2856
+#: settings/epofw-common-function.php:2864
 msgid "Checkbox"
 msgstr ""
 
-#: settings/epofw-common-function.php:2857
+#: settings/epofw-common-function.php:2865
 msgid "Checkbox Group"
 msgstr ""
 
-#: settings/epofw-common-function.php:2858
+#: settings/epofw-common-function.php:2866
 msgid "Radio"
 msgstr ""
 
-#: settings/epofw-common-function.php:2859
+#: settings/epofw-common-function.php:2867
 msgid "Date Picker"
 msgstr ""
 
-#: settings/epofw-common-function.php:2860
+#: settings/epofw-common-function.php:2868
 msgid "Time Picker"
 msgstr ""
 
-#: settings/epofw-common-function.php:2861
+#: settings/epofw-common-function.php:2869
 msgid "Color Picker"
 msgstr ""
 
-#: settings/epofw-common-function.php:2862
+#: settings/epofw-common-function.php:2870
 msgid "Heading"
 msgstr ""
 
-#: settings/epofw-common-function.php:2863
+#: settings/epofw-common-function.php:2871
 msgid "Paragraph"
 msgstr ""
 
-#: settings/epofw-common-function.php:3072
-#: settings/epofw-common-function.php:3111
+#: settings/epofw-common-function.php:3080
+#: settings/epofw-common-function.php:3119
 msgid "Option Label"
 msgstr ""
 
-#: settings/epofw-common-function.php:3091
-#: settings/epofw-common-function.php:3130
+#: settings/epofw-common-function.php:3099
+#: settings/epofw-common-function.php:3138
 msgid "Option Price"
 msgstr ""
 
-#: settings/epofw-common-function.php:3111
+#: settings/epofw-common-function.php:3119
 msgid "Option 1"
 msgstr ""
 
-#: settings/epofw-common-function.php:3144
+#: settings/epofw-common-function.php:3152
 msgid "Note: Options must be unique."
 msgstr ""
 
-#: settings/epofw-common-function.php:3147
+#: settings/epofw-common-function.php:3155
 msgid "Add New Option"
 msgstr ""
 
-#: settings/epofw-common-function.php:3592
+#: settings/epofw-common-function.php:3614
 msgid "Addon Details"
 msgstr ""
 
-#: settings/epofw-common-function.php:3605
+#: settings/epofw-common-function.php:3630
 msgid "Subtotal"
 msgstr ""
 
